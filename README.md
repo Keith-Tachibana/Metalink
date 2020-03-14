@@ -5,9 +5,9 @@ To be announced later
 ## Live Demo
 To be announced later
 ## Features
+- [DB Designer available here](https://app.dbdesigner.net/designer/schema/312595)
 - [Figma available here](https://www.figma.com/file/pzkKz7ZmE00RLNJQBJOxA7/MetaLink?node-id=0%3A1)
 - [MeisterTask available here](https://www.meistertask.com/app/project/i8BR5WmN/metalink)
-- [Schema available here](https://app.dbdesigner.net/designer/schema/312595)
 - -Users can post comments, album reviews, or other information for others to see when they log into the application, sorted by date from
 most recent to oldest
 - -Users can add a profile to their account, including a profile picture, screen name, e-mail address, real name, location, phone number, location, and favorite sub-genres of metal
