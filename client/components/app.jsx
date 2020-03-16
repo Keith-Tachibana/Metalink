@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Login from './login';
 
 class App extends Component {
   constructor(props) {
@@ -18,9 +19,11 @@ class App extends Component {
   }
 
   render() {
-    return this.state.isLoading
-      ? <h1>Testing connections...</h1>
-      : <h1>{this.state.message.toUpperCase()}</h1>;
+    return (
+      <React.Fragment>
+        <Login />
+      </React.Fragment>
+    );
   }
 }
 

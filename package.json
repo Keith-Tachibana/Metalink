@@ -86,6 +86,8 @@
     }
   },
   "dependencies": {
+    "@material-ui/core": "4.9.5",
+    "@material-ui/icons": "4.9.1",
     "dotenv": "8.2.0",
     "express": "4.17.1",
     "express-session": "1.17.0",
@@ -113,5 +115,15 @@
     "webpack": "4.41.5",
     "webpack-cli": "3.3.10",
     "webpack-dev-server": "3.10.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keith-Tachibana/Metalink.git"
+  },
+  "author": "Jack Chou, Andrew Song, Keith Tachibana",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Keith-Tachibana/Metalink/issues"
+  },
+  "homepage": "https://github.com/Keith-Tachibana/Metalink#readme"
 }
