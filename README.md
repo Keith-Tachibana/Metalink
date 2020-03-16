@@ -19,6 +19,25 @@ most recent to oldest
 To be announced later
 ## Development
 #### System Requirements
-To be announced later
+- -PostgreSQL 10 or higher
 #### Getting Started
-To be announced later
+1. Clone the repository
+  ```shell
+  git clone https://github.com/Keith-Tachibana/Metalink.git
+  ```
+2. Change directory to cloned folder
+  ```shell
+  cd Metalink/
+  ```
+3. Start PostgreSQL server
+  ```shell
+  sudo service postgresql start
+  ```
+4. Create database
+  ```shell
+  createdb metalink
+  ```
+5. Import schema
+  ```shell
+  psql -d metalink -f schema.sql
+  ```
