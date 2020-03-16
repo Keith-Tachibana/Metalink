@@ -19,6 +19,8 @@ most recent to oldest
 To be announced later
 ## Development
 #### System Requirements
+- -Node 10 or higher
+- -NPM 6 or higher
 - -PostgreSQL 10 or higher
 #### Getting Started
 1. Clone the repository
