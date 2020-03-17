@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS "userProfiles";
+DROP TABLE IF EXISTS "users";
 
-CREATE TABLE "userProfiles" (
+CREATE TABLE "users" (
 	"userId" SERIAL CONSTRAINT "unique_userId" UNIQUE,
 	"profileId" SERIAL CONSTRAINT "unique_profileId" UNIQUE,
 	"fullName" TEXT CONSTRAINT "unique_fullName" UNIQUE NOT NULL,
@@ -24,5 +24,6 @@ CREATE TABLE "posts" (
 	"datePosted" TIMESTAMPTZ(6) NOT NULL DEFAULT NOW(),
 	PRIMARY KEY ("postId"),
 	CONSTRAINT "fk_userId_posts"
-	FOREIGN KEY ("userId") REFERENCES "userProfiles" ("userId") ON DELETE RESTRICT
+	FOREIGN KEY ("userId") REFERENCES "users" ("userId")
 );
+
