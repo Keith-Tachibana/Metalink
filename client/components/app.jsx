@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Login from './login';
 
 class App extends Component {
   constructor(props) {
@@ -16,12 +15,13 @@ class App extends Component {
       .then(data => this.setState({ message: data.message || data.error }))
       .catch(err => this.setState({ message: err.message }))
       .finally(() => this.setState({ isLoading: false }));
+    this.concertFetch(92618);
   }
 
   render() {
     return (
       <React.Fragment>
-        <Login />
+
       </React.Fragment>
     );
   }
