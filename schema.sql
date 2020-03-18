@@ -11,7 +11,7 @@ CREATE TABLE "users" (
 	"favoriteGenres" TEXT,
 	"createdAt" TIMESTAMPTZ(6) NOT NULL DEFAULT now(),
 	"updatedAt" TIMESTAMPTZ(6),
-	PRIMARY KEY ("userId", "profileId")
+	PRIMARY KEY ("userId")
 );
 
 DROP TABLE IF EXISTS "posts";
