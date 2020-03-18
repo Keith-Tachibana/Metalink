@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import LoginPage from './login-page';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-
+        <LoginPage />
       </React.Fragment>
     );
   }
