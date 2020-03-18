@@ -4,8 +4,10 @@ export default class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: []
+      users: [],
+      currentUser: null
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -15,15 +17,19 @@ export default class LoginPage extends React.Component {
       .catch(err => console.error(err));
   }
 
+  handleChange(event) {
+    this.setState({ currentUser: event.target.value });
+  }
+
   render() {
     return (
       <div className="text-center">
         <img className="img-fluid login-headimg mb-3" src="./images/login.jpg" alt="login" />
-        <h1 className="mb-3">Welcome to Metalink</h1>
-        <h3 className="mb-5">Your link to all things metal</h3>
-        <form className="dropdown mb-5 pb-5" action="">
-          <label htmlFor="login">Username</label>
-          <select className="" name="login" id="login">
+        <h2 className="mb-3">Welcome to Metalink</h2>
+        <h3 className="mb-5">Your link to all things metal!</h3>
+        <form className="form-group-sm mb-5 pb-5 px-5">
+          <label className="float-left" htmlFor="login">Username</label>
+          <select onChange={this.handleChange} className="form-control" name="login" id="login">
             {
               this.state.users.map(user => {
                 return (
