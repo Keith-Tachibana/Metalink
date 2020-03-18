@@ -15,7 +15,6 @@ class App extends Component {
       .then(data => this.setState({ message: data.message || data.error }))
       .catch(err => this.setState({ message: err.message }))
       .finally(() => this.setState({ isLoading: false }));
-    this.concertFetch(92618);
   }
 
   render() {

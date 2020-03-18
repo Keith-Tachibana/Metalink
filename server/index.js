@@ -12,9 +12,18 @@ app.use(staticMiddleware);
 app.use(sessionMiddleware);
 app.use(express.json());
 
-app.get('/api/health-check', (req, res, next) => {
-  db.query('select \'successfully connected\' as "message"')
-    .then(result => res.json(result.rows[0]))
+app.get('/api/users', (req, res, next) => {
+  const sql = `
+    select "userId",
+           "fullName",
+           "screenName",
+           "email",
+           "location"
+           "createdAt"
+      from "users"
+  `;
+  db.query(sql)
+    .then(result => res.json(result.rows))
     .catch(err => next(err));
 });
 
