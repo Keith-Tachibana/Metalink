@@ -5,9 +5,6 @@ To be announced later
 ## Live Demo
 To be announced later
 ## Features
-- [DB Designer available here](https://app.dbdesigner.net/designer/schema/312595)
-- [Figma available here](https://www.figma.com/file/pzkKz7ZmE00RLNJQBJOxA7/MetaLink?node-id=0%3A1)
-- [MeisterTask available here](https://www.meistertask.com/app/project/i8BR5WmN/metalink)
 - -Users can post comments, album reviews, or other information for others to see when they log into the application, sorted by date from
 most recent to oldest
 - -Users can add a profile to their account, including a profile picture, screen name, e-mail address, real name, location, phone number, location, and favorite sub-genres of metal
@@ -18,7 +15,31 @@ most recent to oldest
 ## Preview
 To be announced later
 ## Development
+- -[DB Designer available here](https://app.dbdesigner.net/designer/schema/312595)
+- -[Figma available here](https://www.figma.com/file/pzkKz7ZmE00RLNJQBJOxA7/MetaLink?node-id=0%3A1)
+- -[MeisterTask available here](https://www.meistertask.com/app/project/i8BR5WmN/metalink)
 #### System Requirements
-To be announced later
+- -Node 10 or higher
+- -NPM 6 or higher
+- -PostgreSQL 10 or higher
 #### Getting Started
-To be announced later
+1. Clone the repository
+  ```shell
+  git clone https://github.com/Keith-Tachibana/Metalink.git
+  ```
+2. Change directory to cloned folder
+  ```shell
+  cd Metalink/
+  ```
+3. Start PostgreSQL server
+  ```shell
+  sudo service postgresql start
+  ```
+4. Create database
+  ```shell
+  createdb metalink
+  ```
+5. Import schema
+  ```shell
+  psql -d metalink -f schema.sql
+  ```
