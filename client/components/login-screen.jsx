@@ -1,6 +1,20 @@
 import React from 'react';
 
 export default class LoginPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: []
+    };
+  }
+
+  componentDidMount() {
+    fetch('/api/users')
+      .then(res => res.json())
+      .then(users => this.setState({ users }))
+      .catch(err => console.error(err));
+  }
+
   render() {
     return (
       <div className="text-center">
@@ -10,9 +24,13 @@ export default class LoginPage extends React.Component {
         <form className="dropdown" action="">
           <label htmlFor="login">Username</label>
           <select name="login" id="login">
-            <option value="stuff">Stuff</option>
-            <option value="stuff">Stuff</option>
-            <option value="stuff">Stuff</option>
+            {
+              this.state.users.map(user => {
+                return (
+                  <option key={user.userId} value={user.screenName}>{user.screenName}</option>
+                );
+              })
+            }
           </select>
         </form>
         <a href="">Sign up for an account here</a>
