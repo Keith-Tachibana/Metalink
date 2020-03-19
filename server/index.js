@@ -7,6 +7,7 @@ const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
+const fetch = require('node-fetch');
 
 const app = express();
 
@@ -23,38 +24,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage
-});
-
-app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) => {
-  if (!req.file) {
-    return res.status(400).json({
-      error: 'File not received!'
-    });
-  } else {
-    const sql = `
-      UPDATE "users"
-         SET "profileImage" = $1
-       WHERE "userId" = 1
-   RETURNING *;
-    `;
-    db.query(sql, ['/images/profileImages/' + req.file.filename])
-      .then(result => {
-        const profileImage = result.rows;
-        if (!profileImage) {
-          res.status(404).json({
-            error: 'Cannot find user with that userId.'
-          });
-        } else {
-          res.status(200).send(`./images/profileImages/${req.file.filename}`);
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).json({
-          error: 'An unexpected error occurred.'
-        });
-      });
-  }
 });
 
 app.get('/api/health-check', (req, res, next) => {
@@ -93,6 +62,53 @@ app.get('/api/users', (req, res, next) => {
     });
 });
 
+app.get('/api/posts', (req, res, next) => {
+  const sql = `
+    select "p"."postId",
+           "p"."userId",
+           "p"."subject",
+           "p"."content",
+           "p"."datePosted",
+           "u"."screenName"
+      from "posts" as "p"
+      join "users" as "u" using ("userId")
+  `;
+  db.query(sql)
+    .then(result => res.json(result.rows))
+    .catch(err => next(err));
+});
+
+app.get('/api/concerts/:postalCode', (req, res, next) => {
+  const { postalCode } = req.params;
+  const ticketMasterApiKey = process.env.ticketMasterAPI_KEYJC;
+  const metalClassificationId = 'KnvZfZ7vAvt';
+  const ticketMasterUrl = `
+  https://app.ticketmaster.com/discovery/v2/events.json?apikey=${ticketMasterApiKey}&postalCode=${postalCode}&classificationId=${metalClassificationId}`;
+  if (!(/^\d{5}(?:[-\s]\d{4})?$/g.test(postalCode))) return res.status(400).json({ error: 'Invalid zip code' });
+  else {
+    fetch(ticketMasterUrl)
+      .then(res => res.json())
+      .then(results => {
+        if (typeof results._embedded === 'undefined') return res.status(400).json({ error: 'No events found' });
+        else {
+          const parsedEvents = results._embedded.events.map(obj => {
+            const venues = obj._embedded.venues[0];
+            return {
+              name: obj.name,
+              date: obj.dates.start.localDate,
+              venues: venues.name,
+              location: `${venues.city.name}, ${venues.state.stateCode}`,
+              image: obj.images[0].url,
+              genre: obj.classifications[0].genre.name
+            };
+          });
+          return res.status(200).json(parsedEvents);
+        }
+      })
+      .catch(err => next(err));
+  }
+});
+
 app.patch('/api/users/:userId', (req, res, next) => {
   const { name, username, email, location, phone, profileImage, genre1, genre2, genre3 } = req.body;
   const { userId } = req.params;
@@ -125,6 +141,37 @@ app.patch('/api/users/:userId', (req, res, next) => {
         error: 'An unexpected error occurred.'
       });
     });
+
+app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) => {
+  if (!req.file) {
+    return res.status(400).json({
+      error: 'File not received!'
+    });
+  } else {
+    const sql = `
+      UPDATE "users"
+         SET "profileImage" = $1
+       WHERE "userId" = 1
+   RETURNING *;
+    `;
+    db.query(sql, ['/images/profileImages/' + req.file.filename])
+      .then(result => {
+        const profileImage = result.rows;
+        if (!profileImage) {
+          res.status(404).json({
+            error: 'Cannot find user with that userId.'
+          });
+        } else {
+          res.status(200).send(`./images/profileImages/${req.file.filename}`);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({
+          error: 'An unexpected error occurred.'
+        });
+      });
+  }
 });
 
 app.use('/api', (req, res, next) => {
