@@ -1,5 +1,7 @@
 require('dotenv/config');
 const express = require('express');
+const path = require('path');
+const multer = require('multer');
 
 const db = require('./database');
 const ClientError = require('./client-error');
@@ -12,10 +14,117 @@ app.use(staticMiddleware);
 app.use(sessionMiddleware);
 app.use(express.json());
 
+const storage = multer.diskStorage({
+  destination: './server/public/images/profileImages',
+  filename: function (req, file, cb) {
+    cb(null, path.basename(file.originalname, path.extname(file.originalname)) + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage
+});
+
+app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) => {
+  if (!req.file) {
+    return res.status(400).json({
+      error: 'File not received!'
+    });
+  } else {
+    const sql = `
+      UPDATE "users"
+         SET "profileImage" = $1
+       WHERE "userId" = 1
+   RETURNING *;
+    `;
+    db.query(sql, ['/images/profileImages/' + req.file.filename])
+      .then(result => {
+        const profileImage = result.rows;
+        if (!profileImage) {
+          res.status(404).json({
+            error: 'Cannot find user with that userId.'
+          });
+        } else {
+          res.status(200).send(`./images/profileImages/${req.file.filename}`);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({
+          error: 'An unexpected error occurred.'
+        });
+      });
+  }
+});
+
 app.get('/api/health-check', (req, res, next) => {
   db.query('select \'successfully connected\' as "message"')
     .then(result => res.json(result.rows[0]))
     .catch(err => next(err));
+});
+
+app.get('/api/users', (req, res, next) => {
+  const sql = `
+    SELECT "userId", "name", "username", "email", "location", "phone", "profileImage", "genre1", "genre2", "genre3"
+      FROM "users"
+     WHERE "userId" = 1;
+  `;
+  db.query(sql)
+    .then(result => {
+      const profile = result.rows;
+      res.status(200).send({
+        userId: profile[0].userId,
+        name: profile[0].name,
+        username: profile[0].username,
+        email: profile[0].email,
+        location: profile[0].location,
+        phone: profile[0].phone,
+        profileImage: profile[0].profileImage,
+        genre1: profile[0].genre1,
+        genre2: profile[0].genre2,
+        genre3: profile[0].genre3
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({
+        error: 'An unexpected error occurred.'
+      });
+    });
+});
+
+app.patch('/api/users/:userId', (req, res, next) => {
+  const { name, username, email, location, phone, profileImage, genre1, genre2, genre3 } = req.body;
+  const { userId } = req.params;
+  if ((!parseInt(userId, 10)) || (parseInt(userId) < 0)) {
+    throw new ClientError('"userId" must be a positive integer.', 400);
+  } else if (!name || !username || !email || !location) {
+    throw new ClientError('Name, username, e-mail, AND location are required.', 400);
+  }
+  const values = [name, username, email, location, phone, profileImage, genre1, genre2, genre3, userId];
+  const sql = `
+    UPDATE "users"
+       SET "name" = $1, "username" = $2, "email" = $3, "location" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9
+     WHERE "userId" = $10
+ RETURNING *;
+  `;
+  db.query(sql, values)
+    .then(result => {
+      const profile = result.rows;
+      if (!profile) {
+        res.status(404).json({
+          error: `Cannot find user with userId ${userId}.`
+        });
+      } else {
+        res.status(200).json(profile);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({
+        error: 'An unexpected error occurred.'
+      });
+    });
 });
 
 app.use('/api', (req, res, next) => {
