@@ -36,6 +36,7 @@ class PostsList extends React.Component {
       return (
         <Posts
           key={ posts.postId }
+          screenName={ posts.screenName }
           datePosted={ posts.datePosted }
           subject={ posts.subject }
           content={ posts.content } />
