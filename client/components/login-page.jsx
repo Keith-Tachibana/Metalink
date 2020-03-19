@@ -24,7 +24,7 @@ export default class LoginPage extends React.Component {
   render() {
     return (
       <div className="text-center">
-        <img className="img-fluid login-headimg mb-3" src="./images/login.jpg" alt="login" />
+        <img className="img-fluid login-heading mb-3" src="./images/login.jpg" alt="login" />
         <h2 className="mb-3">Welcome to Metalink</h2>
         <h3 className="mb-5">Your link to all things metal!</h3>
         <form className="form-group-sm mb-5 pb-5 px-5">
