@@ -6,6 +6,7 @@
 .vscode
 .DS_Store
 node_modules
+server/public/images/profileImages/*
 server/sessions/*.json
 server/public/main.js*
 

@@ -2,6 +2,69 @@
   box-sizing: border-box;
 }
 
+body {
+  font-family: 'Metal Mania', cursive;
+  background-color: #000;
+  color: #FFF;
+}
+
+.image-container {
+  border: 1px solid #FFF;
+  height: 100px;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+input[type='file'] {
+  color: transparent;
+  font-size: 0.75rem;
+}
+
+select {
+  width: 125px;
+  background-color: #000;
+  color: #FFF;
+  font-size: 0.7rem;
+
+}
+
+select option {
+  font-size: 0.9rem;
+  background-color: #000;
+  color: #FFF;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+  height: 20px;
+}
+
+.asterisk {
+  color: #FF0000;
+}
+
+.nav-bg {
+  background-image: url('./images/login.jpg');
+}
+
+.form-container > div {
+  margin: 0;
+}
+
+.genres-container > ul > li > p {
+  margin: 0;
+}
+
+.genres,
+.profile-element {
+  font-size: 0.85rem;
+}
+
 .container {
   background-color: black;
 }
