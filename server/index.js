@@ -44,11 +44,28 @@ app.get('/api/posts', (req, res, next) => {
 
 app.get('/api/concerts/:postalCode', (req, res, next) => {
   const { postalCode } = req.params;
-  const ticketMasterApiKey = process.env.ticketMasterAPI_KEY;
-  const ticketMasterUrl = `https://app.ticketmaster.com/discovery/v2/events.json?postalCode=${postalCode}&apikey=${ticketMasterApiKey}`;
+  const ticketMasterApiKey = process.env.ticketMasterAPI_KEYJC;
+  const metalClassificationId = 'KnvZfZ7vAvt';
+  const ticketMasterUrl = `
+  https://app.ticketmaster.com/discovery/v2/events.json?apikey=${ticketMasterApiKey}&postalCode=${postalCode}&classificationId=${metalClassificationId}`;
   fetch(ticketMasterUrl)
     .then(res => res.json())
-    .then(events => events)
+    .then(results => {
+      if (typeof results._embedded === 'undefined') return res.status(400).json({ error: 'No events found' });
+      else {
+        const parsedEvents = results._embedded.events.map(obj => {
+          const venues = obj._embedded.venues[0];
+          return {
+            name: obj.name,
+            date: obj.dates.start.localDate,
+            venues: venues.name,
+            location: `${venues.city.name}, ${venues.state.stateCode}`,
+            image: obj.images[0].url
+          };
+        });
+        res.status(200).json(parsedEvents);
+      }
+    })
     .catch(err => next(err));
 });
 
