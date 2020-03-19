@@ -5,12 +5,14 @@ class PostsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      users: []
     };
   }
 
   componentDidMount() {
     this.getPosts();
+    this.getUsers();
   }
 
   getPosts() {
@@ -18,6 +20,14 @@ class PostsList extends React.Component {
       .then(res => res.json())
       .then(posts => this.setState({
         posts: posts
+      }));
+  }
+
+  getUsers() {
+    fetch('/api/users')
+      .then(res => res.json())
+      .then(users => this.setState({
+        users: users
       }));
   }
 
@@ -33,7 +43,7 @@ class PostsList extends React.Component {
     });
     return (
       <div className="container">
-        <div className="row d-flex justify-content-center h-25 overflow-auto">
+        <div className="row d-flex justify-content-center">
           { posts }
         </div>
       </div>

@@ -5,3 +5,7 @@
 .container {
   background-color: black;
 }
+
+.fixed-bottom {
+  height: 75px;
+}
