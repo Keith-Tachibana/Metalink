@@ -42,9 +42,11 @@ app.get('/api/posts', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/concerts', (req, res, next) => {
-  const apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?postalCode=92870&apikey=7SYDlvB5YYdcdbZgRXm4q2sBkxpHfv4w';
-  fetch(apiUrl)
+app.get('/api/concerts/:postalCode', (req, res, next) => {
+  const { postalCode } = req.params;
+  const ticketMasterApiKey = process.env.ticketMasterAPI_KEY;
+  const ticketMasterUrl = `https://app.ticketmaster.com/discovery/v2/events.json?postalCode=${postalCode}&apikey=${ticketMasterApiKey}`;
+  fetch(ticketMasterUrl)
     .then(res => res.json())
     .then(events => events)
     .catch(err => next(err));
