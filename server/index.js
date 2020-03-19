@@ -5,6 +5,7 @@ const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
+const fetch = require('node-fetch');
 
 const app = express();
 
@@ -38,6 +39,14 @@ app.get('/api/posts', (req, res, next) => {
   `;
   db.query(sql)
     .then(result => res.json(result.rows))
+    .catch(err => next(err));
+});
+
+app.get('/api/concerts', (req, res, next) => {
+  const apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?postalCode=92870&apikey=7SYDlvB5YYdcdbZgRXm4q2sBkxpHfv4w';
+  fetch(apiUrl)
+    .then(res => res.json())
+    .then(events => events)
     .catch(err => next(err));
 });
 
