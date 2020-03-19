@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import HomePage from './home-page';
+import LoginPage from './login-page';
 
 class App extends Component {
   constructor(props) {
@@ -20,11 +23,16 @@ class App extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <div className="container">
-          <HomePage />
-        </div>
-      </React.Fragment>
+      <Router>
+        <Switch>
+          <Route path="/login" component={LoginPage} />
+          <Route path="/home" render={props =>
+            <div className="container">
+              <HomePage />
+            </div>
+          />
+        </Switch>
+      </Router>
     );
   }
 }

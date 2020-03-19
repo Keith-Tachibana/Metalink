@@ -43,16 +43,6 @@ app.get('/api/posts', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/users', (req, res, next) => {
-  const { userId } = req.session;
-  if (!userId) res.send([]);
-  else {
-    db.query('SELECT "screenName" FROM "users"')
-      .then(result => res.json(result.rows))
-      .catch(err => next(err));
-  }
-});
-
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
