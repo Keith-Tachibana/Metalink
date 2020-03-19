@@ -48,26 +48,29 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
   const metalClassificationId = 'KnvZfZ7vAvt';
   const ticketMasterUrl = `
   https://app.ticketmaster.com/discovery/v2/events.json?apikey=${ticketMasterApiKey}&postalCode=${postalCode}&classificationId=${metalClassificationId}`;
-  fetch(ticketMasterUrl)
-    .then(res => res.json())
-    .then(results => {
-      if (typeof results._embedded === 'undefined') return res.status(400).json({ error: 'No events found' });
-      else {
-        const parsedEvents = results._embedded.events.map(obj => {
-          const venues = obj._embedded.venues[0];
-          return {
-            name: obj.name,
-            date: obj.dates.start.localDate,
-            venues: venues.name,
-            location: `${venues.city.name}, ${venues.state.stateCode}`,
-            image: obj.images[0].url,
-            genre: obj.classifications[0].genre.name
-          };
-        });
-        return res.status(200).json(parsedEvents);
-      }
-    })
-    .catch(err => next(err));
+  if (!(/^\d{5}(?:[-\s]\d{4})?$/g.test(postalCode))) return res.status(400).json({ error: 'Invalid zip code' });
+  else {
+    fetch(ticketMasterUrl)
+      .then(res => res.json())
+      .then(results => {
+        if (typeof results._embedded === 'undefined') return res.status(400).json({ error: 'No events found' });
+        else {
+          const parsedEvents = results._embedded.events.map(obj => {
+            const venues = obj._embedded.venues[0];
+            return {
+              name: obj.name,
+              date: obj.dates.start.localDate,
+              venues: venues.name,
+              location: `${venues.city.name}, ${venues.state.stateCode}`,
+              image: obj.images[0].url,
+              genre: obj.classifications[0].genre.name
+            };
+          });
+          return res.status(200).json(parsedEvents);
+        }
+      })
+      .catch(err => next(err));
+  }
 });
 
 app.use('/api', (req, res, next) => {
