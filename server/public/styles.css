@@ -2,7 +2,15 @@
   box-sizing: border-box;
 }
 
-.login-headimg {
+.container {
+  background-color: black;
+}
+
+.fixed-bottom {
+  height: 75px;
+}
+  
+.login-heading {
   width: 430px;
   height: 200px;
   object-fit: cover;

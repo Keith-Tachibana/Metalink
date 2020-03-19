@@ -29,12 +29,14 @@ app.get('/api/users', (req, res, next) => {
 
 app.get('/api/posts', (req, res, next) => {
   const sql = `
-    select "postId",
-           "userId",
-           "subject",
-           "content",
-           "datePosted"
-      from "posts"
+    select "p"."postId",
+           "p"."userId",
+           "p"."subject",
+           "p"."content",
+           "p"."datePosted",
+           "u"."screenName"
+      from "posts" as "p"
+      join "users" as "u" using ("userId")
   `;
   db.query(sql)
     .then(result => res.json(result.rows))
