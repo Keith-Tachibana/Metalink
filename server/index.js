@@ -60,7 +60,8 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
             date: obj.dates.start.localDate,
             venues: venues.name,
             location: `${venues.city.name}, ${venues.state.stateCode}`,
-            image: obj.images[0].url
+            image: obj.images[0].url,
+            genre: obj.classifications[0].genre.name
           };
         });
         return res.status(200).json(parsedEvents);
