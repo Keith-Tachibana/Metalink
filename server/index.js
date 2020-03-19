@@ -63,7 +63,7 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
             image: obj.images[0].url
           };
         });
-        res.status(200).json(parsedEvents);
+        return res.status(200).json(parsedEvents);
       }
     })
     .catch(err => next(err));
