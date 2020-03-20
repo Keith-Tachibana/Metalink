@@ -235,7 +235,7 @@ class EditProfile extends Component {
                       id="name"
                       value={this.state.name}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control profile-input"
                       required="required"
                     />
                   </label>
@@ -249,7 +249,7 @@ class EditProfile extends Component {
                       id="username"
                       value={this.state.username}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control profile-input"
                       required="required"
                     />
                   </label>
@@ -277,7 +277,7 @@ class EditProfile extends Component {
                       id="location"
                       value={this.state.location}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control profile-input"
                       required="required"
                     />
                   </label>
