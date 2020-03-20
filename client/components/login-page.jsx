@@ -18,7 +18,10 @@ export default class LoginPage extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({ currentUser: event.target.value });
+    const { value } = event.target;
+    this.props.history.push(`/home/${value}`);
+    this.setState({ currentUser: value });
+    this.props.getProfile(value);
   }
 
   render() {
@@ -29,8 +32,7 @@ export default class LoginPage extends React.Component {
         <h3 className="mb-5">Your link to all things metal!</h3>
         <form className="form-group-sm mb-5 pb-5 px-5">
           <label className="float-left" htmlFor="login">Username</label>
-          <select value={this.state.currentUser}
-            onChange={() => this.props.getProfile(event.target.value)}
+          <select onChange={this.handleChange}
             className="form-control" name="login" id="login">
             <option defaultValue=""></option>
             {

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
+import {
+  BrowserRouter as Router, Route,
+  Switch, withRouter
+} from 'react-router-dom';
 import HomePage from './home-page';
 import LoginPage from './login-page';
 import EditProfile from './edit-profile';
+
+const Menu = withRouter(LoginPage);
 
 class App extends Component {
   constructor(props) {
@@ -55,13 +59,14 @@ class App extends Component {
       <Router>
         <Switch>
           <Route path="/login" render={props =>
-            <LoginPage getProfile={this.getProfile} />
+            <LoginPage {...props} getProfile={this.getProfile} />
           } />
           <Route path="/home" render={props =>
             <div className="container">
               <HomePage />
             </div>
           } />
+          <Menu />
           <Route path="/profile" render={props =>
             <EditProfile profile={this.state.profile} updateProfile={this.updateProfile} />
           } />
