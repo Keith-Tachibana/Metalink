@@ -187,6 +187,14 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
       });
   }
 });
+app.get('/api/login', (req, res, next) => {
+
+});
+app.post('/api/login', (req, res, next) => {
+  req.body.userId = req.session;
+  const { userId } = req.session;
+  res.status(200).json(userId);
+});
 
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));

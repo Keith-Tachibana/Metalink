@@ -19,8 +19,16 @@ export default class LoginPage extends React.Component {
 
   handleChange(event) {
     const { value } = event.target;
-    this.props.history.push(`/home/${value}`);
-    this.setState({ currentUser: value });
+    const req = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(value)
+    };
+    fetch('/api/login', req)
+      .then(res => res.json())
+      .then(currentUser => this.setState({ currentUser }))
+      .catch(err => console.error(err))
+      .finally(() => this.props.history.push(`/home/${value}`));
     this.props.getProfile(value);
   }
 
