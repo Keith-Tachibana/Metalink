@@ -137,26 +137,17 @@ app.patch('/api/profile/:userId', (req, res, next) => {
     .then(result => {
       const profile = result.rows;
       if (!profile) {
-        res.status(404).json({
-          error: `Cannot find user with userId ${userId}.`
-        });
+        throw new ClientError(`Cannot find user with userId ${userId}`, 404);
       } else {
         res.status(200).json(profile);
       }
     })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({
-        error: 'An unexpected error occurred.'
-      });
-    });
+    .catch(err => next(err));
 });
 
 app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) => {
   if (!req.file) {
-    return res.status(400).json({
-      error: 'File not received!'
-    });
+    throw new ClientError('File not received!', 400);
   } else {
     const sql = `
       UPDATE "users"
@@ -175,13 +166,38 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
           res.status(200).send(`./images/profileImages/${req.file.filename}`);
         }
       })
-      .catch(err => {
-        console.error(err);
-        res.status(500).json({
-          error: 'An unexpected error occurred.'
-        });
-      });
+      .catch(err => next(err));
   }
+});
+
+app.put('/api/posts/:postId', (req, res, next) => {
+  const { subject, content } = req.body;
+  const { postId } = req.params;
+  if ((!parseInt(postId, 10)) || (parseInt(postId, 10) < 0)) {
+    throw new ClientError('The postId must be a positive integer.', 400);
+  }
+  const values = [subject, content, postId];
+  const sql = `
+    UPDATE "posts"
+       SET "subject" = $1, "content" = $2
+     WHERE "postId" = $3
+ RETURNING *;
+  `;
+  db.query(sql, values)
+    .then(result => {
+      const post = result.rows;
+      if (!post) {
+        throw new ClientError(`Cannot find post with postId ${postId}`, 404);
+      } else {
+        res.status(200).json(post);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({
+        error: 'An unexpected error occurred.'
+      });
+    });
 });
 
 app.use('/api', (req, res, next) => {

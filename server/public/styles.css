@@ -38,7 +38,7 @@ select option {
   color: #FFF;
 }
 
-input[type="text"],
+.profile-input,
 input[type="email"],
 input[type="tel"] {
   height: 20px;
@@ -89,4 +89,30 @@ input[type="tel"] {
 
 .card-body > p {
   margin: 0;
+}
+
+.edit-button {
+  height: 30px;
+  margin: 5px;
+}
+
+.post-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.post-item:hover {
+  background-color: #00BFFF;
+}
+
+.post-form {
+  position: relative;
+  left: 8px;
+}
+
+.form-buttons {
+  height: 35px;
 }
