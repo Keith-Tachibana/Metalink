@@ -13,10 +13,11 @@ class App extends Component {
       user: null
     };
     this.updateProfile = this.updateProfile.bind(this);
+    this.getProfile = this.getProfile.bind(this);
   }
 
   componentDidMount() {
-    this.getProfile(0);
+    this.getProfile(1);
   }
 
   async getProfile(userId) {

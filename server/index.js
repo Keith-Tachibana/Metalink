@@ -43,33 +43,36 @@ app.get('/api/users', (req, res, next) => {
 
 app.get('/api/profile/:userId', (req, res, next) => {
   const { userId } = req.params;
-  const sql = `
+  if (typeof userId === 'undefined') return res.status(400).json({ error: 'userId required' });
+  else {
+    const sql = `
     SELECT "userId", "name", "username", "email", "location", "phone", "profileImage", "genre1", "genre2", "genre3"
       FROM "users"
      WHERE "userId" = $1;
   `;
-  db.query(sql, [userId])
-    .then(result => {
-      const profile = result.rows;
-      res.status(200).send({
-        userId: profile[0].userId,
-        name: profile[0].name,
-        username: profile[0].username,
-        email: profile[0].email,
-        location: profile[0].location,
-        phone: profile[0].phone,
-        profileImage: profile[0].profileImage,
-        genre1: profile[0].genre1,
-        genre2: profile[0].genre2,
-        genre3: profile[0].genre3
+    db.query(sql, [userId])
+      .then(result => {
+        const profile = result.rows;
+        res.status(200).send({
+          userId: profile[0].userId,
+          name: profile[0].name,
+          username: profile[0].username,
+          email: profile[0].email,
+          location: profile[0].location,
+          phone: profile[0].phone,
+          profileImage: profile[0].profileImage,
+          genre1: profile[0].genre1,
+          genre2: profile[0].genre2,
+          genre3: profile[0].genre3
+        });
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({
+          error: 'An unexpected error occurred.'
+        });
       });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({
-        error: 'An unexpected error occurred.'
-      });
-    });
+  }
 });
 
 app.get('/api/posts', (req, res, next) => {
