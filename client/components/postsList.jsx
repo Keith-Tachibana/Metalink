@@ -32,14 +32,14 @@ class PostsList extends React.Component {
   }
 
   render() {
-    const posts = this.state.posts.map(posts => {
+    const posts = this.state.posts.map(post => {
       return (
         <Posts
-          key={ posts.postId }
-          screenName={ posts.screenName }
-          datePosted={ posts.datePosted }
-          subject={ posts.subject }
-          content={ posts.content } />
+          key={ post.postId }
+          username={ post.username }
+          datePosted={ post.datePosted }
+          subject={ post.subject }
+          content={ post.content } />
       );
     });
     return (

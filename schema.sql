@@ -11,8 +11,8 @@ CREATE TABLE "users" (
 	"genre1" TEXT,
 	"genre2" TEXT,
 	"genre3" TEXT,
-	"createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"updatedAt" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"createdAt" TIMESTAMP DEFAULT NOW(),
+	"updatedAt" TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY ("userId")
 );
 
@@ -23,9 +23,9 @@ CREATE TABLE "posts" (
 	"userId" INTEGER,
 	"subject" TEXT NOT NULL,
 	"content" TEXT NOT NULL,
-	"datePosted" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"dateDeleted" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"dateUpdated" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"datePosted" TIMESTAMP DEFAULT NOW(),
+	"dateDeleted" TIMESTAMP DEFAULT NOW(),
+	"dateUpdated" TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY ("postId"),
 	CONSTRAINT "fk_userId_posts"
 	FOREIGN KEY ("userId") REFERENCES "users" ("userId")

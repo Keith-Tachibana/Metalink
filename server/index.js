@@ -26,13 +26,22 @@ const upload = multer({
   storage
 });
 
-app.get('/api/health-check', (req, res, next) => {
-  db.query('select \'successfully connected\' as "message"')
-    .then(result => res.json(result.rows[0]))
+app.get('/api/users', (req, res, next) => {
+  const sql = `
+    select "userId",
+           "name",
+           "username",
+           "email",
+           "location"
+           "createdAt"
+      from "users"
+  `;
+  db.query(sql)
+    .then(result => res.json(result.rows))
     .catch(err => next(err));
 });
 
-app.get('/api/users', (req, res, next) => {
+app.get('/api/profile', (req, res, next) => {
   const sql = `
     SELECT "userId", "name", "username", "email", "location", "phone", "profileImage", "genre1", "genre2", "genre3"
       FROM "users"
@@ -69,7 +78,7 @@ app.get('/api/posts', (req, res, next) => {
            "p"."subject",
            "p"."content",
            "p"."datePosted",
-           "u"."screenName"
+           "u"."username"
       from "posts" as "p"
       join "users" as "u" using ("userId")
   `;
@@ -109,7 +118,7 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
   }
 });
 
-app.patch('/api/users/:userId', (req, res, next) => {
+app.patch('/api/profile/:userId', (req, res, next) => {
   const { name, username, email, location, phone, profileImage, genre1, genre2, genre3 } = req.body;
   const { userId } = req.params;
   if ((!parseInt(userId, 10)) || (parseInt(userId) < 0)) {
@@ -141,6 +150,7 @@ app.patch('/api/users/:userId', (req, res, next) => {
         error: 'An unexpected error occurred.'
       });
     });
+});
 
 app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) => {
   if (!req.file) {

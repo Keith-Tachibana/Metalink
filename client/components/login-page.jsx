@@ -34,8 +34,8 @@ export default class LoginPage extends React.Component {
               this.state.users.map(user => {
                 return (
                   <option key={user.userId}
-                    value={user.screenName.replace(/\s/g, '').toLowerCase()}>
-                    {user.screenName}</option>
+                    value={user.username.replace(/\s/g, '').toLowerCase()}>
+                    {user.username}</option>
                 );
               })
             }

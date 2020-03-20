@@ -5,7 +5,7 @@ class Posts extends React.Component {
     return (
       <div className="card col-10 mb-2">
         <div className="card-body">
-          <p>{ this.props.screenName }</p>
+          <p>{ this.props.username }</p>
           <p>{ this.props.datePosted }</p>
           <p>{ this.props.subject }</p>
           <p>{ this.props.content }</p>

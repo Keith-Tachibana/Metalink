@@ -20,7 +20,7 @@ class App extends Component {
 
   async getProfile() {
     try {
-      const response = await fetch('/api/users');
+      const response = await fetch('/api/profile');
       const profile = await response.json();
       this.setState({
         profile
@@ -34,7 +34,7 @@ class App extends Component {
     try {
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      const response = await fetch(`/api/users/${entry.userId}`, {
+      const response = await fetch(`/api/profile/${entry.userId}`, {
         method: 'PATCH',
         body: JSON.stringify(entry),
         headers
@@ -57,10 +57,10 @@ class App extends Component {
             <div className="container">
               <HomePage />
             </div>
-          }/>
+          } />
           <Route path="/profile" render={props =>
             <EditProfile profile={this.state.profile} updateProfile={this.updateProfile} />
-          }/>
+          } />
         </Switch>
       </Router>
     );
