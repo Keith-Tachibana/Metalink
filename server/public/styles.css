@@ -82,3 +82,11 @@ input[type="tel"] {
 .card-body {
   color: #000;
 }
+
+.card-body > p > span {
+  color: #FF0000;
+}
+
+.card-body > p {
+  margin: 0;
+}
