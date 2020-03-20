@@ -60,7 +60,7 @@ class EditPosts extends Component {
   }
 
   render() {
-    const { posts, updatePost } = this.props;
+    const { posts, updatePost, deletePost } = this.props;
     const postCard = posts.map(post => {
       return (
         <EditPostCard
@@ -70,6 +70,7 @@ class EditPosts extends Component {
           content={post.content}
           postId={post.postId}
           updatePost={updatePost}
+          deletePost={deletePost}
         />
       );
     });
@@ -138,11 +139,6 @@ class EditPosts extends Component {
             </div>
           </div>
         </main>
-        <footer className="d-flex justify-content-around">
-          <div><i className="fas fa-plus-circle text-success"></i> Create Post</div>
-          <div><i className="fas fa-edit text-primary"></i> Edit Posts</div>
-          <div><i className="fas fa-sign-out-alt text-danger"></i> Exit</div>
-        </footer>
       </React.Fragment>
     );
   }

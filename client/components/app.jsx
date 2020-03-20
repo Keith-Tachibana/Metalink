@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import BottomNavbar from './bottom-navbar';
 import HomePage from './home-page';
 import LoginPage from './login-page';
 import EditProfile from './edit-profile';
@@ -17,6 +18,7 @@ class App extends Component {
     this.updateProfile = this.updateProfile.bind(this);
     this.updatePost = this.updatePost.bind(this);
     this.updatePostFetch = this.updatePostFetch.bind(this);
+    this.deletePost = this.deletePost.bind(this);
   }
 
   componentDidMount() {
@@ -87,6 +89,25 @@ class App extends Component {
     }
   }
 
+  async deletePost(id) {
+    try {
+      const { posts } = this.state;
+      const deletedPosts = posts.filter(post => post.postId !== id);
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      await fetch(`/api/posts/${id}`, {
+        method: 'DELETE',
+        body: JSON.stringify(deletedPosts),
+        headers
+      });
+      this.setState({
+        posts: deletedPosts
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   updatePost(id) {
     const { posts } = this.state;
     const [updatedPost] = posts.filter(post => post.postId === id);
@@ -101,21 +122,36 @@ class App extends Component {
         <Switch>
           <Route path="/login" component={LoginPage} />
           <Route path="/home" render={props =>
-            <div className="container">
-              <HomePage />
-            </div>
+            <React.Fragment>
+              <div className="container">
+                <HomePage />
+              </div>
+              <BottomNavbar />
+            </React.Fragment>
           } />
           <Route path="/profile" render={props =>
-            <EditProfile
-              profile={this.state.profile}
-              updateProfile={this.updateProfile} />
+            <React.Fragment>
+              <EditProfile
+                profile={this.state.profile}
+                updateProfile={this.updateProfile} />
+              <BottomNavbar />
+            </React.Fragment>
           } />
           <Route path="/posts" render={props =>
-            <EditPosts
-              posts={this.state.posts}
-              editing={this.state.editing}
-              updatePostFetch={this.updatePostFetch}
-              updatePost={this.updatePost} />
+            <React.Fragment>
+              <EditPosts
+                posts={this.state.posts}
+                editing={this.state.editing}
+                deletePost={this.deletePost}
+                updatePostFetch={this.updatePostFetch}
+                updatePost={this.updatePost} />
+              <BottomNavbar />
+            </React.Fragment>
+          } />
+          <Route path="/create" render={props =>
+            <React.Fragment>
+              <BottomNavbar />
+            </React.Fragment>
           } />
         </Switch>
       </Router>

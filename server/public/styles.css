@@ -91,7 +91,7 @@ input[type="tel"] {
   margin: 0;
 }
 
-.edit-button {
+.post-buttons {
   height: 30px;
   margin: 5px;
 }
@@ -115,4 +115,9 @@ input[type="tel"] {
 
 .form-buttons {
   height: 35px;
+}
+
+footer div span {
+  color: #FFF;
+  font-size: 1.25rem;
 }
