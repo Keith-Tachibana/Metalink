@@ -5,7 +5,7 @@ export default class LoginPage extends React.Component {
     super(props);
     this.state = {
       users: [],
-      currentUser: null
+      currentUser: ''
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -29,12 +29,15 @@ export default class LoginPage extends React.Component {
         <h3 className="mb-5">Your link to all things metal!</h3>
         <form className="form-group-sm mb-5 pb-5 px-5">
           <label className="float-left" htmlFor="login">Username</label>
-          <select onChange={this.handleChange} className="form-control" name="login" id="login">
+          <select value={this.state.currentUser}
+            onChange={() => this.props.getProfile(event.target.value)}
+            className="form-control" name="login" id="login">
+            <option defaultValue=""></option>
             {
               this.state.users.map(user => {
                 return (
                   <option key={user.userId}
-                    value={user.username.replace(/\s/g, '').toLowerCase()}>
+                    value={user.userId}>
                     {user.username}</option>
                 );
               })

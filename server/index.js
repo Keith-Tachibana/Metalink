@@ -41,13 +41,14 @@ app.get('/api/users', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/profile', (req, res, next) => {
+app.get('/api/profile/:userId', (req, res, next) => {
+  const { userId } = req.params;
   const sql = `
     SELECT "userId", "name", "username", "email", "location", "phone", "profileImage", "genre1", "genre2", "genre3"
       FROM "users"
-     WHERE "userId" = 1;
+     WHERE "userId" = $1;
   `;
-  db.query(sql)
+  db.query(sql, [userId])
     .then(result => {
       const profile = result.rows;
       res.status(200).send({

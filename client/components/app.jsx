@@ -9,18 +9,19 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profile: []
+      profile: [],
+      user: null
     };
     this.updateProfile = this.updateProfile.bind(this);
   }
 
   componentDidMount() {
-    this.getProfile();
+    this.getProfile(0);
   }
 
-  async getProfile() {
+  async getProfile(userId) {
     try {
-      const response = await fetch('/api/profile');
+      const response = await fetch(`/api/profile/${userId}`);
       const profile = await response.json();
       this.setState({
         profile
@@ -52,7 +53,9 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route path="/login" component={LoginPage} />
+          <Route path="/login" render={props =>
+            <LoginPage getProfile={this.getProfile} />
+          } />
           <Route path="/home" render={props =>
             <div className="container">
               <HomePage />
