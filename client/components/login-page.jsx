@@ -22,14 +22,14 @@ export default class LoginPage extends React.Component {
     const req = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(value)
+      body: JSON.stringify({ userId: value })
     };
     fetch('/api/login', req)
       .then(res => res.json())
       .then(currentUser => this.setState({ currentUser }))
       .catch(err => console.error(err))
       .finally(() => this.props.history.push(`/home/${value}`));
-    this.props.getProfile(value);
+    // this.props.getProfile(value);
   }
 
   render() {

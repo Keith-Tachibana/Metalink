@@ -187,13 +187,12 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
       });
   }
 });
-app.get('/api/login', (req, res, next) => {
 
-});
 app.post('/api/login', (req, res, next) => {
-  req.body.userId = req.session;
+  req.session.userId = req.body.userId;
   const { userId } = req.session;
-  res.status(200).json(userId);
+  if (!userId) return res.status(400).json({ error: 'Invalid userId' });
+  else return res.status(200).json(userId);
 });
 
 app.use('/api', (req, res, next) => {
