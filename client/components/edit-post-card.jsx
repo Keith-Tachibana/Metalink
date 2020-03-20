@@ -7,12 +7,18 @@ class EditPostCard extends Component {
       expand: false
     };
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.expand = this.expand.bind(this);
   }
 
   handleUpdate() {
     const { updatePost, postId } = this.props;
     updatePost(postId);
+  }
+
+  handleDelete() {
+    const { deletePost, postId } = this.props;
+    deletePost(postId);
   }
 
   expand() {
@@ -45,7 +51,8 @@ class EditPostCard extends Component {
               <small>{this.renderDate()}</small>
               <h6 className="mb-1"><ins><strong><em>{subject}</em></strong></ins></h6>
             </div>
-            <button onClick={this.handleUpdate} className="btn btn-sm btn-primary edit-button">Edit</button>
+            <button onClick={this.handleUpdate} className="btn btn-sm btn-primary post-buttons">Edit</button>
+            <button onClick={this.handleDelete} className="btn btn-sm btn-danger post-buttons">Delete</button>
           </div>
           <p onMouseEnter={this.expand} onMouseLeave={this.expand} className={postCSS}>{content}</p>
         </div>

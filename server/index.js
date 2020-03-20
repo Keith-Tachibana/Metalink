@@ -118,6 +118,31 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
   }
 });
 
+app.delete('/api/posts/:postId', (req, res, next) => {
+  const { postId } = req.params;
+  if ((!parseInt(postId, 10)) || (parseInt(postId) < 0)) {
+    throw new ClientError('The postId must be a positive integer', 400);
+  }
+  const params = [postId];
+  const sql = `
+    DELETE FROM "posts"
+          WHERE "postId" = $1
+      RETURNING *;
+  `;
+  db.query(sql, params)
+    .then(result => {
+      const post = result.rows[0];
+      if (!post) {
+        res.status(404).json({
+          error: `Cannot find post with postId ${postId}.`
+        });
+      } else {
+        res.status(204).json(post);
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.patch('/api/profile/:userId', (req, res, next) => {
   const { name, username, email, location, phone, profileImage, genre1, genre2, genre3 } = req.body;
   const { userId } = req.params;

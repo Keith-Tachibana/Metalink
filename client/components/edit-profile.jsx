@@ -302,11 +302,6 @@ class EditProfile extends Component {
             </div>
           </div>
         </main>
-        <footer className="d-flex justify-content-around">
-          <div><i className="fas fa-plus-circle text-success"></i> Create Post</div>
-          <div><i className="fas fa-edit text-primary"></i> Edit Posts</div>
-          <div><i className="fas fa-sign-out-alt text-danger"></i> Exit</div>
-        </footer>
       </React.Fragment>
     );
   }
