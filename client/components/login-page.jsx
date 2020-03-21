@@ -7,29 +7,40 @@ export default class LoginPage extends React.Component {
       users: [],
       currentUser: ''
     };
+    this._isMounted = false;
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    fetch('/api/users')
-      .then(res => res.json())
-      .then(users => this.setState({ users }))
-      .catch(err => console.error(err));
+    this._isMounted = true;
+    if (this._isMounted) {
+      fetch('/api/users')
+        .then(res => res.json())
+        .then(users => this.setState({ users }))
+        .catch(err => console.error(err));
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   handleChange(event) {
+    this._isMounted = true;
     const { value } = event.target;
     const req = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: value })
     };
-    fetch('/api/login', req)
-      .then(res => res.json())
-      .then(currentUser => this.setState({ currentUser }))
-      .catch(err => console.error(err))
-      .finally(() => this.props.history.push(`/home/${value}`));
-    // this.props.getProfile(value);
+    if (this._isMounted) {
+      fetch('/api/login', req)
+        .then(res => res.json())
+        .then(currentUser => this.setState({ currentUser }))
+        .catch(err => console.error(err))
+        .finally(() => this.props.history.push(`/home/${value}`));
+    }
+    this.props.getProfile(value);
   }
 
   render() {

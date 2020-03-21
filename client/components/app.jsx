@@ -7,8 +7,6 @@ import HomePage from './home-page';
 import LoginPage from './login-page';
 import EditProfile from './edit-profile';
 
-const Menu = withRouter(LoginPage);
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -21,16 +19,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getProfile(1);
+    this.getProfile(2);
   }
 
   async getProfile(userId) {
     try {
       const response = await fetch(`/api/profile/${userId}`);
       const profile = await response.json();
-      this.setState({
-        profile
-      });
+      this.setState({ profile });
     } catch (error) {
       console.error(error.message);
     }
@@ -55,13 +51,14 @@ class App extends Component {
   }
 
   render() {
+    const Menu = withRouter(LoginPage);
     return (
       <Router>
         <Switch>
           <Route path="/login" render={props =>
             <LoginPage {...props} getProfile={this.getProfile} />
           } />
-          <Route path={`/home/${this.state.profile.userId}`} render={props =>
+          <Route path={`/home/${this.state.profile.userId}`} render={() =>
             <div className="container">
               <HomePage profile={this.state.profile} />
             </div>
