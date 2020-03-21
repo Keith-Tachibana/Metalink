@@ -2,14 +2,16 @@ require('dotenv/config');
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
+const fetch = require('node-fetch');
+const Discogs = require('disconnect').Client;
 
 const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
-const fetch = require('node-fetch');
 
 const app = express();
+const discogsDB = new Discogs().database();
 
 app.use(staticMiddleware);
 app.use(sessionMiddleware);
@@ -24,6 +26,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage
+});
+
+discogsDB.getArtist(299874, (err, data) => {
+  if (data) {
+    // eslint-disable-next-line no-console
+    console.log(data);
+  } else {
+    console.error(err.message);
+  }
 });
 
 app.get('/api/users', (req, res, next) => {
@@ -81,6 +92,7 @@ app.get('/api/posts', (req, res, next) => {
            "u"."username"
       from "posts" as "p"
       join "users" as "u" using ("userId")
+  order by "postId" asc;
   `;
   db.query(sql)
     .then(result => res.json(result.rows))
@@ -118,6 +130,18 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
   }
 });
 
+app.get('/api/bands/:band', async (req, res, next) => {
+  const { band } = req.params;
+  const apiKey = process.env.DISCOGS_API_KEY;
+  const apiSecret = process.env.DISCOGS_API_SECRET;
+  const headers = new Headers();
+  headers.append('Authorization', `Discogs key=${apiKey}, secret=${apiSecret}`);
+  const response = await fetch(`http://api.discogs.com/database/search?type=artist&q=${band}`);
+  const result = await response.json();
+  // eslint-disable-next-line no-console
+  console.log(result);
+});
+
 app.delete('/api/posts/:postId', (req, res, next) => {
   const { postId } = req.params;
   if ((!parseInt(postId, 10)) || (parseInt(postId) < 0)) {
@@ -153,10 +177,10 @@ app.patch('/api/profile/:userId', (req, res, next) => {
   }
   const values = [name, username, email, location, phone, profileImage, genre1, genre2, genre3, userId];
   const sql = `
-    UPDATE "users"
-       SET "name" = $1, "username" = $2, "email" = $3, "location" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9
-     WHERE "userId" = $10
- RETURNING *;
+      UPDATE "users"
+        SET "name" = $1, "username" = $2, "email" = $3, "location" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9
+      WHERE "userId" = $10
+  RETURNING *;
   `;
   db.query(sql, values)
     .then(result => {
@@ -203,10 +227,10 @@ app.put('/api/posts/:postId', (req, res, next) => {
   }
   const values = [subject, content, postId];
   const sql = `
-    UPDATE "posts"
-       SET "subject" = $1, "content" = $2
-     WHERE "postId" = $3
- RETURNING *;
+      UPDATE "posts"
+        SET "subject" = $1, "content" = $2
+      WHERE "postId" = $3
+  RETURNING *;
   `;
   db.query(sql, values)
     .then(result => {

@@ -105,7 +105,7 @@ class EditPosts extends Component {
                     type="text"
                     name="subject"
                     value={this.state.subject}
-                    placeholder="New Post Subject"
+                    placeholder="Updated Post Subject"
                     onChange={this.handleChange}
                     className="form-control mr-4"/>
                 </div>
@@ -116,9 +116,9 @@ class EditPosts extends Component {
                   <textarea
                     name="content"
                     value={this.state.content}
-                    placeholder="New Post Content"
+                    placeholder="Updated Post Content"
                     onChange={this.handleChange}
-                    className="form-control mr-4"
+                    className="form-control mr-4 form-textarea"
                     cols="30"
                     rows="5">
                   </textarea>

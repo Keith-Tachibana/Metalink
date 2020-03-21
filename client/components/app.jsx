@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import Menu from './menu';
 import BottomNavbar from './bottom-navbar';
 import HomePage from './home-page';
 import LoginPage from './login-page';
 import EditProfile from './edit-profile';
 import EditPosts from './edit-posts';
+import SearchPage from './search-page';
+import VideosPage from './videos-page';
 
 class App extends Component {
   constructor(props) {
@@ -123,22 +126,30 @@ class App extends Component {
           <Route path="/login" component={LoginPage} />
           <Route path="/home" render={props =>
             <React.Fragment>
-              <div className="container">
-                <HomePage />
-              </div>
+              <Menu />
+              <HomePage />
               <BottomNavbar />
             </React.Fragment>
           } />
           <Route path="/profile" render={props =>
             <React.Fragment>
+              <Menu />
               <EditProfile
                 profile={this.state.profile}
                 updateProfile={this.updateProfile} />
               <BottomNavbar />
             </React.Fragment>
           } />
+          <Route path="/concerts" render={props =>
+            <React.Fragment>
+              <Menu />
+              <h1 className="text-center mt-4">Concerts</h1>
+              <BottomNavbar />
+            </React.Fragment>
+          } />
           <Route path="/posts" render={props =>
             <React.Fragment>
+              <Menu />
               <EditPosts
                 posts={this.state.posts}
                 editing={this.state.editing}
@@ -150,6 +161,21 @@ class App extends Component {
           } />
           <Route path="/create" render={props =>
             <React.Fragment>
+              <Menu />
+              <BottomNavbar />
+            </React.Fragment>
+          } />
+          <Route path="/search" render={props =>
+            <React.Fragment>
+              <Menu />
+              <SearchPage />
+              <BottomNavbar />
+            </React.Fragment>
+          } />
+          <Route path="/videos" render={props =>
+            <React.Fragment>
+              <Menu />
+              <VideosPage />
               <BottomNavbar />
             </React.Fragment>
           } />
