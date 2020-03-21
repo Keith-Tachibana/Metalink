@@ -17,26 +17,26 @@ class App extends Component {
     this.state = {
       profile: [],
       posts: [],
-      editing: null
+      editing: null,
+      user: null
     };
     this.updateProfile = this.updateProfile.bind(this);
+    this.getProfile = this.getProfile.bind(this);
     this.updatePost = this.updatePost.bind(this);
     this.updatePostFetch = this.updatePostFetch.bind(this);
     this.deletePost = this.deletePost.bind(this);
   }
 
   componentDidMount() {
-    this.getProfile();
+    this.getProfile(2);
     this.getPosts();
   }
 
-  async getProfile() {
+  async getProfile(userId) {
     try {
-      const response = await fetch('/api/profile');
+      const response = await fetch(`/api/profile/${userId}`);
       const profile = await response.json();
-      this.setState({
-        profile
-      });
+      this.setState({ profile });
     } catch (error) {
       console.error(error.message);
     }
@@ -121,14 +121,17 @@ class App extends Component {
   }
 
   render() {
+    const Menu = withRouter(LoginPage);
     return (
       <Router>
         <Switch>
-          <Route path="/login" component={LoginPage} />
-          <Route path="/home" render={props =>
+          <Route path="/login" render={props =>
+            <LoginPage {...props} getProfile={this.getProfile} />
+          } />
+          <Route path={`/home/${this.state.profile.userId}`} render={props =>
             <React.Fragment>
               <Menu />
-              <HomePage />
+              <HomePage profile={this.state.profile} />
               <BottomNavbar />
             </React.Fragment>
           } />

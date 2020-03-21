@@ -52,34 +52,38 @@ app.get('/api/users', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/profile', (req, res, next) => {
-  const sql = `
+app.get('/api/profile/:userId', (req, res, next) => {
+  const { userId } = req.params;
+  if (typeof userId === 'undefined') {throw new ClientError('userId required', 400);}  
+  else {
+    const sql = `
     SELECT "userId", "name", "username", "email", "location", "phone", "profileImage", "genre1", "genre2", "genre3"
       FROM "users"
-     WHERE "userId" = 1;
+     WHERE "userId" = $1;
   `;
-  db.query(sql)
-    .then(result => {
-      const profile = result.rows;
-      res.status(200).send({
-        userId: profile[0].userId,
-        name: profile[0].name,
-        username: profile[0].username,
-        email: profile[0].email,
-        location: profile[0].location,
-        phone: profile[0].phone,
-        profileImage: profile[0].profileImage,
-        genre1: profile[0].genre1,
-        genre2: profile[0].genre2,
-        genre3: profile[0].genre3
+    db.query(sql, [userId])
+      .then(result => {
+        const profile = result.rows;
+        res.status(200).send({
+          userId: profile[0].userId,
+          name: profile[0].name,
+          username: profile[0].username,
+          email: profile[0].email,
+          location: profile[0].location,
+          phone: profile[0].phone,
+          profileImage: profile[0].profileImage,
+          genre1: profile[0].genre1,
+          genre2: profile[0].genre2,
+          genre3: profile[0].genre3
+        });
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({
+          error: 'An unexpected error occurred.'
+        });
       });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({
-        error: 'An unexpected error occurred.'
-      });
-    });
+  }
 });
 
 app.get('/api/posts', (req, res, next) => {
@@ -105,7 +109,7 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
   const metalClassificationId = 'KnvZfZ7vAvt';
   const ticketMasterUrl = `
   https://app.ticketmaster.com/discovery/v2/events.json?apikey=${ticketMasterApiKey}&postalCode=${postalCode}&classificationId=${metalClassificationId}`;
-  if (!(/^\d{5}(?:[-\s]\d{4})?$/g.test(postalCode))) return res.status(400).json({ error: 'Missing or invalid zip code' });
+  if (!(/^\d{5}(?:[-\s]\d{4})?$/g.test(postalCode))) return res.status(400).json({ error: 'Invalid zip code' });
   else {
     fetch(ticketMasterUrl)
       .then(res => res.json())
@@ -171,7 +175,7 @@ app.patch('/api/profile/:userId', (req, res, next) => {
   const { name, username, email, location, phone, profileImage, genre1, genre2, genre3 } = req.body;
   const { userId } = req.params;
   if ((!parseInt(userId, 10)) || (parseInt(userId) < 0)) {
-    throw new ClientError('"userId" must be a positive integer.', 400);
+    throw new ClientError('The userId must be a positive integer.', 400);
   } else if (!name || !username || !email || !location) {
     throw new ClientError('Name, username, e-mail, AND location are required.', 400);
   }
@@ -217,6 +221,13 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
       })
       .catch(err => next(err));
   }
+});
+
+app.post('/api/login', (req, res, next) => {
+  req.session.userId = req.body.userId;
+  const { userId } = req.session;
+  if (!userId) return res.status(400).json({ error: 'Invalid userId' });
+  else return res.status(200).json(userId);
 });
 
 app.put('/api/posts/:postId', (req, res, next) => {
