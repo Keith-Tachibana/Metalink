@@ -28,7 +28,7 @@ select {
   width: 125px;
   background-color: #000;
   color: #FFF;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
 
 }
 
@@ -41,10 +41,12 @@ select option {
 .profile-input,
 input[type="email"],
 input[type="tel"] {
-  height: 20px;
+  height: 25px;
 }
 
 input[type="text"],
+input[type="email"],
+input[type="tel"],
 .form-textarea {
   background-color: #000;
   color: #FFF;
@@ -172,20 +174,6 @@ footer div span {
   cursor: pointer;
 }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-}
-
-.menu-open {
-  width: 250px;
-}
-
-.menu-closed {
-  width: 0;
-}
-
 .close-button {
   position: absolute;
   top: 10px;
@@ -198,6 +186,7 @@ footer div span {
 .menu-container {
   height: 100%;
   position: fixed;
+  width: 0;
   z-index: 1;
   top: 0;
   left: 0;
@@ -205,6 +194,19 @@ footer div span {
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
+}
+
+.menu-container > a {
+  display: block;
+  transition: 0.3s;
+}
+
+.menu-open {
+  width: 250px;
+}
+
+.menu-closed {
+  width: 0;
 }
 
 .post-home,
