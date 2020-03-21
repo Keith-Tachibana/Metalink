@@ -28,7 +28,7 @@ select {
   width: 125px;
   background-color: #000;
   color: #FFF;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
 
 }
 
@@ -38,10 +38,18 @@ select option {
   color: #FFF;
 }
 
-input[type="text"],
+.profile-input,
 input[type="email"],
 input[type="tel"] {
-  height: 20px;
+  height: 25px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+.form-textarea {
+  background-color: #000;
+  color: #FFF;
 }
 
 .asterisk {
@@ -89,4 +97,129 @@ input[type="tel"] {
 
 .card-body > p {
   margin: 0;
+}
+
+.post-buttons {
+  height: 30px;
+  margin: 5px;
+}
+
+.post-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.post-item:hover {
+  background-color: #D3D3D3;
+  color: #FFF;
+}
+
+.post-form {
+  position: relative;
+  left: 8px;
+}
+
+.form-buttons {
+  height: 35px;
+}
+
+footer div span {
+  color: #FFF;
+  font-size: 1.25rem;
+}
+
+.search-bar {
+  margin: 20px;
+  text-align: center;
+}
+
+.search-bar input {
+  width: 75%;
+  border-radius: 10px;
+  border: 1px inset #FFF;
+  outline: none;
+  padding-left: 10px;
+}
+
+.search-bar input::placeholder {
+  padding-left: 5px;
+}
+
+.video-item img {
+  max-width: 64px;
+}
+
+.video-detail .details {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #FF0000;
+  border-radius: 4px;
+}
+
+.list-group-item {
+  cursor: pointer;
+  color: #FFF;
+  background-color: #000;
+  border: 1px solid #FFF;
+}
+
+.list-group-item:hover {
+  background-color: rgb(75, 75, 75);
+}
+
+.menu:hover {
+  cursor: pointer;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  left: 200px;
+  font-size: 1rem;
+  color: #FFF;
+  text-decoration: underline;
+}
+
+.menu-container {
+  height: 100%;
+  position: fixed;
+  width: 0;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.menu-container > a {
+  display: block;
+  transition: 0.3s;
+}
+
+.menu-open {
+  width: 250px;
+}
+
+.menu-closed {
+  width: 0;
+}
+
+.post-home,
+.post-body {
+  background-color: #000;
+  color: #FFF;
+}
+
+.post-home {
+  border: 1px solid #FFF;
+}
+
+.concertsearch-table {
+  height: 400px;
+  overflow: auto;
 }

@@ -101,9 +101,6 @@ class EditProfile extends Component {
     const { profile } = this.props;
     return (
       <React.Fragment>
-        <nav className="nav-bg">
-          <i className="fas fa-bars mt-4 ml-4"></i>
-        </nav>
         <header className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -111,7 +108,7 @@ class EditProfile extends Component {
             </div>
           </div>
         </header>
-        <main className="container-fluid mb-4">
+        <main className="container-fluid mb-4" style={{ height: '568px' }}>
           <div className="row">
             <div className="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
               <div className="image-container">
@@ -235,7 +232,7 @@ class EditProfile extends Component {
                       id="name"
                       value={this.state.name}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control profile-input"
                       required="required"
                     />
                   </label>
@@ -249,7 +246,7 @@ class EditProfile extends Component {
                       id="username"
                       value={this.state.username}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control profile-input"
                       required="required"
                     />
                   </label>
@@ -277,7 +274,7 @@ class EditProfile extends Component {
                       id="location"
                       value={this.state.location}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control profile-input"
                       required="required"
                     />
                   </label>
@@ -302,11 +299,6 @@ class EditProfile extends Component {
             </div>
           </div>
         </main>
-        <footer className="d-flex justify-content-around">
-          <div><i className="fas fa-plus-circle text-success"></i> Create Post</div>
-          <div><i className="fas fa-edit text-primary"></i> Edit Posts</div>
-          <div><i className="fas fa-sign-out-alt text-danger"></i> Exit</div>
-        </footer>
       </React.Fragment>
     );
   }
