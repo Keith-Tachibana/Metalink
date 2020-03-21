@@ -5,42 +5,20 @@ export default class LoginPage extends React.Component {
     super(props);
     this.state = {
       users: [],
-      currentUser: ''
+      currentUser: null
     };
-    this._isMounted = false;
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    this._isMounted = true;
-    if (this._isMounted) {
-      fetch('/api/users')
-        .then(res => res.json())
-        .then(users => this.setState({ users }))
-        .catch(err => console.error(err));
-    }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
+    fetch('/api/users')
+      .then(res => res.json())
+      .then(users => this.setState({ users }))
+      .catch(err => console.error(err));
   }
 
   handleChange(event) {
-    this._isMounted = true;
-    const { value } = event.target;
-    const req = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: value })
-    };
-    if (this._isMounted) {
-      fetch('/api/login', req)
-        .then(res => res.json())
-        .then(currentUser => this.setState({ currentUser }))
-        .catch(err => console.error(err))
-        .finally(() => this.props.history.push(`/home/${value}`));
-    }
-    this.props.getProfile(value);
+    this.setState({ currentUser: event.target.value });
   }
 
   render() {
@@ -51,14 +29,12 @@ export default class LoginPage extends React.Component {
         <h3 className="mb-5">Your link to all things metal!</h3>
         <form className="form-group-sm mb-5 pb-5 px-5">
           <label className="float-left" htmlFor="login">Username</label>
-          <select onChange={this.handleChange}
-            className="form-control" name="login" id="login">
-            <option defaultValue=""></option>
+          <select onChange={this.handleChange} className="form-control" name="login" id="login">
             {
               this.state.users.map(user => {
                 return (
                   <option key={user.userId}
-                    value={user.userId}>
+                    value={user.username.replace(/\s/g, '').toLowerCase()}>
                     {user.username}</option>
                 );
               })
