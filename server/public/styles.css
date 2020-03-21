@@ -218,3 +218,8 @@ footer div span {
 .post-home {
   border: 1px solid #FFF;
 }
+
+.concertsearch-table {
+  height: 400px;
+  overflow: auto;
+}

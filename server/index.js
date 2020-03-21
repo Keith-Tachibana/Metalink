@@ -105,7 +105,7 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
   const metalClassificationId = 'KnvZfZ7vAvt';
   const ticketMasterUrl = `
   https://app.ticketmaster.com/discovery/v2/events.json?apikey=${ticketMasterApiKey}&postalCode=${postalCode}&classificationId=${metalClassificationId}`;
-  if (!(/^\d{5}(?:[-\s]\d{4})?$/g.test(postalCode))) return res.status(400).json({ error: 'Invalid zip code' });
+  if (!(/^\d{5}(?:[-\s]\d{4})?$/g.test(postalCode))) return res.status(400).json({ error: 'Missing or invalid zip code' });
   else {
     fetch(ticketMasterUrl)
       .then(res => res.json())
