@@ -9,6 +9,7 @@ import EditProfile from './edit-profile';
 import EditPosts from './edit-posts';
 import SearchPage from './search-page';
 import VideosPage from './videos-page';
+import SearchConcerts from './search-concerts';
 
 class App extends Component {
   constructor(props) {
@@ -143,7 +144,7 @@ class App extends Component {
           <Route path="/concerts" render={props =>
             <React.Fragment>
               <Menu />
-              <h1 className="text-center mt-4">Concerts</h1>
+              <SearchConcerts/>
               <BottomNavbar />
             </React.Fragment>
           } />
