@@ -61,14 +61,9 @@ class App extends Component {
           <Route path="/login" render={props =>
             <LoginPage {...props} getProfile={this.getProfile} />
           } />
-          {/* <Route path="/home" render={props =>
+          <Route path={`/home/${this.state.profile.userId}`} render={props =>
             <div className="container">
-              <HomePage />
-            </div>
-          } /> */}
-          <Route path="/home/1" render={props =>
-            <div className="container">
-              <HomePage />
+              <HomePage profile={this.state.profile} />
             </div>
           } />
           <Menu />

@@ -7,7 +7,7 @@ class HomePage extends React.Component {
     return (
       <div className="row">
         <Header />
-        <h5 className="col-12 d-flex justify-content-center  text-white">Good Evening, SonicMetal15</h5>
+        <h5 className="col-12 d-flex justify-content-center  text-white">Good Evening, {this.props.profile.username}</h5>
         <p className="col-12 d-flex justify-content-center font-weight-bold  text-white">Here are the latest posts...</p>
         <PostsList />
         <div className="container fixed-bottom">
