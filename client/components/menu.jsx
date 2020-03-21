@@ -24,7 +24,7 @@ class Menu extends Component {
           <h1 className="ml-4"><u>Menu</u></h1>
           <a href="#" onClick={this.handleClick} className="close-button">Close</a>
           <br />
-          <Link to="/home" onClick={this.handleClick}>
+          <Link to='/home/:id' onClick={this.handleClick}>
             <h4 className="ml-4 mb-2">Home</h4>
           </Link>
           <Link to="/profile" onClick={this.handleClick}>

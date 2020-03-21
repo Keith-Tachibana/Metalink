@@ -33,7 +33,7 @@ export default class SearchConcerts extends Component {
   }
 
   render() {
-    const resultItems = this.state.concerts.error ? <tr><td>{this.state.concerts.error}</td></tr>
+    const resultItems = this.state.concerts.error ? <thead><tr><td>{this.state.concerts.error}</td></tr></thead>
       : this.state.concerts.map((concert, idx) => {
         return (
           <tbody key={idx} className="table-hover">

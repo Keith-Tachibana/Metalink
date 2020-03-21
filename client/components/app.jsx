@@ -20,6 +20,7 @@ class App extends Component {
       editing: null,
       user: null
     };
+    this.getProfile = this.getProfile.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
     this.getProfile = this.getProfile.bind(this);
     this.updatePost = this.updatePost.bind(this);
@@ -128,7 +129,7 @@ class App extends Component {
           <Route path="/login" render={props =>
             <LoginPage {...props} getProfile={this.getProfile} />
           } />
-          <Route path={`/home/${this.state.profile.userId}`} render={props =>
+          <Route path='/home/:id' render={() =>
             <React.Fragment>
               <Menu />
               <HomePage profile={this.state.profile} />

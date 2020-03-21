@@ -54,8 +54,7 @@ app.get('/api/users', (req, res, next) => {
 
 app.get('/api/profile/:userId', (req, res, next) => {
   const { userId } = req.params;
-  if (typeof userId === 'undefined') {throw new ClientError('userId required', 400);}  
-  else {
+  if (typeof userId === 'undefined') { throw new ClientError('The userId is required.', 400); } else {
     const sql = `
     SELECT "userId", "name", "username", "email", "location", "phone", "profileImage", "genre1", "genre2", "genre3"
       FROM "users"
@@ -226,8 +225,7 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
 app.post('/api/login', (req, res, next) => {
   req.session.userId = req.body.userId;
   const { userId } = req.session;
-  if (!userId) return res.status(400).json({ error: 'Invalid userId' });
-  else return res.status(200).json(userId);
+  if (!userId) { throw new ClientError('Invalid userId', 400); } else return res.status(200).json(userId);
 });
 
 app.put('/api/posts/:postId', (req, res, next) => {
