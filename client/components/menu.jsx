@@ -22,47 +22,22 @@ class Menu extends Component {
       <React.Fragment>
         <div className={cssClass}>
           <h1 className="ml-4"><u>Menu</u></h1>
-          <a href="javascript:void(0)" onClick={this.handleClick} className="close-button">Close</a>
+          <a href="#" onClick={this.handleClick} className="close-button">Close</a>
           <br />
-          <Link to="/home">
-            <div onClick={this.handleClick}>
-              <h4>
-                <i className="fas fa-home text-primary ml-4 mb-2"></i>
-                <span className="text-white"> Home</span>
-              </h4>
-            </div>
+          <Link to='/home/:id' onClick={this.handleClick}>
+            <h4 className="ml-4 mb-2">Home</h4>
           </Link>
-          <Link to="/profile">
-            <div onClick={this.handleClick}>
-              <h4>
-                <i className="fas fa-id-card text-info ml-4 mb-2"></i>
-                <span className="text-white"> Profile</span>
-              </h4>
-            </div>
+          <Link to="/profile" onClick={this.handleClick}>
+            <h4 className="ml-4 mb-2">Profile</h4>
           </Link>
-          <Link to="/concerts">
-            <div onClick={this.handleClick}>
-              <h4>
-                <i className="fas fa-guitar text-warning ml-4 mb-2"></i>
-                <span className="text-white"> Concerts</span>
-              </h4>
-            </div>
+          <Link to="/concerts" onClick={this.handleClick}>
+            <h4 className="ml-4 mb-2">Concerts</h4>
           </Link>
-          <Link to="/search">
-            <div onClick={this.handleClick}>
-              <h4>
-                <i className="fas fa-search text-success ml-4 mb-2"></i>
-                <span className="text-white"> Search</span>
-              </h4>
-            </div>
+          <Link to="/search" onClick={this.handleClick}>
+            <h4 className="ml-4 mb-2">Search</h4>
           </Link>
-          <Link to="/videos">
-            <div onClick={this.handleClick}>
-              <h4>
-                <i className="fab fa-youtube text-danger ml-4 mb-2"></i>
-                <span className="text-white"> Videos</span>
-              </h4>
-            </div>
+          <Link to="/videos" onClick={this.handleClick}>
+            <h4 className="ml-4 mb-2">Videos</h4>
           </Link>
         </div>
         <div className="nav-bg">

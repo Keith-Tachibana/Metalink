@@ -22,11 +22,12 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div className="search-bar">
+      <div className="search-bar justify-content-center">
         <input
           value={this.state.term}
           name="search"
           placeholder="Search for videos"
+          className="form-control"
           onChange={event => this.onInputChange(event.target.value)} />
       </div>
     );

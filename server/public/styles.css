@@ -28,12 +28,12 @@ select {
   width: 125px;
   background-color: #000;
   color: #FFF;
-  font-size: 0.7rem;
+  font-size: 1rem;
 
 }
 
 select option {
-  font-size: 0.9rem;
+  font-size: 1rem;
   background-color: #000;
   color: #FFF;
 }
@@ -41,7 +41,7 @@ select option {
 .profile-input,
 input[type="email"],
 input[type="tel"] {
-  height: 20px;
+  height: 25px;
 }
 
 input[type="text"],
@@ -135,11 +135,9 @@ footer div span {
 }
 
 .search-bar input {
-  width: 75%;
-  border-radius: 10px;
-  border: 1px inset #FFF;
-  outline: none;
   padding-left: 10px;
+  background-color: #000;
+  color: #FFF;
 }
 
 .search-bar input::placeholder {
@@ -218,6 +216,6 @@ footer div span {
 }
 
 .concertsearch-table {
-  height: 400px;
+  height: 538px;
   overflow: auto;
 }
