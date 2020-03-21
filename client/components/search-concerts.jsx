@@ -20,31 +20,32 @@ export default class SearchConcerts extends Component {
   }
 
   getConcerts(postalCode) {
+    this.setState({ message: 'Loading...' });
     if (/^\d{5}(?:[-\s]\d{4})?$/g.test(postalCode)) {
       fetch(`/api/concerts/${postalCode}`)
         .then(res => res.json())
         .then(concerts => this.setState({ concerts }))
         .catch(err => console.error(err))
-        .finally(() => this.setState({ loading: false }));
+        .finally(() => this.setState({ loading: false, message: '' }));
     } else {
       return this.setState({ message: 'Valid zipcode please' });
     }
   }
 
   render() {
-    const resultItems = this.state.concerts.map((concert, idx) => {
-      return (
-        <tbody key={idx} className="table-hover">
-          <tr>
-            <td>{concert.date}: {concert.venues}, {concert.location}</td>
-          </tr>
-          <tr>
-            <td>{concert.name}</td>
-          </tr>
-        </tbody>
-      );
-    });
-    // const messages = this.state.loading ? <h4>Loading...</h4> : 'stuff'
+    const resultItems = this.state.concerts.error ? <tr><td>{this.state.concerts.error}</td></tr>
+      : this.state.concerts.map((concert, idx) => {
+        return (
+          <tbody key={idx} className="table-hover">
+            <tr>
+              <td>{concert.date}: {concert.venues}, {concert.location}</td>
+            </tr>
+            <tr>
+              <td>{concert.name}</td>
+            </tr>
+          </tbody>
+        );
+      });
     return (
       <div>
         <h1 className="text-center mt-4">Concerts near you</h1>
@@ -55,9 +56,10 @@ export default class SearchConcerts extends Component {
             placeholder="Enter Zipcode" pattern="/^\d{5}(?:[-\s]\d{4})?$/g" />
         </form>
         <div className="concertsearch-table table-responsive-sm px-4">
-          <table className="table table-sm table-dark table-striped">
-            {resultItems}
-          </table>
+          {this.state.message ? <h3 className="text-center">{this.state.message}</h3>
+            : <table className="table table-sm table-dark table-striped">
+              {resultItems}
+            </table>}
         </div>
       </div>
     );
