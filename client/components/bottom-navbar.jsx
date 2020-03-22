@@ -17,7 +17,7 @@ class BottomNavbar extends Component {
     if (userId) {
       fetch('/api/logout', req)
         .then(res => res.json())
-        .then(user => user)
+        // .then(status => console.log(status))
         .catch(err => console.error(err));
     }
   }

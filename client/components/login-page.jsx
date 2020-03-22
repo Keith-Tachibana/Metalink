@@ -34,6 +34,7 @@ export default class LoginPage extends React.Component {
       body: JSON.stringify({ userId: value })
     };
     if (this._isMounted) {
+      // console.log(req.body)
       fetch('/api/login', req)
         .then(res => res.json())
         .then(currentUser => this.setState({ currentUser }))
