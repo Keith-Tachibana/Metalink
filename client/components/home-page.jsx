@@ -9,6 +9,9 @@ class HomePage extends React.Component {
     const time = today.getHours();
     let greeting;
     switch (true) {
+      case (time < 5):
+        greeting = 'Good Evening,';
+        break;
       case (time < 12):
         greeting = 'Good Morning,';
         break;
