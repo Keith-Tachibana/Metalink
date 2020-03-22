@@ -105,7 +105,7 @@ class EditPosts extends Component {
                     value={this.state.subject}
                     placeholder="Updated Post Subject"
                     onChange={this.handleChange}
-                    className="form-control mr-4"/>
+                    className="form-control mr-4" />
                 </div>
                 <div className="input-group mb-4 pr-3">
                   <div className="input-group-prepend">
@@ -125,13 +125,13 @@ class EditPosts extends Component {
                   name="update"
                   type="submit"
                   className="btn btn-success ml-4 form-buttons">
-                    Update
+                  Update
                 </button>
                 <button
                   name="cancel"
                   onClick={this.handleReset}
                   className="btn btn-danger ml-4 form-buttons">
-                    Cancel
+                  Cancel
                 </button>
               </form>
             </div>

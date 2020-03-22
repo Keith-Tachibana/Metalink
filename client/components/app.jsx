@@ -17,7 +17,8 @@ class App extends Component {
     this.state = {
       profile: [],
       posts: [],
-      editing: null
+      editing: null,
+      user: null
     };
     this.getProfile = this.getProfile.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
@@ -30,13 +31,11 @@ class App extends Component {
     this.getPosts();
   }
 
-  async getProfile() {
+  async getProfile(userId) {
     try {
-      const response = await fetch('/api/profile');
+      const response = await fetch(`/api/profile/${userId}`);
       const profile = await response.json();
-      this.setState({
-        profile
-      });
+      this.setState({ profile });
     } catch (error) {
       console.error(error.message);
     }
@@ -130,7 +129,7 @@ class App extends Component {
           <Route path='/home/:id' render={() =>
             <React.Fragment>
               <Menu />
-              <HomePage />
+              <HomePage profile={this.state.profile} />
               <BottomNavbar />
             </React.Fragment>
           } />
@@ -146,7 +145,7 @@ class App extends Component {
           <Route path="/concerts" render={props =>
             <React.Fragment>
               <Menu />
-              <SearchConcerts/>
+              <SearchConcerts />
               <BottomNavbar />
             </React.Fragment>
           } />
