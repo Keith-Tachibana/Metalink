@@ -28,14 +28,11 @@ select {
   width: 125px;
   background-color: #000;
   color: #FFF;
-  font-size: 1rem;
-
+  font-size: 0.7rem;
 }
 
 select option {
   font-size: 1rem;
-  background-color: #000;
-  color: #FFF;
 }
 
 .profile-input,
@@ -44,8 +41,12 @@ input[type="tel"] {
   height: 25px;
 }
 
+select option,
 input[type="text"],
-.form-textarea {
+input[type="email"],
+input[type="tel"],
+.form-textarea,
+.post-home {
   background-color: #000;
   color: #FFF;
 }
@@ -55,7 +56,10 @@ input[type="text"],
 }
 
 .nav-bg {
-  background-image: url('./images/login.jpg');
+  background-image: url('./images/metalink.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .form-container > div {
@@ -203,12 +207,6 @@ footer div span {
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
-}
-
-.post-home,
-.post-body {
-  background-color: #000;
-  color: #FFF;
 }
 
 .post-home {

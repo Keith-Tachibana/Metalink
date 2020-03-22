@@ -175,8 +175,6 @@ app.patch('/api/profile/:userId', (req, res, next) => {
   const { userId } = req.params;
   if ((!parseInt(userId, 10)) || (parseInt(userId) < 0)) {
     throw new ClientError('The userId must be a positive integer.', 400);
-  } else if (!name || !username || !email || !location) {
-    throw new ClientError('Name, username, e-mail, AND location are required.', 400);
   }
   const values = [name, username, email, location, phone, profileImage, genre1, genre2, genre3, userId];
   const sql = `

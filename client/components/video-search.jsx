@@ -22,7 +22,7 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div className="search-bar justify-content-center">
+      <div className="search-bar">
         <input
           value={this.state.term}
           name="search"

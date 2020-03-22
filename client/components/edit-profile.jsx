@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 class EditProfile extends Component {
@@ -233,7 +234,6 @@ class EditProfile extends Component {
                       value={this.state.name}
                       onChange={this.handleChange}
                       className="form-control profile-input"
-                      required="required"
                     />
                   </label>
                 </div>
@@ -247,7 +247,6 @@ class EditProfile extends Component {
                       value={this.state.username}
                       onChange={this.handleChange}
                       className="form-control profile-input"
-                      required="required"
                     />
                   </label>
                 </div>
@@ -261,7 +260,6 @@ class EditProfile extends Component {
                       value={this.state.email}
                       onChange={this.handleChange}
                       className="form-control"
-                      required="required"
                     />
                   </label>
                 </div>
@@ -275,7 +273,6 @@ class EditProfile extends Component {
                       value={this.state.location}
                       onChange={this.handleChange}
                       className="form-control profile-input"
-                      required="required"
                     />
                   </label>
                 </div>
@@ -304,4 +301,4 @@ class EditProfile extends Component {
   }
 }
 
-export default EditProfile;
+export default withRouter(EditProfile);
