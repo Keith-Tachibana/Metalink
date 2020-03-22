@@ -241,6 +241,15 @@ app.post('/api/login', (req, res, next) => {
   if (!userId) { throw new ClientError('Invalid userId', 400); } else return res.status(200).json(userId);
 });
 
+app.post('/api/logout', (req, res) => {
+  const { userId } = req.session;
+  if (!userId) return res.status(400).json({ error: 'No userId in session' });
+  else {
+    delete req.session.userId;
+    return res.status(200).json({ success: 'User logged out!' });
+  }
+});
+
 app.put('/api/posts/:postId', (req, res, next) => {
   const { subject, content } = req.body;
   const { postId } = req.params;
