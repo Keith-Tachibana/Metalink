@@ -28,15 +28,6 @@ const upload = multer({
   storage
 });
 
-discogsDB.getArtist(299874, (err, data) => {
-  if (data) {
-    // eslint-disable-next-line no-console
-    console.log(data);
-  } else {
-    console.error(err.message);
-  }
-});
-
 app.get('/api/users', (req, res, next) => {
   const sql = `
     select "userId",
@@ -135,14 +126,38 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
 
 app.get('/api/bands/:band', async (req, res, next) => {
   const { band } = req.params;
+  const query = band.split(' ').join('+');
   const apiKey = process.env.DISCOGS_API_KEY;
   const apiSecret = process.env.DISCOGS_API_SECRET;
-  const headers = new Headers();
-  headers.append('Authorization', `Discogs key=${apiKey}, secret=${apiSecret}`);
-  const response = await fetch(`http://api.discogs.com/database/search?type=artist&q=${band}`);
+  const response = await fetch(`http://api.discogs.com/database/search?type=artist&q=${query}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Discogs key=${apiKey}, secret=${apiSecret}`
+    }
+  });
   const result = await response.json();
-  // eslint-disable-next-line no-console
-  console.log(result);
+  if (!result) {
+    throw new ClientError('No results found.', 400);
+  } else {
+    res.status(200).send({
+      band: result.results[0].title,
+      image: result.results[0].cover_image,
+      id: result.results[0].id
+    });
+  }
+});
+
+app.get('/api/discogs/:id', async (req, res, next) => {
+  const { id } = req.params;
+  await discogsDB.getArtist(id, (err, data) => {
+    if (data) {
+      res.status(200).send({
+        profile: data.profile
+      });
+    } else {
+      next(err);
+    }
+  });
 });
 
 app.delete('/api/posts/:postId', (req, res, next) => {
