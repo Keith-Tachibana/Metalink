@@ -121,7 +121,6 @@ class App extends Component {
   }
 
   render() {
-    const Menu = withRouter(LoginPage);
     return (
       <Router>
         <Switch>
