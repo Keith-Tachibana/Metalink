@@ -22,6 +22,7 @@ class App extends Component {
     };
     this.getProfile = this.getProfile.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
+    this.getProfile = this.getProfile.bind(this);
     this.updatePost = this.updatePost.bind(this);
     this.updatePostFetch = this.updatePostFetch.bind(this);
     this.deletePost = this.deletePost.bind(this);
@@ -120,6 +121,7 @@ class App extends Component {
   }
 
   render() {
+    const Menu = withRouter(LoginPage);
     return (
       <Router>
         <Switch>
