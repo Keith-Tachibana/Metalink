@@ -41,11 +41,13 @@ class VideosPage extends Component {
             </div>
           </div>
         </header>
-        <VideoSearch onSearchTermChange={videoSearch} />
-        <VideoDetail video={this.state.selectedVideo} />
-        <VideoList
-          onVideoSelect={selectedVideo => this.setState({ selectedVideo })}
-          videos={this.state.videos} />
+        <main style={{ height: '616px', overflow: 'auto' }}>
+          <VideoSearch onSearchTermChange={videoSearch} />
+          <VideoDetail video={this.state.selectedVideo} />
+          <VideoList
+            onVideoSelect={selectedVideo => this.setState({ selectedVideo })}
+            videos={this.state.videos} />
+        </main>
       </React.Fragment>
     );
   }

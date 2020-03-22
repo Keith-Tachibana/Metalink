@@ -19,6 +19,7 @@ class App extends Component {
       posts: [],
       editing: null
     };
+    this.getProfile = this.getProfile.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
     this.updatePost = this.updatePost.bind(this);
     this.updatePostFetch = this.updatePostFetch.bind(this);
@@ -26,7 +27,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getProfile();
     this.getPosts();
   }
 
@@ -66,7 +66,7 @@ class App extends Component {
       const profile = await response.json();
       this.setState({
         profile
-      }, () => this.getProfile());
+      }, () => this.getProfile(entry.userId));
     } catch (error) {
       console.error(error.message);
     }
@@ -124,15 +124,17 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route path="/login" component={LoginPage} />
-          <Route path="/home" render={props =>
+          <Route path="/login" render={props =>
+            <LoginPage {...props} getProfile={this.getProfile} />
+          } />
+          <Route path='/home/:id' render={() =>
             <React.Fragment>
               <Menu />
               <HomePage />
               <BottomNavbar />
             </React.Fragment>
           } />
-          <Route path="/profile" render={props =>
+          <Route path="/profile/:id" render={props =>
             <React.Fragment>
               <Menu />
               <EditProfile
@@ -148,7 +150,7 @@ class App extends Component {
               <BottomNavbar />
             </React.Fragment>
           } />
-          <Route path="/posts" render={props =>
+          <Route path="/posts/:id" render={props =>
             <React.Fragment>
               <Menu />
               <EditPosts

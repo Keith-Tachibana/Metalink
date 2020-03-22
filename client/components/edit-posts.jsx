@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import EditPostCard from './edit-post-card';
 
@@ -76,9 +77,6 @@ class EditPosts extends Component {
     });
     return (
       <React.Fragment>
-        <nav className="nav-bg">
-          <i className="fas fa-bars mt-4 ml-4"></i>
-        </nav>
         <header className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -88,7 +86,7 @@ class EditPosts extends Component {
         </header>
         <main className="container-fluid mb-4">
           <div className="row justify-content-center">
-            <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10" style={{ height: '300px', overflow: 'auto' }}>
+            <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10" style={{ height: '289px', overflow: 'auto' }}>
               <div className="list-group">
                 {postCard}
               </div>
@@ -144,4 +142,4 @@ class EditPosts extends Component {
   }
 }
 
-export default EditPosts;
+export default withRouter(EditPosts);

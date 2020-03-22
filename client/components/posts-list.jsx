@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Posts from './posts';
 
 class PostsList extends React.Component {
