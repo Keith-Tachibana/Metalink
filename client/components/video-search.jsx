@@ -25,6 +25,7 @@ class SearchBar extends Component {
       <div className="search-bar">
         <input
           value={this.state.term}
+          type="search"
           name="search"
           placeholder="Search for videos"
           className="form-control"

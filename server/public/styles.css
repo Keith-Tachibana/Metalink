@@ -45,8 +45,10 @@ select option,
 input[type="text"],
 input[type="email"],
 input[type="tel"],
+input[type="search"],
 .form-textarea,
-.post-home {
+.post-home,
+.band-card {
   background-color: #000;
   color: #FFF;
 }
@@ -216,4 +218,9 @@ footer div span {
 .concertsearch-table {
   height: 538px;
   overflow: auto;
+}
+
+.search-img {
+  width: auto;
+  height: auto;
 }
