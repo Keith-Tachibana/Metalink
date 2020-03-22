@@ -123,17 +123,17 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route path="/login" render={props =>
+          <Route path="/login" exact render={props =>
             <LoginPage {...props} getProfile={this.getProfile} />
           } />
-          <Route path='/home/:id' render={() =>
+          <Route path='/home/:id' exact render={() =>
             <React.Fragment>
               <Menu />
               <HomePage profile={this.state.profile} />
               <BottomNavbar />
             </React.Fragment>
           } />
-          <Route path="/profile/:id" render={props =>
+          <Route path="/profile/:id" exact render={props =>
             <React.Fragment>
               <Menu />
               <EditProfile
@@ -142,14 +142,14 @@ class App extends Component {
               <BottomNavbar />
             </React.Fragment>
           } />
-          <Route path="/concerts" render={props =>
+          <Route path="/concerts/:id" exact render={props =>
             <React.Fragment>
               <Menu />
               <SearchConcerts />
               <BottomNavbar />
             </React.Fragment>
           } />
-          <Route path="/posts/:id" render={props =>
+          <Route path="/posts/:id" exact render={props =>
             <React.Fragment>
               <Menu />
               <EditPosts
@@ -161,26 +161,27 @@ class App extends Component {
               <BottomNavbar />
             </React.Fragment>
           } />
-          <Route path="/create" render={props =>
+          <Route path="/create/:id" exact render={props =>
             <React.Fragment>
               <Menu />
               <BottomNavbar />
             </React.Fragment>
           } />
-          <Route path="/search" render={props =>
+          <Route path="/search/:id" exact render={props =>
             <React.Fragment>
               <Menu />
               <SearchPage />
               <BottomNavbar />
             </React.Fragment>
           } />
-          <Route path="/videos" render={props =>
+          <Route path="/videos/:id" exact render={props =>
             <React.Fragment>
               <Menu />
               <VideosPage />
               <BottomNavbar />
             </React.Fragment>
           } />
+          <Router path="/" render={<div><em>404:</em> Page Not Found</div>}/>
         </Switch>
       </Router>
     );

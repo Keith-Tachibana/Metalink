@@ -7,7 +7,7 @@ class BottomNavbar extends Component {
     return (
       <React.Fragment>
         <footer className="d-flex justify-content-around">
-          <Link to="/create">
+          <Link to={`/create/${match.params.id}`}>
             <div>
               <i className="fas fa-plus-circle text-success"></i>
               <span> Create Post</span>

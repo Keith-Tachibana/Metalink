@@ -31,13 +31,13 @@ class Menu extends Component {
           <Link to={`/profile/${match.params.id}`} onClick={this.handleClick}>
             <h4 className="ml-4 mb-2">Profile</h4>
           </Link>
-          <Link to="/concerts" onClick={this.handleClick}>
+          <Link to={`/concerts/${match.params.id}`} onClick={this.handleClick}>
             <h4 className="ml-4 mb-2">Concerts</h4>
           </Link>
-          <Link to="/search" onClick={this.handleClick}>
+          <Link to={`/search/${match.params.id}`} onClick={this.handleClick}>
             <h4 className="ml-4 mb-2">Search</h4>
           </Link>
-          <Link to="/videos" onClick={this.handleClick}>
+          <Link to={`/videos/${match.params.id}`} onClick={this.handleClick}>
             <h4 className="ml-4 mb-2">Videos</h4>
           </Link>
         </div>

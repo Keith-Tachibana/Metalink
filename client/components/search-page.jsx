@@ -24,7 +24,14 @@ class SearchPage extends Component {
   render() {
     return (
       <React.Fragment>
-        <h1 className="text-center mt-4">Search</h1>
+        <header className="container-fluid mb-4">
+          <div className="row">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <h1 className="text-center mt-4">Search</h1>
+            </div>
+          </div>
+        </header>
+
       </React.Fragment>
     );
   }
