@@ -236,17 +236,17 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
 });
 
 app.post('/api/login', (req, res) => {
-  req.session.userId = req.body.userId;
+  if (!req.session.userId) req.session.userId = req.body.userId;
   const { userId } = req.session;
-  if (!userId) { throw new ClientError('Invalid userId', 400); } else return res.status(200).json(userId);
+  if (!userId) { throw new ClientError('Invalid userId', 400); } else return res.status(200).json({ success: `${userId} Logged in!` });
 });
 
 app.post('/api/logout', (req, res) => {
   const { userId } = req.session;
-  if (!userId) return res.status(400).json({ error: 'No userId in session' });
+  if (!userId) return res.status(400).json({ error: `No userId ${userId} in session` });
   else {
     delete req.session.userId;
-    return res.status(200).json({ success: 'User logged out!' });
+    return res.status(200).json({ success: `User ${userId} logged out!` });
   }
 });
 
