@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 class BottomNavbar extends Component {
   render() {
+    const { match } = this.props;
     return (
       <React.Fragment>
         <footer className="d-flex justify-content-around">
@@ -12,7 +13,7 @@ class BottomNavbar extends Component {
               <span> Create Post</span>
             </div>
           </Link>
-          <Link to="/posts">
+          <Link to={`/posts/${match.params.id}`}>
             <div>
               <i className="fas fa-edit text-primary"></i>
               <span> Edit Posts</span>
