@@ -29,7 +29,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getProfile(2);
     this.getPosts();
   }
 
@@ -67,7 +66,7 @@ class App extends Component {
       const profile = await response.json();
       this.setState({
         profile
-      }, () => this.getProfile());
+      }, () => this.getProfile(entry.userId));
     } catch (error) {
       console.error(error.message);
     }
@@ -122,7 +121,6 @@ class App extends Component {
   }
 
   render() {
-    const Menu = withRouter(LoginPage);
     return (
       <Router>
         <Switch>
@@ -136,7 +134,7 @@ class App extends Component {
               <BottomNavbar />
             </React.Fragment>
           } />
-          <Route path="/profile" render={props =>
+          <Route path="/profile/:id" render={props =>
             <React.Fragment>
               <Menu />
               <EditProfile
@@ -152,7 +150,7 @@ class App extends Component {
               <BottomNavbar />
             </React.Fragment>
           } />
-          <Route path="/posts" render={props =>
+          <Route path="/posts/:id" render={props =>
             <React.Fragment>
               <Menu />
               <EditPosts
