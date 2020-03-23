@@ -52,6 +52,9 @@ class App extends Component {
     return (
       <Router>
         <Switch>
+          <div className="container">
+            <HomePage />
+          </div>
           <Route path="/login" component={LoginPage} />
           <Route path="/home" render={props =>
             <div className="container">
