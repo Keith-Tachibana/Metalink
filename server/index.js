@@ -210,6 +210,23 @@ app.patch('/api/profile/:userId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('/api/posts', (req, res, next) => {
+  const values = [req.body.subject, req.body.content, req.session.userId];
+  const sql = `
+  insert into "posts" ("subject", "content", "userId")
+  values ($1, $2, $3)
+  returning *
+  `;
+  db.query(sql, values)
+    .then(response => res.status(201).json(response.rows))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({
+        error: 'Internal service error'
+      });
+    });
+});
+
 app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) => {
   if (!req.file) {
     throw new ClientError('File not received!', 400);
