@@ -10,6 +10,7 @@ import EditPosts from './edit-posts';
 import SearchPage from './search-page';
 import VideosPage from './videos-page';
 import SearchConcerts from './search-concerts';
+import CreatePost from './create-post';
 
 class App extends Component {
   constructor(props) {
@@ -180,6 +181,7 @@ class App extends Component {
           <Route path="/create/:id" exact render={props =>
             <React.Fragment>
               <Menu handleExit={this.handleExit}/>
+              <CreatePost />
               <BottomNavbar />
             </React.Fragment>
           } />
