@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS "posts";
 DROP TABLE IF EXISTS "users";
 
 CREATE TABLE "users" (
@@ -16,13 +17,11 @@ CREATE TABLE "users" (
 	PRIMARY KEY ("userId")
 );
 
-DROP TABLE IF EXISTS "posts";
-
 CREATE TABLE "posts" (
 	"postId" SERIAL,
 	"userId" INTEGER,
-	"subject" TEXT NOT NULL,
-	"content" TEXT NOT NULL,
+	"subject" TEXT,
+	"content" TEXT,
 	"datePosted" TIMESTAMP DEFAULT NOW(),
 	"dateDeleted" TIMESTAMP DEFAULT NOW(),
 	"dateUpdated" TIMESTAMP DEFAULT NOW(),

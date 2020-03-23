@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Posts from './posts';
 
 class PostsList extends React.Component {
@@ -43,7 +44,7 @@ class PostsList extends React.Component {
       );
     });
     return (
-      <div className="container">
+      <div className="container mb-4" style={{ height: '575px', overflow: 'auto' }}>
         <div className="row d-flex justify-content-center">
           { posts }
         </div>
