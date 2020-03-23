@@ -40,6 +40,10 @@ class Menu extends Component {
           <Link to={`/videos/${match.params.id}`} onClick={this.handleClick}>
             <h4 className="ml-4 mb-2">Videos</h4>
           </Link>
+          <Link to={'/login'} >
+            <h4 className="ml-4 mb-2"
+              onClick={this.props.handleExit}> Sign Out</h4>
+          </Link>
         </div>
         <div className="nav-bg">
           <i onClick={this.handleClick} className="fas fa-bars fa-2x menu ml-4 mt-4 text-danger"></i>

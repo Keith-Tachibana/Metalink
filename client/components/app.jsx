@@ -25,6 +25,7 @@ class App extends Component {
     this.updatePost = this.updatePost.bind(this);
     this.updatePostFetch = this.updatePostFetch.bind(this);
     this.deletePost = this.deletePost.bind(this);
+    this.handleExit = this.handleExit.bind(this);
   }
 
   componentDidMount() {
@@ -119,6 +120,21 @@ class App extends Component {
     });
   }
 
+  handleExit() {
+    const userId = this.state.profile.userId;
+    const req = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    };
+    if (userId) {
+      fetch('/api/logout', req)
+        .then(res => res.json())
+        .then(status => status)
+        .catch(err => console.error(err));
+    }
+  }
+
   render() {
     return (
       <Router>
@@ -126,59 +142,59 @@ class App extends Component {
           <Route path="/login" exact render={props =>
             <LoginPage {...props} getProfile={this.getProfile} />
           } />
-          <Route path='/home/:id' exact render={() =>
+          <Route path='/home/:id' exact render={props =>
             <React.Fragment>
-              <Menu />
+              <Menu handleExit={this.handleExit} />
               <HomePage profile={this.state.profile} />
-              <BottomNavbar />
+              <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
           <Route path="/profile/:id" exact render={props =>
             <React.Fragment>
-              <Menu />
+              <Menu handleExit={this.handleExit}/>
               <EditProfile
                 profile={this.state.profile}
                 updateProfile={this.updateProfile} />
-              <BottomNavbar />
+              <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
           <Route path="/concerts/:id" exact render={props =>
             <React.Fragment>
-              <Menu />
+              <Menu handleExit={this.handleExit}/>
               <SearchConcerts />
-              <BottomNavbar />
+              <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
           <Route path="/posts/:id" exact render={props =>
             <React.Fragment>
-              <Menu />
+              <Menu handleExit={this.handleExit}/>
               <EditPosts
                 posts={this.state.posts}
                 editing={this.state.editing}
                 deletePost={this.deletePost}
                 updatePostFetch={this.updatePostFetch}
                 updatePost={this.updatePost} />
-              <BottomNavbar />
+              <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
           <Route path="/create/:id" exact render={props =>
             <React.Fragment>
-              <Menu />
+              <Menu handleExit={this.handleExit}/>
               <BottomNavbar />
             </React.Fragment>
           } />
           <Route path="/search/:id" exact render={props =>
             <React.Fragment>
-              <Menu />
+              <Menu handleExit={this.handleExit}/>
               <SearchPage />
-              <BottomNavbar />
+              <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
           <Route path="/videos/:id" exact render={props =>
             <React.Fragment>
-              <Menu />
+              <Menu handleExit={this.handleExit}/>
               <VideosPage />
-              <BottomNavbar />
+              <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
           <Router path="/" render={<div><em>404:</em> Page Not Found</div>}/>
