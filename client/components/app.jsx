@@ -11,6 +11,7 @@ import EditPosts from './edit-posts';
 import SearchPage from './search-page';
 import VideosPage from './videos-page';
 import SearchConcerts from './search-concerts';
+import CreatePost from './create-post';
 
 class App extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class App extends Component {
     this.updatePost = this.updatePost.bind(this);
     this.updatePostFetch = this.updatePostFetch.bind(this);
     this.deletePost = this.deletePost.bind(this);
+    this.createPost = this.createPost.bind(this);
     this.handleExit = this.handleExit.bind(this);
   }
 
@@ -55,12 +57,30 @@ class App extends Component {
     }
   }
 
+  async createPost(entry) {
+    try {
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        body: JSON.stringify(entry),
+        headers
+      });
+      const post = await response.json();
+      this.setState({
+        posts: post
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   async updateProfile(entry) {
     try {
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
       const response = await fetch(`/api/profile/${entry.userId}`, {
-        method: 'PATCH',
+        method: 'PUT',
         body: JSON.stringify(entry),
         headers
       });
@@ -183,7 +203,10 @@ class App extends Component {
           <Route path="/create/:id" exact render={props =>
             <React.Fragment>
               <Menu handleExit={this.handleExit}/>
-              <BottomNavbar />
+              <CreatePost
+                posts={this.state.posts}
+                createPost={this.createPost}/>
+              <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
           <Route path="/search/:id" exact render={props =>

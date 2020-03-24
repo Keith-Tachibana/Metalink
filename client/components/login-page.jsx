@@ -25,7 +25,7 @@ class LoginPage extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const { username, password } = this.state;
-    const { history } = this.props;
+    const { history, getProfile } = this.props;
     if (username === '' || password === '') {
       this.setState(prevState => {
         return {
@@ -68,6 +68,7 @@ class LoginPage extends React.Component {
             incorrectPassword: false,
             wrongUsername: false
           }));
+          getProfile(result);
           history.push(`/home/${result}`);
         }
       })

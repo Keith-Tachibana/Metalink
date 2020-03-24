@@ -186,51 +186,17 @@ app.delete('/api/posts/:postId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.patch('/api/profile/:userId', (req, res, next) => {
-  const { name, username, email, zipcode, phone, profileImage, genre1, genre2, genre3 } = req.body;
-  const { userId } = req.params;
-  if ((!parseInt(userId, 10)) || (parseInt(userId) < 0)) {
-    throw new ClientError('The userId must be a positive integer.', 400);
-  }
-  const values = [name, username, email, zipcode, phone, profileImage, genre1, genre2, genre3, userId];
-  const updatedValues = [parseInt(userId)];
-  const sql = `
-      UPDATE "users"
-        SET "name" = $1, "username" = $2, "email" = $3, "zipcode" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9
-      WHERE "userId" = $10
-  RETURNING *;
-  `;
-  const updatedSQL = `
-    UPDATE "users"
-       SET "updatedAt" = default
-     WHERE "userId" = $1
- RETURNING *;
-  `;
-  db.query(sql, values)
-    .then(result => {
-      const profile = result.rows;
-      if (!profile) {
-        throw new ClientError(`Cannot find user with userId ${userId}`, 404);
-      } else {
-        db.query(updatedSQL, updatedValues)
-          .then(updatedResult => {
-            res.status(200).json(profile);
-          })
-          .catch(err => next(err));
-      }
-    })
-    .catch(err => next(err));
-});
-
 app.post('/api/posts', (req, res, next) => {
   const values = [req.body.subject, req.body.content, req.session.userId];
   const sql = `
-  insert into "posts" ("subject", "content", "userId")
-  values ($1, $2, $3)
-  returning *
+  INSERT INTO "posts" ("subject", "content", "userId")
+  VALUES ($1, $2, $3)
+  RETURNING *
   `;
   db.query(sql, values)
-    .then(response => res.status(201).json(response.rows))
+    .then(response => {
+      res.status(201).json(response.rows);
+    })
     .catch(err => {
       console.error(err);
       res.status(500).json({
@@ -265,8 +231,8 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
 });
 
 app.post('/api/signup', (req, res, next) => {
-  const { name, password, username, email, zipcode, phone, genre1, genre2, genre3 } = req.body;
-  bcrypt.hash(password, 10, (err, hash) => {
+  const { fullname, password, username, email, zipcode, phone, genre1, genre2, genre3 } = req.body;
+  bcrypt.hash(password, 12, (err, hash) => {
     if (err) {
       console.error(err.message);
     } else {
@@ -275,7 +241,7 @@ app.post('/api/signup', (req, res, next) => {
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
           RETURNING *;
       `;
-      const values = [name, hash, username, email, zipcode, phone, genre1, genre2, genre3];
+      const values = [fullname, hash, username, email, zipcode, phone, genre1, genre2, genre3];
       db.query(sql, values)
         .then(result => {
           res.status(201).json(result.rows[0]);
@@ -383,6 +349,42 @@ app.put('/api/posts/:postId', (req, res, next) => {
         error: 'An unexpected error occurred.'
       });
     });
+});
+
+app.put('/api/profile/:userId', (req, res, next) => {
+  const { name, username, email, zipcode, phone, profileImage, genre1, genre2, genre3 } = req.body;
+  const { userId } = req.params;
+  if ((!parseInt(userId, 10)) || (parseInt(userId) < 0)) {
+    throw new ClientError('The userId must be a positive integer.', 400);
+  }
+  const values = [name, username, email, zipcode, phone, profileImage, genre1, genre2, genre3, userId];
+  const updatedValues = [parseInt(userId)];
+  const sql = `
+      UPDATE "users"
+        SET "name" = $1, "username" = $2, "email" = $3, "zipcode" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9
+      WHERE "userId" = $10
+  RETURNING *;
+  `;
+  const updatedSQL = `
+    UPDATE "users"
+       SET "updatedAt" = default
+     WHERE "userId" = $1
+ RETURNING *;
+  `;
+  db.query(sql, values)
+    .then(result => {
+      const profile = result.rows;
+      if (!profile) {
+        throw new ClientError(`Cannot find user with userId ${userId}`, 404);
+      } else {
+        db.query(updatedSQL, updatedValues)
+          .then(updatedResult => {
+            res.status(200).json(profile);
+          })
+          .catch(err => next(err));
+      }
+    })
+    .catch(err => next(err));
 });
 
 app.use('/api', (req, res, next) => {

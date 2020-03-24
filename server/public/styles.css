@@ -55,7 +55,7 @@ footer div span {
 }
 
 .profile-input {
-  height: 20px;
+  height: 25px;
 }
 
 .signup-genre {
@@ -78,17 +78,13 @@ footer div span {
   margin: 0;
 }
 
-.genres-container > ul > li > p {
-  margin: 0;
+.genres,
+.profile-element {
+  font-size: 1rem;
 }
 
 .genres-container > ul > li {
   list-style-type: none;
-}
-
-.genres,
-.profile-element {
-  font-size: 0.85rem;
 }
 
 .very-weak {
