@@ -27,6 +27,7 @@ class App extends Component {
     this.updatePost = this.updatePost.bind(this);
     this.updatePostFetch = this.updatePostFetch.bind(this);
     this.deletePost = this.deletePost.bind(this);
+    this.createPost = this.createPost.bind(this);
     this.handleExit = this.handleExit.bind(this);
   }
 

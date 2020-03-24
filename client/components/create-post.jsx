@@ -21,12 +21,17 @@ class CreatePost extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { createPost } = this.props;
+    const { createPost, history, match } = this.props;
     const newPost = {
       subject: this.state.subject,
       content: this.state.content
     };
     createPost(newPost);
+    this.setState({
+      subject: '',
+      content: ''
+    });
+    history.push(`/home/${match.params.id}`);
   }
 
   render() {
