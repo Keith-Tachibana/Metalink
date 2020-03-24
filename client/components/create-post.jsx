@@ -39,7 +39,7 @@ class CreatePost extends Component {
             </div>
           </div>
         </div>
-        <div className="container">
+        <div className="container" style={{ height: '399px', overflow: 'auto' }}>
           <div className="row justify-content-center">
             <div className="col-10">
               <form className="post-form">
