@@ -186,7 +186,7 @@ app.delete('/api/posts/:postId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.patch('/api/profile/:userId', (req, res, next) => {
+app.put('/api/profile/:userId', (req, res, next) => {
   const { name, username, email, zipcode, phone, profileImage, genre1, genre2, genre3 } = req.body;
   const { userId } = req.params;
   if ((!parseInt(userId, 10)) || (parseInt(userId) < 0)) {
@@ -265,8 +265,8 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
 });
 
 app.post('/api/signup', (req, res, next) => {
-  const { name, password, username, email, zipcode, phone, genre1, genre2, genre3 } = req.body;
-  bcrypt.hash(password, 10, (err, hash) => {
+  const { fullname, password, username, email, zipcode, phone, genre1, genre2, genre3 } = req.body;
+  bcrypt.hash(password, 12, (err, hash) => {
     if (err) {
       console.error(err.message);
     } else {
@@ -275,7 +275,7 @@ app.post('/api/signup', (req, res, next) => {
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
           RETURNING *;
       `;
-      const values = [name, hash, username, email, zipcode, phone, genre1, genre2, genre3];
+      const values = [fullname, hash, username, email, zipcode, phone, genre1, genre2, genre3];
       db.query(sql, values)
         .then(result => {
           res.status(201).json(result.rows[0]);

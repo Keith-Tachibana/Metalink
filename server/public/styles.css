@@ -36,7 +36,7 @@ input[type='file'] {
 }
 
 .profile-input {
-  height: 20px;
+  height: 25px;
 }
 
 .signup-genre {
@@ -73,17 +73,9 @@ input[type="password"],
   margin: 0;
 }
 
-.genres-container > ul > li > p {
-  margin: 0;
-}
-
-.genres-container > ul > li {
-  list-style-type: none;
-}
-
 .genres,
 .profile-element {
-  font-size: 0.85rem;
+  font-size: 1rem;
 }
 
 .very-weak {

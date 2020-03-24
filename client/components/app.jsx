@@ -60,7 +60,7 @@ class App extends Component {
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
       const response = await fetch(`/api/profile/${entry.userId}`, {
-        method: 'PATCH',
+        method: 'PUT',
         body: JSON.stringify(entry),
         headers
       });

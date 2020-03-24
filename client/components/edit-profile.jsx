@@ -11,15 +11,18 @@ class EditProfile extends Component {
       email: '',
       zipcode: '',
       phone: '',
-      profileImage: this.props.profileImage,
+      profileImage: this.props.profile.profileImage,
       genre1: '',
       genre2: '',
-      genre3: ''
+      genre3: '',
+      editing: false
+
     };
     this.handleFile = this.handleFile.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleReset = this.handleReset.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleFile(event) {
@@ -28,11 +31,9 @@ class EditProfile extends Component {
       profileImage: event.target.files[0]
     });
     const formData = new FormData(event.target.form);
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data'
-      }
-    };
+    const headers = new Headers();
+    headers.append('Content-Type', 'multipart/form-data');
+    const config = { headers };
     axios.post('/api/profileImage', formData, config)
       .then(response => {
         this.setState({
@@ -67,12 +68,35 @@ class EditProfile extends Component {
       userId: parseInt(match.params.id)
     };
     updateProfile(entry);
+    this.setState({
+      editing: false
+    });
     this.clearFields();
   }
 
   handleReset(event) {
     event.preventDefault();
+    this.setState({
+      editing: false
+    });
     this.clearFields();
+  }
+
+  handleClick(event) {
+    event.preventDefault();
+    const { profile } = this.props;
+    this.setState({
+      name: profile.name,
+      username: profile.username,
+      email: profile.email,
+      zipcode: profile.zipcode,
+      phone: profile.phone,
+      profileImage: profile.profileImage,
+      genre1: profile.genre1,
+      genre2: profile.genre2,
+      genre3: profile.genre3,
+      editing: !this.state.editing
+    });
   }
 
   clearFields() {
@@ -93,9 +117,26 @@ class EditProfile extends Component {
     const { profileImage } = this.state;
     return (
       profileImage === null
-        ? <img src='' alt='' />
+        ? <img src='/images/placeholder.png' alt='Placeholder' className="profile-image" />
         : <img src={profileImage} alt="My profile picture" className="profile-image" />
     );
+  }
+
+  renderButton() {
+    return this.state.editing
+      ? <button
+        type="submit"
+        name="save"
+        className="btn btn-primary btn-sm mr-2">
+            Save
+      </button>
+      : <button
+        type="button"
+        name="edit"
+        onClick={this.handleClick}
+        className="btn btn-primary btn-sm mr-2">
+            Edit
+      </button>;
   }
 
   render() {
@@ -109,7 +150,7 @@ class EditProfile extends Component {
             </div>
           </div>
         </header>
-        <main className="container-fluid mb-4" style={{ height: '439px' }}>
+        <main className="container-fluid mb-4" style={{ height: '439px', overflow: 'auto' }}>
           <div className="row">
             <div className="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
               <div className="image-container">
@@ -120,12 +161,28 @@ class EditProfile extends Component {
               </form>
               <div className="genres-container">
                 <ul>
-                  My Favorite Genres
+                  <span className="text-danger"><u>My Favorite Genres</u></span>
                   <li><span className="text-danger">First:</span> <p className="genres">{profile.genre1}</p></li>
                   <li><span className="text-danger">Second:</span> <p className="genres">{profile.genre2}</p></li>
                   <li><span className="text-danger">Third:</span> <p className="genres">{profile.genre3}</p></li>
                 </ul>
               </div>
+            </div>
+            <div className="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7 mb-2">
+              <div><span className="text-danger">Name:</span> <p className="profile-element">{profile.name}</p></div>
+              <div><span className="text-danger">Username:</span> <p className="profile-element">{profile.username}</p></div>
+              <div><span className="text-danger">E-mail:</span> <p className="profile-element">{profile.email}</p></div>
+              <div><span className="text-danger">Zipcode:</span> <p className="profile-element">{profile.zipcode}</p></div>
+              <div><span className="text-danger">Phone:</span> <p className="profile-element">{profile.phone}</p></div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <h4 className="text-center">Edit Profile</h4>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
               <form onSubmit={this.handleSubmit}>
                 <label htmlFor="genre1">
                   1<sup>st</sup> Favorite Genre
@@ -216,12 +273,7 @@ class EditProfile extends Component {
                 </label>
               </form>
             </div>
-            <div className="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7 mb-2">
-              <div><span className="text-danger">Name:</span> <span className="profile-element">{profile.name}</span></div>
-              <div><span className="text-danger">Username:</span> <span className="profile-element">{profile.username}</span></div>
-              <div><span className="text-danger">E-mail:</span> <span className="profile-element">{profile.email}</span></div>
-              <div><span className="text-danger">Zipcode:</span> <span className="profile-element">{profile.zipcode}</span></div>
-              <div><span className="text-danger">Phone:</span> <span className="profile-element">{profile.phone}</span></div>
+            <div className="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7">
               <form onSubmit={this.handleSubmit} className="form-container mt-2">
                 <div className="form-group">
                   <label htmlFor="name">
@@ -290,7 +342,7 @@ class EditProfile extends Component {
                     <small className="asterisk">&#42; &#61; required</small>
                   </label>
                 </div>
-                <button type="submit" name="save" className="btn btn-primary btn-sm mr-2">Update</button>
+                {this.renderButton()}
                 <button name="cancel" onClick={this.handleReset} className="btn btn-danger btn-sm">Cancel</button>
               </form>
             </div>
