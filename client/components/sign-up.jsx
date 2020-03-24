@@ -258,7 +258,6 @@ class SignUp extends Component {
             duplicate: true
           }));
         } else {
-          event.target.reset();
           history.push('/');
         }
       });
