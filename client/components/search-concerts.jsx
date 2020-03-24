@@ -15,7 +15,6 @@ export default class SearchConcerts extends Component {
 
   handleChange(event) {
     const { value } = event.target;
-    value.match(/^\d{5}(?:[-\s]\d{4})?$/g);
     if (this.timeout) clearTimeout(this.timeout);
     this.timeout = setTimeout(() => this.getConcerts(value), 1000);
   }
