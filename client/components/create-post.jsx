@@ -2,7 +2,35 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 class CreatePost extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      subject: '',
+      content: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const { createPost } = this.props;
+    const newPost = {
+      subject: this.state.subject,
+      content: this.state.content
+    };
+    createPost(newPost);
+  }
+
   render() {
+    // console.log('data:', this.state);
     return (
       <React.Fragment>
         <div className="container mb-4">
@@ -15,19 +43,23 @@ class CreatePost extends Component {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-10">
-              <form className="post-form">
+              <form className="post-form" onClick={ this.handleSubmit }>
                 <div className="input-group justify-content-center mb-2 pr-4">
                   <input type="text"
                     name="subject"
                     id="subject"
                     placeholder="Post Subject"
-                    className="form-control" />
+                    className="form-control"
+                    onChange={ this.handleChange }
+                    value={ this.state.subject } />
                 </div>
                 <div className="input-group justify-content-center">
                   <textarea name="content"
                     rows="16"
                     placeholder="Post Body"
-                    className="form-control mr-4 mb-4 form-textarea">
+                    className="form-control mr-4 mb-4 form-textarea"
+                    onChange={ this.handleChange }
+                    value={ this.state.content } >
                   </textarea>
                 </div>
                 <button

@@ -55,6 +55,24 @@ class App extends Component {
     }
   }
 
+  async createPost(entry) {
+    try {
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        body: JSON.stringify(entry),
+        headers
+      });
+      const posts = await response.json();
+      this.setState({
+        posts: [...this.state.posts, posts]
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   async updateProfile(entry) {
     try {
       const headers = new Headers();
@@ -181,8 +199,10 @@ class App extends Component {
           <Route path="/create/:id" exact render={props =>
             <React.Fragment>
               <Menu handleExit={this.handleExit}/>
-              <CreatePost />
-              <BottomNavbar />
+              <CreatePost
+                posts={this.state.posts}
+                createPost={this.createPost}/>
+              <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
           <Route path="/search/:id" exact render={props =>
