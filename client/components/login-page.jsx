@@ -90,7 +90,7 @@ class LoginPage extends React.Component {
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <form>
-                <div className="form-row" style={{ height: '100px' }}>
+                <div className="form-row" style={{ height: '75px' }}>
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <label htmlFor="username">Username</label>
                     <input
@@ -109,7 +109,7 @@ class LoginPage extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="form-row" style={{ height: '100px' }}>
+                <div className="form-row" style={{ height: '75px' }}>
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <label htmlFor="password">Password</label>
                     <input

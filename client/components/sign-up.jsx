@@ -292,7 +292,7 @@ class SignUp extends Component {
             </div>
           </div>
         </header>
-        <main className="container-fluid mb-4" style={{ height: '425px', overflow: 'auto' }}>
+        <main className="container-fluid mb-4" style={{ height: '275px', overflow: 'auto' }}>
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <form>

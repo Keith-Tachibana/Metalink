@@ -41,7 +41,7 @@ class VideosPage extends Component {
             </div>
           </div>
         </header>
-        <main style={{ height: '616px', overflow: 'auto' }}>
+        <main style={{ height: '487px', overflow: 'auto' }}>
           <VideoSearch onSearchTermChange={videoSearch} />
           <VideoDetail video={this.state.selectedVideo} />
           <VideoList

@@ -36,7 +36,7 @@ input[type='file'] {
 }
 
 .profile-input {
-  height: 25px;
+  height: 20px;
 }
 
 .signup-genre {
@@ -242,7 +242,7 @@ footer div span {
 }
 
 .concertsearch-table {
-  height: 522px;
+  height: 393px;
   overflow: auto;
 }
 

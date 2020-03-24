@@ -109,7 +109,7 @@ class EditProfile extends Component {
             </div>
           </div>
         </header>
-        <main className="container-fluid mb-4" style={{ height: '568px' }}>
+        <main className="container-fluid mb-4" style={{ height: '439px' }}>
           <div className="row">
             <div className="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
               <div className="image-container">

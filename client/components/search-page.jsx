@@ -108,7 +108,7 @@ class SearchPage extends Component {
               {
                 !band
                   ? <div>Searching...</div>
-                  : (<div className="card band-card" style={{ height: '482px', overflow: 'auto', border: '1px solid #FFF' }}>
+                  : (<div className="card band-card" style={{ height: '353px', overflow: 'auto', border: '1px solid #FFF' }}>
                     <img src={band.image} alt={band.band} className="card-img-top img-fluid search-img" />
                     <div className="card-body">
                       <h5 className="card-title text-center" style={{ color: '#FFF' }}><u><em>{band.band}</em></u></h5>
