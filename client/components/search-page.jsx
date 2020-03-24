@@ -80,7 +80,7 @@ class SearchPage extends Component {
         </header>
         <main className="container-fluid mb-4">
           <div className="row justify-content-center">
-            <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <form onSubmit={this.handleSubmit} className="form-inline">
                 <div className="form-group">
                   <label htmlFor="search">Band Name</label>
@@ -88,7 +88,7 @@ class SearchPage extends Component {
                     type="search"
                     name="search"
                     id="search"
-                    size="26"
+                    size="36"
                     value={this.state.search}
                     placeholder="Search for bands"
                     onChange={this.handleChange}
@@ -104,7 +104,7 @@ class SearchPage extends Component {
             </div>
           </div>
           <div className="row justify-content-center">
-            <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               {
                 !band
                   ? <div>Searching...</div>

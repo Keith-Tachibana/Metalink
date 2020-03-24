@@ -86,7 +86,7 @@ class EditPosts extends Component {
         </header>
         <main className="container-fluid mb-4">
           <div className="row justify-content-center">
-            <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10" style={{ height: '289px', overflow: 'auto' }}>
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style={{ height: '289px', overflow: 'auto' }}>
               <div className="list-group">
                 {postCard}
               </div>

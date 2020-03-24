@@ -9,9 +9,9 @@ class EditProfile extends Component {
       name: '',
       username: '',
       email: '',
-      location: '',
+      zipcode: '',
       phone: '',
-      profileImage: null,
+      profileImage: this.props.profileImage,
       genre1: '',
       genre2: '',
       genre3: ''
@@ -53,18 +53,18 @@ class EditProfile extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { updateProfile } = this.props;
+    const { updateProfile, match } = this.props;
     const entry = {
       name: this.state.name,
       username: this.state.username,
       email: this.state.email,
-      location: parseInt(this.state.location),
+      zipcode: parseInt(this.state.zipcode),
       phone: this.state.phone,
       profileImage: this.state.profileImage,
       genre1: this.state.genre1,
       genre2: this.state.genre2,
       genre3: this.state.genre3,
-      userId: parseInt(1)
+      userId: parseInt(match.params.id)
     };
     updateProfile(entry);
     this.clearFields();
@@ -80,7 +80,7 @@ class EditProfile extends Component {
       name: '',
       username: '',
       email: '',
-      location: '',
+      zipcode: '',
       phone: '',
       genre1: '',
       genre2: '',
@@ -90,11 +90,11 @@ class EditProfile extends Component {
   }
 
   renderImage() {
-    const { profile } = this.props;
+    const { profileImage } = this.state;
     return (
-      profile.profileImage === null
+      profileImage === null
         ? <img src='' alt='' />
-        : <img src={profile.profileImage} alt="My profile picture" className="profile-image" />
+        : <img src={profileImage} alt="My profile picture" className="profile-image" />
     );
   }
 
@@ -129,7 +129,7 @@ class EditProfile extends Component {
               <form onSubmit={this.handleSubmit}>
                 <label htmlFor="genre1">
                   1<sup>st</sup> Favorite Genre
-                  <select name="genre1" id="genre1" value={this.state.genre1} onChange={this.handleChange}>
+                  <select name="genre1" id="genre1" className="profile-select" value={this.state.genre1} onChange={this.handleChange}>
                     <option defaultValue=""></option>
                     <option value="Black Metal">Black Metal</option>
                     <option value="Blackened Death Metal">Blackened Death Metal</option>
@@ -158,7 +158,7 @@ class EditProfile extends Component {
                 </label>
                 <label htmlFor="genre2">
                   2<sup>nd</sup> Favorite Genre
-                  <select name="genre2" id="genre2" value={this.state.genre2} onChange={this.handleChange}>
+                  <select name="genre2" id="genre2" className="profile-select" value={this.state.genre2} onChange={this.handleChange}>
                     <option defaultValue=""></option>
                     <option value="Black Metal">Black Metal</option>
                     <option value="Blackened Death Metal">Blackened Death Metal</option>
@@ -187,7 +187,7 @@ class EditProfile extends Component {
                 </label>
                 <label htmlFor="genre3">
                   3<sup>rd</sup> Favorite Genre
-                  <select name="genre3" id="genre3" value={this.state.genre3} onChange={this.handleChange}>
+                  <select name="genre3" id="genre3" className="profile-select" value={this.state.genre3} onChange={this.handleChange}>
                     <option defaultValue=""></option>
                     <option value="Black Metal">Black Metal</option>
                     <option value="Blackened Death Metal">Blackened Death Metal</option>
@@ -220,7 +220,7 @@ class EditProfile extends Component {
               <div><span className="text-danger">Name:</span> <span className="profile-element">{profile.name}</span></div>
               <div><span className="text-danger">Username:</span> <span className="profile-element">{profile.username}</span></div>
               <div><span className="text-danger">E-mail:</span> <span className="profile-element">{profile.email}</span></div>
-              <div><span className="text-danger">Location:</span> <span className="profile-element">{profile.location}</span></div>
+              <div><span className="text-danger">Zipcode:</span> <span className="profile-element">{profile.zipcode}</span></div>
               <div><span className="text-danger">Phone:</span> <span className="profile-element">{profile.phone}</span></div>
               <form onSubmit={this.handleSubmit} className="form-container mt-2">
                 <div className="form-group">
@@ -259,18 +259,18 @@ class EditProfile extends Component {
                       id="email"
                       value={this.state.email}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control profile-input"
                     />
                   </label>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="location">
+                  <label htmlFor="zipcode">
                     Zipcode<em className="asterisk">&#42;</em>
                     <input
                       type="text"
-                      name="location"
-                      id="location"
-                      value={this.state.location}
+                      name="zipcode"
+                      id="zipcopde"
+                      value={this.state.zipcode}
                       onChange={this.handleChange}
                       className="form-control profile-input"
                     />
@@ -285,13 +285,13 @@ class EditProfile extends Component {
                       id="phone"
                       value={this.state.phone}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control profile-input"
                     />
                     <small className="asterisk">&#42; &#61; required</small>
                   </label>
                 </div>
-                <button type="submit" name="save" className="btn btn-outline-primary btn-sm mr-2">Update</button>
-                <button name="cancel" onClick={this.handleReset} className="btn btn-outline-danger btn-sm">Cancel</button>
+                <button type="submit" name="save" className="btn btn-primary btn-sm mr-2">Update</button>
+                <button name="cancel" onClick={this.handleReset} className="btn btn-danger btn-sm">Cancel</button>
               </form>
             </div>
           </div>

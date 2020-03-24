@@ -4,9 +4,10 @@ DROP TABLE IF EXISTS "users";
 CREATE TABLE "users" (
 	"userId" SERIAL,
 	"name" TEXT CONSTRAINT "unique_name" UNIQUE,
+	"password" TEXT,
 	"username" TEXT CONSTRAINT "unique_username" UNIQUE,
 	"email" TEXT CONSTRAINT "unique_email" UNIQUE,
-	"location" INTEGER,
+	"zipcode" INTEGER,
 	"phone" TEXT,
 	"profileImage" TEXT,
 	"genre1" TEXT,
@@ -23,7 +24,6 @@ CREATE TABLE "posts" (
 	"subject" TEXT,
 	"content" TEXT,
 	"datePosted" TIMESTAMP DEFAULT NOW(),
-	"dateDeleted" TIMESTAMP DEFAULT NOW(),
 	"dateUpdated" TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY ("postId"),
 	CONSTRAINT "fk_userId_posts"

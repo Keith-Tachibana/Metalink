@@ -46,13 +46,13 @@ class EditPostCard extends Component {
     return (
       <React.Fragment>
         <div className="list-group-item list-group-item-action post-item">
-          <div className="d-flex justify-content-between">
-            <div>
+          <div>
+            <div className="d-flex justify-content-between">
               <small>{this.renderDate()}</small>
               <h6 className="mb-1"><ins><strong><em>{subject}</em></strong></ins></h6>
+              <button onClick={this.handleUpdate} className="btn btn-sm btn-primary post-buttons">Edit</button>
+              <button onClick={this.handleDelete} className="btn btn-sm btn-danger post-buttons">Delete</button>
             </div>
-            <button onClick={this.handleUpdate} className="btn btn-sm btn-primary post-buttons">Edit</button>
-            <button onClick={this.handleDelete} className="btn btn-sm btn-danger post-buttons">Delete</button>
           </div>
           <p onMouseEnter={this.expand} onMouseLeave={this.expand} className={postCSS}>{content}</p>
         </div>
