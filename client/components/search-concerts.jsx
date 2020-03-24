@@ -48,13 +48,19 @@ export default class SearchConcerts extends Component {
       });
     return (
       <div>
-        <h1 className="text-center mt-4">Concerts near you</h1>
-        <form className="form-group-sm mb-2 px-5">
-          <label className="float-left" htmlFor="search">ZipCode</label>
-          <input onChange={this.handleChange}
-            type="text" className="form-control"
-            placeholder="Enter Zipcode" pattern="/^\d{5}(?:[-\s]\d{4})?$/g" />
-        </form>
+        <h1 className="text-center mt-4 mb-4">Concerts near you</h1>
+        <main className="container-fluid">
+          <div className="row">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <form className="form-group mb-2">
+                <label htmlFor="search">ZipCode</label>
+                <input onChange={this.handleChange}
+                  type="text" className="form-control"
+                  placeholder="Enter Zipcode" pattern="/^\d{5}(?:[-\s]\d{4})?$/g" />
+              </form>
+            </div>
+          </div>
+        </main>
         <div className="concertsearch-table table-responsive-sm px-4">
           {this.state.message ? <h3 className="text-center">{this.state.message}</h3>
             : <table className="table table-sm table-dark table-striped">

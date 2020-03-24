@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class SearchBar extends Component {
+class VideoSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -9,24 +9,19 @@ class SearchBar extends Component {
   }
 
   onInputChange(term) {
-    if (!term) {
-      this.setState({
-        term: 'Metalocalypse'
-      });
-      this.props.onSearchTermChange(term);
-    } else {
-      this.setState({ term });
-      this.props.onSearchTermChange(term);
-    }
+    this.setState({ term });
+    this.props.onSearchTermChange(term);
   }
 
   render() {
     return (
       <div className="search-bar">
+        <label htmlFor="search">Video Search</label>
         <input
           value={this.state.term}
           type="search"
           name="search"
+          id="search"
           placeholder="Search for videos"
           className="form-control"
           onChange={event => this.onInputChange(event.target.value)} />
@@ -35,4 +30,4 @@ class SearchBar extends Component {
   }
 }
 
-export default SearchBar;
+export default VideoSearch;

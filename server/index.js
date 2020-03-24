@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const multer = require('multer');
 const fetch = require('node-fetch');
+const bcrypt = require('bcrypt');
 const Discogs = require('disconnect').Client;
 
 const db = require('./database');
@@ -30,13 +31,13 @@ const upload = multer({
 
 app.get('/api/users', (req, res, next) => {
   const sql = `
-    select "userId",
+    SELECT "userId",
            "name",
            "username",
            "email",
-           "location"
+           "zipcode"
            "createdAt"
-      from "users"
+      FROM "users";
   `;
   db.query(sql)
     .then(result => res.json(result.rows))
@@ -47,7 +48,7 @@ app.get('/api/profile/:userId', (req, res, next) => {
   const { userId } = req.params;
   if (typeof userId === 'undefined') { throw new ClientError('The userId is required.', 400); } else {
     const sql = `
-    SELECT "userId", "name", "username", "email", "location", "phone", "profileImage", "genre1", "genre2", "genre3"
+    SELECT "userId", "name", "username", "email", "zipcode", "phone", "profileImage", "genre1", "genre2", "genre3"
       FROM "users"
      WHERE "userId" = $1;
   `;
@@ -59,7 +60,7 @@ app.get('/api/profile/:userId', (req, res, next) => {
           name: profile[0].name,
           username: profile[0].username,
           email: profile[0].email,
-          location: profile[0].location,
+          zipcode: profile[0].zipcode,
           phone: profile[0].phone,
           profileImage: profile[0].profileImage,
           genre1: profile[0].genre1,
@@ -78,15 +79,15 @@ app.get('/api/profile/:userId', (req, res, next) => {
 
 app.get('/api/posts', (req, res, next) => {
   const sql = `
-    select "p"."postId",
+    SELECT "p"."postId",
            "p"."userId",
            "p"."subject",
            "p"."content",
            "p"."datePosted",
            "u"."username"
-      from "posts" as "p"
-      join "users" as "u" using ("userId")
-  order by "postId" asc;
+      FROM "posts" AS "p"
+      JOIN "users" AS "u" USING ("userId")
+  ORDER BY "postId" DESC;
   `;
   db.query(sql)
     .then(result => res.json(result.rows))
@@ -186,17 +187,24 @@ app.delete('/api/posts/:postId', (req, res, next) => {
 });
 
 app.patch('/api/profile/:userId', (req, res, next) => {
-  const { name, username, email, location, phone, profileImage, genre1, genre2, genre3 } = req.body;
+  const { name, username, email, zipcode, phone, profileImage, genre1, genre2, genre3 } = req.body;
   const { userId } = req.params;
   if ((!parseInt(userId, 10)) || (parseInt(userId) < 0)) {
     throw new ClientError('The userId must be a positive integer.', 400);
   }
-  const values = [name, username, email, location, phone, profileImage, genre1, genre2, genre3, userId];
+  const values = [name, username, email, zipcode, phone, profileImage, genre1, genre2, genre3, userId];
+  const updatedValues = [parseInt(userId)];
   const sql = `
       UPDATE "users"
-        SET "name" = $1, "username" = $2, "email" = $3, "location" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9
+        SET "name" = $1, "username" = $2, "email" = $3, "zipcode" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9
       WHERE "userId" = $10
   RETURNING *;
+  `;
+  const updatedSQL = `
+    UPDATE "users"
+       SET "updatedAt" = default
+     WHERE "userId" = $1
+ RETURNING *;
   `;
   db.query(sql, values)
     .then(result => {
@@ -204,7 +212,11 @@ app.patch('/api/profile/:userId', (req, res, next) => {
       if (!profile) {
         throw new ClientError(`Cannot find user with userId ${userId}`, 404);
       } else {
-        res.status(200).json(profile);
+        db.query(updatedSQL, updatedValues)
+          .then(updatedResult => {
+            res.status(200).json(profile);
+          })
+          .catch(err => next(err));
       }
     })
     .catch(err => next(err));
@@ -234,10 +246,10 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
     const sql = `
       UPDATE "users"
          SET "profileImage" = $1
-       WHERE "userId" = 1
+       WHERE "userId" = $2
    RETURNING *;
     `;
-    db.query(sql, ['/images/profileImages/' + req.file.filename])
+    db.query(sql, ['/images/profileImages/' + req.file.filename, req.session.userId])
       .then(result => {
         const profileImage = result.rows;
         if (!profileImage) {
@@ -245,17 +257,82 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
             error: 'Cannot find user with that userId.'
           });
         } else {
-          res.status(200).send(`./images/profileImages/${req.file.filename}`);
+          res.status(200).send(`/images/profileImages/${req.file.filename}`);
         }
       })
       .catch(err => next(err));
   }
 });
 
-app.post('/api/login', (req, res) => {
-  if (!req.session.userId) req.session.userId = req.body.userId;
-  const { userId } = req.session;
-  if (!userId) { throw new ClientError('Invalid userId', 400); } else return res.status(200).json({ success: `${userId} Logged in!` });
+app.post('/api/signup', (req, res, next) => {
+  const { name, password, username, email, zipcode, phone, genre1, genre2, genre3 } = req.body;
+  bcrypt.hash(password, 10, (err, hash) => {
+    if (err) {
+      console.error(err.message);
+    } else {
+      const sql = `
+        INSERT INTO "users" ("name", "password", "username", "email", "zipcode", "phone", "genre1", "genre2", "genre3")
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+          RETURNING *;
+      `;
+      const values = [name, hash, username, email, zipcode, phone, genre1, genre2, genre3];
+      db.query(sql, values)
+        .then(result => {
+          res.status(201).json(result.rows[0]);
+        })
+        .catch(err => {
+          if (err.code === '23505') {
+            res.status(400).json('That name, username, or e-mail address already exists.');
+          } else {
+            next(err);
+          }
+        });
+    }
+  });
+});
+
+app.post('/api/login', (req, res, next) => {
+  const { username, password } = req.body;
+  const sql = `
+    SELECT "password"
+      FROM "users"
+     WHERE "username" = $1;
+  `;
+  const idSQL = `
+    SELECT "userId"
+      FROM "users"
+     WHERE "username" = $1;
+  `;
+  const value = [username];
+  db.query(sql, value)
+    .then(result => {
+      if (result.rows.length === 0) {
+        res.status(401).json({
+          message: 'No user found with that username.'
+        });
+      } else {
+        bcrypt.compare(password, result.rows[0].password, (err, compare) => {
+          if (err) {
+            console.error(err.message);
+          } else if (!compare) {
+            res.status(401).json({
+              message: 'You entered an incorrect password.'
+            });
+          } else {
+            db.query(idSQL, value)
+              .then(idResult => {
+                if (!idResult) {
+                  throw new ClientError('No user found with that userId', 401);
+                } else {
+                  req.session.userId = idResult.rows[0].userId;
+                  res.status(200).json(idResult.rows[0].userId);
+                }
+              })
+              .catch(err => next(err));
+          }
+        });
+      }
+    });
 });
 
 app.post('/api/logout', (req, res) => {
@@ -274,11 +351,18 @@ app.put('/api/posts/:postId', (req, res, next) => {
     throw new ClientError('The postId must be a positive integer.', 400);
   }
   const values = [subject, content, postId];
+  const updatedValues = [postId];
   const sql = `
       UPDATE "posts"
         SET "subject" = $1, "content" = $2
       WHERE "postId" = $3
   RETURNING *;
+  `;
+  const updatedSQL = `
+    UPDATE "posts"
+       SET "dateUpdated" = default
+     WHERE "postId" = $1
+ RETURNING *;
   `;
   db.query(sql, values)
     .then(result => {
@@ -286,7 +370,11 @@ app.put('/api/posts/:postId', (req, res, next) => {
       if (!post) {
         throw new ClientError(`Cannot find post with postId ${postId}`, 404);
       } else {
-        res.status(200).json(post);
+        db.query(updatedSQL, updatedValues)
+          .then(updatedResult => {
+            res.status(200).json(post);
+          })
+          .catch(err => next(err));
       }
     })
     .catch(err => {
