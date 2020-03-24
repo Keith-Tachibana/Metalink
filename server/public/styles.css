@@ -281,9 +281,10 @@ footer div span {
   and (max-device-width: 1024px) 
   and (-webkit-min-device-pixel-ratio: 2) {
     .posts-container {
-      height: 800px
+      height: 750px
     }
     .nav-bg {
-      width: 375px;
+      height: 100px;
+      background-position: 50% 53%;
     }
 }
