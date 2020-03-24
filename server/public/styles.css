@@ -8,6 +8,30 @@ body {
   color: #FFF;
 }
 
+input[type='file'] {
+  color: transparent;
+  font-size: 0.75rem;
+}
+
+select,
+select option,
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="search"],
+input[type="password"],
+.form-textarea,
+.post-home,
+.band-card {
+  background-color: #000;
+  color: #FFF;
+}
+
+footer div span {
+  color: #FFF;
+  font-size: 1.25rem;
+}
+
 .image-container {
   border: 1px solid #FFF;
   height: 100px;
@@ -17,11 +41,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-input[type='file'] {
-  color: transparent;
-  font-size: 0.75rem;
 }
 
 .profile-select {
@@ -42,20 +61,6 @@ input[type='file'] {
 .signup-genre {
   height: 30px;
   width: 220px;
-}
-
-select,
-select option,
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="search"],
-input[type="password"],
-.form-textarea,
-.post-home,
-.band-card {
-  background-color: #000;
-  color: #FFF;
 }
 
 .asterisk {
@@ -177,11 +182,6 @@ input[type="password"],
   height: 35px;
 }
 
-footer div span {
-  color: #FFF;
-  font-size: 1.25rem;
-}
-
 .video-item img {
   max-width: 64px;
 }
@@ -259,4 +259,31 @@ footer div span {
   padding-left: 10px;
   background-color: #000;
   color: #FFF;
+}
+
+/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) { 
+    .posts-container {
+      height: 445px;
+    }
+}
+
+/* ----------- iPad 3, 4 and Pro 9.7" ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .posts-container {
+      height: 800px
+    }
+    .nav-bg {
+      width: 375px;
+    }
 }
