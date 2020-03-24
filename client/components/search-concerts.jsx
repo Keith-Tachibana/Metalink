@@ -15,6 +15,7 @@ export default class SearchConcerts extends Component {
 
   handleChange(event) {
     const { value } = event.target;
+    value.match(/^\d{5}(?:[-\s]\d{4})?$/g);
     if (this.timeout) clearTimeout(this.timeout);
     this.timeout = setTimeout(() => this.getConcerts(value), 1000);
   }
@@ -28,7 +29,7 @@ export default class SearchConcerts extends Component {
         .catch(err => console.error(err))
         .finally(() => this.setState({ loading: false, message: '' }));
     } else {
-      return this.setState({ message: 'Valid zipcode please' });
+      return this.setState({ message: 'Valid US zipcode please' });
     }
   }
 
@@ -56,7 +57,7 @@ export default class SearchConcerts extends Component {
                 <label htmlFor="search">ZipCode</label>
                 <input onChange={this.handleChange}
                   type="text" className="form-control"
-                  placeholder="Enter Zipcode" pattern="/^\d{5}(?:[-\s]\d{4})?$/g" />
+                  placeholder="Enter Zipcode" minLength="5" maxLength="5" />
               </form>
             </div>
           </div>
