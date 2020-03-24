@@ -78,6 +78,10 @@ input[type="password"],
   font-size: 1rem;
 }
 
+.genres-container > ul > li {
+  list-style-type: none;
+}
+
 .very-weak {
   background-color: rgb(192, 39, 70);
   height: 25px;
