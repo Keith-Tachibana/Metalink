@@ -30,7 +30,6 @@ class CreatePost extends Component {
   }
 
   render() {
-    // console.log('data:', this.state);
     return (
       <React.Fragment>
         <div className="container mb-4">
@@ -43,7 +42,7 @@ class CreatePost extends Component {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-10">
-              <form className="post-form" onClick={ this.handleSubmit }>
+              <form className="post-form">
                 <div className="input-group justify-content-center mb-2 pr-4">
                   <input type="text"
                     name="subject"
@@ -65,7 +64,8 @@ class CreatePost extends Component {
                 <button
                   name="post"
                   type="submit"
-                  className="btn btn-success form-buttons mb-4">
+                  className="btn btn-success form-buttons mb-4"
+                  onClick={ this.handleSubmit }>
                             Post
                 </button>
               </form>

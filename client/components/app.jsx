@@ -65,9 +65,9 @@ class App extends Component {
         body: JSON.stringify(entry),
         headers
       });
-      const posts = await response.json();
+      const post = await response.json();
       this.setState({
-        posts: [...this.state.posts, posts]
+        posts: post
       });
     } catch (error) {
       console.error(error.message);
