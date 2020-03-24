@@ -342,9 +342,13 @@ class EditProfile extends Component {
                     <small className="asterisk">&#42; &#61; required</small>
                   </label>
                 </div>
-                {this.renderButton()}
-                <button name="cancel" onClick={this.handleReset} className="btn btn-danger btn-sm">Cancel</button>
               </form>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+              {this.renderButton()}
+              <button name="cancel" onClick={this.handleReset} className="btn btn-danger btn-sm">Cancel</button>
             </div>
           </div>
         </main>

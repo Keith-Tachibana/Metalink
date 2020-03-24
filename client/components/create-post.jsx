@@ -59,7 +59,7 @@ class CreatePost extends Component {
                 </div>
                 <div className="input-group justify-content-center">
                   <textarea name="content"
-                    rows="16"
+                    rows="10"
                     placeholder="Post Body"
                     className="form-control mr-4 mb-4 form-textarea"
                     onChange={ this.handleChange }

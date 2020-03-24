@@ -86,7 +86,7 @@ class EditPosts extends Component {
         </header>
         <main className="container-fluid mb-4">
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style={{ height: '289px', overflow: 'auto' }}>
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style={{ height: '208px', overflow: 'auto' }}>
               <div className="list-group">
                 {postCard}
               </div>
@@ -118,7 +118,7 @@ class EditPosts extends Component {
                     onChange={this.handleChange}
                     className="form-control mr-4 form-textarea"
                     cols="30"
-                    rows="5">
+                    rows="3">
                   </textarea>
                 </div>
                 <button
