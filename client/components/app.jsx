@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Menu from './menu';
 import BottomNavbar from './bottom-navbar';
+import SignUp from './sign-up';
 import HomePage from './home-page';
 import LoginPage from './login-page';
 import EditProfile from './edit-profile';
@@ -158,8 +159,10 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route path="/login" exact render={props =>
-            <LoginPage {...props} getProfile={this.getProfile} />
+          <Route path="/signup" exact render={props =>
+            <React.Fragment>
+              <SignUp />
+            </React.Fragment>
           } />
           <Route path='/home/:id' exact render={props =>
             <React.Fragment>
@@ -219,7 +222,10 @@ class App extends Component {
               <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
-          <Router path="/" render={<div><em>404:</em> Page Not Found</div>}/>
+          <Route path="/" render={props =>
+            <LoginPage {...props} getProfile={this.getProfile} />
+          } />
+          <Router path="*" render={<div><em>404:</em> Page Not Found</div>}/>
         </Switch>
       </Router>
     );

@@ -18,7 +18,7 @@ class VideosPage extends Component {
   }
 
   componentDidMount() {
-    this.videoSearch('Metalocalpyse');
+    this.videoSearch('Metalocalypse');
   }
 
   videoSearch(term) {

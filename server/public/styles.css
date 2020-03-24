@@ -24,28 +24,33 @@ input[type='file'] {
   font-size: 0.75rem;
 }
 
-select {
+.profile-select {
   width: 125px;
   background-color: #000;
   color: #FFF;
   font-size: 0.7rem;
 }
 
-select option {
+.profile-select > option {
   font-size: 1rem;
 }
 
-.profile-input,
-input[type="email"],
-input[type="tel"] {
+.profile-input {
   height: 25px;
 }
 
+.signup-genre {
+  height: 30px;
+  width: 220px;
+}
+
+select,
 select option,
 input[type="text"],
 input[type="email"],
 input[type="tel"],
 input[type="search"],
+input[type="password"],
 .form-textarea,
 .post-home,
 .band-card {
@@ -72,9 +77,51 @@ input[type="search"],
   margin: 0;
 }
 
+.genres-container > ul > li {
+  list-style-type: none;
+}
+
 .genres,
 .profile-element {
   font-size: 0.85rem;
+}
+
+.very-weak {
+  background-color: rgb(192, 39, 70);
+  height: 25px;
+}
+
+.weak {
+  background-color: rgb(168, 119, 27);
+  height: 25px;
+}
+
+.medium {
+  background-color: rgb(199, 199, 53);
+  height: 25px;
+}
+
+.strong {
+  background-color: rgb(112, 145, 62);
+  height: 25px;
+}
+
+.very-strong {
+  background-color: rgb(33, 158, 33);
+  height: 25px;
+}
+
+.valid {
+  color: #7CFC00;
+}
+
+.invalid {
+  color: #DC143C;
+}
+
+.form-pw > p,
+.form-genre > p {
+  margin: 0;
 }
 
 .container {
@@ -135,21 +182,6 @@ footer div span {
   font-size: 1.25rem;
 }
 
-.search-bar {
-  margin: 20px;
-  text-align: center;
-}
-
-.search-bar input {
-  padding-left: 10px;
-  background-color: #000;
-  color: #FFF;
-}
-
-.search-bar input::placeholder {
-  padding-left: 5px;
-}
-
 .video-item img {
   max-width: 64px;
 }
@@ -174,12 +206,6 @@ footer div span {
 
 .menu:hover {
   cursor: pointer;
-}
-
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
 }
 
 .menu-open {
@@ -216,11 +242,21 @@ footer div span {
 }
 
 .concertsearch-table {
-  height: 538px;
+  height: 522px;
   overflow: auto;
 }
 
 .search-img {
   width: auto;
   height: auto;
+}
+
+.search-bar {
+  margin: 20px;
+}
+
+.search-bar input {
+  padding-left: 10px;
+  background-color: #000;
+  color: #FFF;
 }
