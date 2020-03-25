@@ -338,6 +338,11 @@ footer div span {
   and (max-device-width: 1024px)
   and (orientation: portrait)
   and (-webkit-min-device-pixel-ratio: 2) {
+    .login-heading {
+      width: 768px;
+      height: 200px;
+      object-fit: cover;
+    }
     .posts-container {
       height: 750px
     }
