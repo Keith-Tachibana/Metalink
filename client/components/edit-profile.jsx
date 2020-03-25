@@ -159,13 +159,13 @@ class EditProfile extends Component {
               <form id="image-form">
                 <input type="file" name="profileImage" className="my-2" onChange={this.handleFile} />
               </form>
-              <div className="genres-container">
-                <ul>
+              <div>
+                <div>
                   <span className="text-danger"><u>My Favorite Genres</u></span>
-                  <li><span className="text-danger">First:</span> <p className="genres">{profile.genre1}</p></li>
-                  <li><span className="text-danger">Second:</span> <p className="genres">{profile.genre2}</p></li>
-                  <li><span className="text-danger">Third:</span> <p className="genres">{profile.genre3}</p></li>
-                </ul>
+                  <div><span className="text-danger">First:</span> <p className="genres">{profile.genre1}</p></div>
+                  <div><span className="text-danger">Second:</span> <p className="genres">{profile.genre2}</p></div>
+                  <div><span className="text-danger">Third:</span> <p className="genres">{profile.genre3}</p></div>
+                </div>
               </div>
             </div>
             <div className="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7 mb-2">

@@ -7,8 +7,10 @@ class Posts extends React.Component {
     const splitLast = split[2].split('T');
     const splitTime = splitLast[1].split(':');
     const hour = splitTime[0] < 10 ? splitTime[0].slice(1) : splitTime[0];
-    const amPM = hour < 12 ? 'AM' : 'PM';
-    const time = `${hour}:${splitTime[1]} ${amPM}`;
+    const hourPST = hour - 7;
+    let hour12 = hourPST > 12 ? hourPST - 12 : hourPST;
+    const amPM = hourPST < 12 ? 'AM' : 'PM';
+    const time = `${hour12 === 0 ? hour12 = 12 : hour12}:${splitTime[1]} ${amPM}`;
     const month = split[1] < 10 ? split[1].slice(1) : split[1];
     const postDate = `${month}/${splitLast[0]}/${split[0]} @ ${time}`;
     return postDate;
