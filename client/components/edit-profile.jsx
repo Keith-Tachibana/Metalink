@@ -142,7 +142,7 @@ class EditProfile extends Component {
   render() {
     const { profile } = this.props;
     const metalGenreArr = ['Black Metal', 'Blackened Death Metal', 'Deathcore',
-      'Doom Metal', 'Folk Metal', 'Glam Metal', 'Grindcore', 'Groove Metal',
+      'Death Metal', 'Doom Metal', 'Folk Metal', 'Glam Metal', 'Grindcore', 'Groove Metal',
       'Heavy Metal', 'Melodic Death Metal', 'Metalcore',
       'Neoclassical Metal', 'Pagan Metal', 'Pirate Metal',
       'Power Metal', 'Progressive Metal', 'Sludge Metal',
