@@ -32,7 +32,7 @@ A mobile-first, full-stack, web application for lovers of metal music that aims 
 | Webpack-CLI                        | 3.3.10  |
 | YouTube-API-Search                 | 0.0.5   |
 ## Live Demo
-Try the application live [on my portfolio website](http://metalink.keith-tachibana.com/)
+Try the application live [on my portfolio website](https://metalink.keith-tachibana.com/)
 ## Features
 - -Users can post comments, album reviews, or other information for others to see when they log into the application, sorted by date from most recent to oldest
 - -Users can add a profile to their account, including a profile picture, screen name, e-mail address, real name, location, phone number, location, and favorite sub-genres of metal
