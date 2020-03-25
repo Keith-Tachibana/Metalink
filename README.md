@@ -47,11 +47,13 @@ Try the application live [on my portfolio website](http://metalink.keith-tachiba
 - -[Figma available here](https://www.figma.com/file/pzkKz7ZmE00RLNJQBJOxA7/MetaLink?node-id=0%3A1)
 - -[MeisterTask available here](https://www.meistertask.com/app/project/i8BR5WmN/metalink)
 #### System Requirements
-- -Nginx 1.10 or higher
-- -Node 10 or higher
-- -NPM 6 or higher
-- -PM2 4 or higher
-- -PostgreSQL 10 or higher
+| Requirement |     Version    |
+|-------------|---------------:|
+| Nginx       | 1.10 or higher |
+| Node        | 10 or higher   |
+| NPM         | 6 or higher    |
+| PM2         | 4 or higher    |
+| PostgreSQL  | 10 or higher   |
 #### Getting Started
 1. Clone the repository
   ```shell
