@@ -282,6 +282,13 @@ class SignUp extends Component {
         strengthClass = 'very-strong';
         break;
     }
+    const metalGenreArr = ['Black Metal', 'Blackened Death Metal', 'Deathcore',
+      'Doom Metal', 'Folk Metal', 'Glam Metal', 'Grindcore', 'Groove Metal',
+      'Heavy Metal', 'Melodic Death Metal', 'Metalcore',
+      'Neoclassical Metal', 'Pagan Metal', 'Pirate Metal',
+      'Power Metal', 'Progressive Metal', 'Sludge Metal',
+      'Speed Metal', 'Symphonic Metal', 'Symphonic Black Metal',
+      'Technical Death Metal', 'Thrash Metal', 'Viking Metal'];
     return (
       <React.Fragment>
         <header className="container-fluid mb-4">
@@ -400,87 +407,21 @@ class SignUp extends Component {
                     <label htmlFor="genre1" className="mr-3">1<sup>st</sup> Favorite Genre</label>
                     <select name="genre1" id="genre1" onChange={this.handleChange} value={this.state.genre1} className="signup-genre">
                       <option defaultValue=""></option>
-                      <option value="Black Metal">Black Metal</option>
-                      <option value="Blackened Death Metal">Blackened Death Metal</option>
-                      <option value="Deathcore">Deathcore</option>
-                      <option value="Doom Metal">Doom Metal</option>
-                      <option value="Folk Metal">Folk Metal</option>
-                      <option value="Glam Metal">Glam Metal</option>
-                      <option value="Grindcore">Grindcore</option>
-                      <option value="Groove Metal">Groove Metal</option>
-                      <option value="Heavy Metal">Heavy Metal</option>
-                      <option value="Melodic Death Metal">Melodic Death Metal</option>
-                      <option value="Metalcore">Metalcore</option>
-                      <option value="Neoclassical Metal">Neoclassical Metal</option>
-                      <option value="Pagan Metal">Pagan Metal</option>
-                      <option value="Pirate Metal">Pirate Metal</option>
-                      <option value="Power Metal">Power Metal</option>
-                      <option value="Progressive Metal">Progressive Metal</option>
-                      <option value="Sludge Metal">Sludge Metal</option>
-                      <option value="Speed Metal">Speed Metal</option>
-                      <option value="Symphonic Metal">Symphonic Metal</option>
-                      <option value="Symphonic Black Metal">Symphonic Black Metal</option>
-                      <option value="Technical Death Metal">Technical Death Metal</option>
-                      <option value="Thrash Metal">Thrash Metal</option>
-                      <option value="Viking Metal">Viking Metal</option>
+                      {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
                     </select>
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <label htmlFor="genre2" className="mr-2">2<sup>nd</sup> Favorite Genre</label>
                     <select name="genre2" id="genre2" onChange={this.handleChange} value={this.state.genre2} className="signup-genre">
                       <option defaultValue=""></option>
-                      <option value="Black Metal">Black Metal</option>
-                      <option value="Blackened Death Metal">Blackened Death Metal</option>
-                      <option value="Deathcore">Deathcore</option>
-                      <option value="Doom Metal">Doom Metal</option>
-                      <option value="Folk Metal">Folk Metal</option>
-                      <option value="Glam Metal">Glam Metal</option>
-                      <option value="Grindcore">Grindcore</option>
-                      <option value="Groove Metal">Groove Metal</option>
-                      <option value="Heavy Metal">Heavy Metal</option>
-                      <option value="Melodic Death Metal">Melodic Death Metal</option>
-                      <option value="Metalcore">Metalcore</option>
-                      <option value="Neoclassical Metal">Neoclassical Metal</option>
-                      <option value="Pagan Metal">Pagan Metal</option>
-                      <option value="Pirate Metal">Pirate Metal</option>
-                      <option value="Power Metal">Power Metal</option>
-                      <option value="Progressive Metal">Progressive Metal</option>
-                      <option value="Sludge Metal">Sludge Metal</option>
-                      <option value="Speed Metal">Speed Metal</option>
-                      <option value="Symphonic Metal">Symphonic Metal</option>
-                      <option value="Symphonic Black Metal">Symphonic Black Metal</option>
-                      <option value="Technical Death Metal">Technical Death Metal</option>
-                      <option value="Thrash Metal">Thrash Metal</option>
-                      <option value="Viking Metal">Viking Metal</option>
+                      {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
                     </select>
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-genre">
                     <label htmlFor="genre3" className="mr-2">3<sup>rd</sup> Favorite Genre</label>
                     <select name="genre3" id="genre3" onChange={this.handleChange} value={this.state.genre3} className="signup-genre">
                       <option defaultValue=""></option>
-                      <option value="Black Metal">Black Metal</option>
-                      <option value="Blackened Death Metal">Blackened Death Metal</option>
-                      <option value="Deathcore">Deathcore</option>
-                      <option value="Doom Metal">Doom Metal</option>
-                      <option value="Folk Metal">Folk Metal</option>
-                      <option value="Glam Metal">Glam Metal</option>
-                      <option value="Grindcore">Grindcore</option>
-                      <option value="Groove Metal">Groove Metal</option>
-                      <option value="Heavy Metal">Heavy Metal</option>
-                      <option value="Melodic Death Metal">Melodic Death Metal</option>
-                      <option value="Metalcore">Metalcore</option>
-                      <option value="Neoclassical Metal">Neoclassical Metal</option>
-                      <option value="Pagan Metal">Pagan Metal</option>
-                      <option value="Pirate Metal">Pirate Metal</option>
-                      <option value="Power Metal">Power Metal</option>
-                      <option value="Progressive Metal">Progressive Metal</option>
-                      <option value="Sludge Metal">Sludge Metal</option>
-                      <option value="Speed Metal">Speed Metal</option>
-                      <option value="Symphonic Metal">Symphonic Metal</option>
-                      <option value="Symphonic Black Metal">Symphonic Black Metal</option>
-                      <option value="Technical Death Metal">Technical Death Metal</option>
-                      <option value="Thrash Metal">Thrash Metal</option>
-                      <option value="Viking Metal">Viking Metal</option>
+                      {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
                     </select>
                     <p><small className="text-danger">{this.alertEmptyFields()}</small></p>
                     <p><small className="text-danger">{this.alertDuplicate()}</small></p>

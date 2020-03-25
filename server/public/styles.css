@@ -274,7 +274,7 @@ footer div span {
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) {
     .posts-container {
-      height: 445px;
+      height: 450px;
     }
 }
 
