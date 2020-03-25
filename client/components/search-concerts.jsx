@@ -28,7 +28,7 @@ export default class SearchConcerts extends Component {
         .catch(err => console.error(err))
         .finally(() => this.setState({ loading: false, message: '' }));
     } else {
-      return this.setState({ message: 'Valid zipcode please' });
+      return this.setState({ message: 'Valid US zipcode please' });
     }
   }
 
@@ -56,7 +56,7 @@ export default class SearchConcerts extends Component {
                 <label htmlFor="search">ZipCode</label>
                 <input onChange={this.handleChange}
                   type="text" className="form-control"
-                  placeholder="Enter Zipcode" pattern="/^\d{5}(?:[-\s]\d{4})?$/g" />
+                  placeholder="Enter Zipcode" minLength="5" maxLength="5" />
               </form>
             </div>
           </div>
