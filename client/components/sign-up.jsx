@@ -30,12 +30,29 @@ class SignUp extends Component {
       usernameError: false
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleReset = this.handleReset.bind(this);
     this.createAccount = this.createAccount.bind(this);
+  }
+
+  handleReset() {
+    this.setState({
+      fullname: '',
+      password: '',
+      confirm: '',
+      username: '',
+      email: '',
+      zipcode: '',
+      phone: '',
+      genre1: '',
+      genre2: '',
+      genre3: ''
+    });
+    window.location.reload(false);
   }
 
   handleChange(event) {
     const { name, value } = event.target;
-    const emailRegExp = new RegExp('\\S+@\\S+\\.\\S+');
+    const emailRegExp = new RegExp('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$', 'i');
     const zipcodeRegExp = new RegExp('^\\d{5}$');
     const phoneRegExp = new RegExp('^[2-9]\\d{2}-\\d{3}-\\d{4}$');
     const capitalRegExp = new RegExp('.*[A-Z].*', 'g');
@@ -45,17 +62,44 @@ class SignUp extends Component {
     const usernameRegExp = new RegExp('^[a-zA-Z0-9]{4,}$');
     this.setState(prevState => {
       return {
-        [name]: value,
-        emailError: emailRegExp.test(this.state.email),
-        zipcodeError: zipcodeRegExp.test(this.state.zipcode),
-        phoneError: phoneRegExp.test(this.state.phone),
-        length: this.state.password.length,
-        hasCapital: capitalRegExp.test(this.state.password),
-        hasSpecial: specialRegExp.test(this.state.password),
-        hasDigit: digitRegExp.test(this.state.password),
-        nameIsLetters: lettersRegExp.test(this.state.fullname),
-        usernameError: usernameRegExp.test(this.state.username)
+        [name]: value
       };
+    }, () => {
+      switch (name) {
+        case 'fullname':
+          this.setState({
+            nameIsLetters: lettersRegExp.test(this.state.fullname)
+          });
+          break;
+        case 'username':
+          this.setState({
+            usernameError: usernameRegExp.test(this.state.username)
+          });
+          break;
+        case 'password':
+          this.setState({
+            length: this.state.password.length,
+            hasCapital: capitalRegExp.test(this.state.password),
+            hasSpecial: specialRegExp.test(this.state.password),
+            hasDigit: digitRegExp.test(this.state.password)
+          });
+          break;
+        case 'email':
+          this.setState({
+            emailError: emailRegExp.test(this.state.email)
+          });
+          break;
+        case 'zipcode':
+          this.setState({
+            zipcodeError: zipcodeRegExp.test(this.state.zipcode)
+          });
+          break;
+        case 'phone':
+          this.setState({
+            phoneError: phoneRegExp.test(this.state.phone)
+          });
+          break;
+      }
     });
     const { fullname, duplicate, password, confirm, username, email, zipcode } = this.state;
     if (duplicate) {
@@ -68,13 +112,13 @@ class SignUp extends Component {
     if (password !== confirm) {
       this.setState(prevState => {
         return {
-          noPasswordMatch: true
+          noPasswordMatch: false
         };
       });
     } else {
       this.setState(prevState => {
         return {
-          noPasswordMatch: false
+          noPasswordMatch: true
         };
       });
     }
@@ -127,73 +171,73 @@ class SignUp extends Component {
   alertEmptyFields() {
     return this.state.emptyFields === true
       ? 'Please fill out all fields that have an asterisk.'
-      : '';
+      : null;
   }
 
   alertDuplicate() {
     return this.state.duplicate === true
       ? 'That name, username, or e-mail address has already been taken.'
-      : '';
+      : null;
   }
 
   alertName() {
     return this.state.nameIsLetters === false
       ? 'Your full name must be upper/lowercase letters with a space.'
-      : '';
+      : null;
   }
 
   alertUsername() {
     return this.state.usernameError === false
       ? 'Your username must be alphanumeric only and at least 4 characters.'
-      : '';
+      : null;
   }
 
   alertPasswordMatch() {
     return this.state.noPasswordMatch === false
       ? 'Your passwords do not match.'
-      : '';
+      : null;
   }
 
   alertPasswordLength() {
     return (this.state.length >= 0 && this.state.length < 8)
       ? 'Your password must be at least 8 characters long.'
-      : '';
+      : null;
   }
 
   alertNoCapital() {
     return this.state.hasCapital === false
       ? 'Your password must contain at least 1 capital letter.'
-      : '';
+      : null;
   }
 
   alertNoSpecial() {
     return this.state.hasSpecial === false
       ? 'Your password must contain at least 1 special character.'
-      : '';
+      : null;
   }
 
   alertNoDigit() {
     return this.state.hasDigit === false
       ? 'Your password must contain at least 1 digit.'
-      : '';
+      : null;
   }
 
   alertEmail() {
     return this.state.emailError === false
       ? 'Please enter a valid e-mail address.'
-      : '';
+      : null;
   }
 
   alertZipcode() {
     return this.state.zipcodeError === false
       ? 'Please enter a valid zipcode in this format: XXXXX.'
-      : '';
+      : null;
   }
 
   alertPhone() {
     return this.state.phoneError === false
       ? 'Please enter a valid phone number in this format: XXX-XXX-XXXX.'
-      : '';
+      : null;
   }
 
   renderIconName() {
@@ -294,7 +338,7 @@ class SignUp extends Component {
         <header className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <img src="./images/metalink.jpg" alt="Metalink Logo" className="img-fluid mb-3"/>
+              <img src="./images/metalink.jpg" alt="Metalink Logo" className="img-fluid mb-3" />
               <h1 className="text-center mt-4">Account Sign Up</h1>
             </div>
           </div>
@@ -314,7 +358,7 @@ class SignUp extends Component {
                       value={this.state.fullname}
                       className="form-control"
                       autoComplete="off"
-                      placeholder="Full name"/>
+                      placeholder="Full name" />
                     <small className="text-danger">{this.alertName()}</small>
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -326,7 +370,7 @@ class SignUp extends Component {
                       onChange={this.handleChange}
                       value={this.state.username}
                       autoComplete="off"
-                      className="form-control"/>
+                      className="form-control" />
                     <small className="text-danger">{this.alertUsername()}</small>
                   </div>
                 </div>
@@ -342,7 +386,7 @@ class SignUp extends Component {
                       name="password"
                       onChange={this.handleChange}
                       value={this.state.password}
-                      className="form-control"/>
+                      className="form-control" />
                     <p><small className="text-danger">{this.alertPasswordLength()}</small></p>
                     <p><small className="text-danger">{this.alertNoCapital()}</small></p>
                     <p><small className="text-danger">{this.alertNoSpecial()}</small></p>
@@ -356,7 +400,7 @@ class SignUp extends Component {
                       name="confirm"
                       onChange={this.handleChange}
                       value={this.state.confirm}
-                      className="form-control"/>
+                      className="form-control" />
                     <small className="text-danger">{this.alertPasswordMatch()}</small>
                   </div>
                 </div>
@@ -371,7 +415,7 @@ class SignUp extends Component {
                       value={this.state.email}
                       className="form-control"
                       autoComplete="off"
-                      placeholder="example@example.com"/>
+                      placeholder="example@example.com" />
                     <small className="text-danger">{this.alertEmail()}</small>
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -398,7 +442,7 @@ class SignUp extends Component {
                       value={this.state.phone}
                       className="form-control"
                       autoComplete="off"
-                      placeholder="XXX-XXX-XXXX"/>
+                      placeholder="XXX-XXX-XXXX" />
                     <small className="text-danger">{this.alertPhone()}</small>
                   </div>
                 </div>
@@ -440,10 +484,18 @@ class SignUp extends Component {
           </Link>
           <button
             className="btn btn-primary btn-sm ml-2"
+            disabled={this.state.emptyFields ? 'disabled' : false}
             name="submit"
             type="submit"
             onClick={this.createAccount}>
-              Create Account
+            Create Account
+          </button>
+          <button className="btn btn-warning btn-sm ml-2"
+            name="reset"
+            type="reset"
+            onClick={this.handleReset}
+          >
+            Reset
           </button>
         </div>
       </React.Fragment>
