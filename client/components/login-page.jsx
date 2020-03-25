@@ -80,7 +80,7 @@ class LoginPage extends React.Component {
       <React.Fragment>
         <header className="container-fluid mb-4">
           <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div className="col-12 text-center">
               <img src="./images/login.jpg" alt="Pentagram" className="img-fluid mb-3 login-heading" />
               <h1 className="text-center mt-4 mb-4">Welcome to Metalink</h1>
               <h4 className="text-center">Your link to all things metal!</h4>
@@ -100,7 +100,8 @@ class LoginPage extends React.Component {
                       name="username"
                       className="form-control"
                       onChange={this.handleChange}
-                      value={this.state.username}/>
+                      value={this.state.username}
+                      placeholder="1337Dragonforce"/>
                     <div className="mb-4 pb-4">
                       {
                         this.state.wrongUsername
@@ -119,7 +120,8 @@ class LoginPage extends React.Component {
                       name="password"
                       className="form-control"
                       onChange={this.handleChange}
-                      value={this.state.password}/>
+                      value={this.state.password}
+                      placeholder="buhlakesl33tGHexpert"/>
                     <div className="mb-4 pb-4">
                       {
                         this.state.incorrectPassword

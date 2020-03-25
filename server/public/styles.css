@@ -140,12 +140,6 @@ footer div span {
   height: 75px;
 }
 
-.login-heading {
-  width: 430px;
-  height: 200px;
-  object-fit: cover;
-}
-
 .card-body {
   color: #000;
 }
@@ -339,8 +333,7 @@ footer div span {
   and (orientation: portrait)
   and (-webkit-min-device-pixel-ratio: 2) {
     .login-heading {
-      width: 768px;
-      height: 200px;
+      height: 350px;
       object-fit: cover;
     }
     .posts-container {
