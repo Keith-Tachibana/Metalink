@@ -32,6 +32,10 @@ footer div span {
   font-size: 1.25rem;
 }
 
+.login-form {
+  width: 400px;
+}
+
 .image-container {
   border: 1px solid #FFF;
   height: 100px;
@@ -279,9 +283,12 @@ footer div span {
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) {
     .login-heading {
-      width: 430px;
+      width: 340px;
       height: 200px;
       object-fit: cover;
+    }
+    .login-form {
+      width: 300px;
     }
     .nav-bg {
       height: 70px;
@@ -335,6 +342,9 @@ footer div span {
     .login-heading {
       height: 350px;
       object-fit: cover;
+    }
+    .login-form {
+      width: 375px;
     }
     .posts-container {
       height: 750px

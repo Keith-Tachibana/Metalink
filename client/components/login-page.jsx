@@ -81,71 +81,65 @@ class LoginPage extends React.Component {
         <header className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 text-center">
-              <img src="./images/login.jpg" alt="Pentagram" className="img-fluid mb-3 login-heading" />
+              <img src="./images/login.jpg" alt="Pentagram" className="mb-3 login-heading" />
               <h1 className="text-center mt-4 mb-4">Welcome to Metalink</h1>
               <h4 className="text-center">Your link to all things metal!</h4>
             </div>
           </div>
         </header>
-        <main className="container-fluid mb-4">
-          <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <form>
-                <div className="form-row" style={{ height: '75px' }}>
-                  <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <label htmlFor="username">Username</label>
-                    <input
-                      type="text"
-                      id="username"
-                      name="username"
-                      className="form-control"
-                      onChange={this.handleChange}
-                      value={this.state.username}
-                      placeholder="1337Dragonforce"/>
-                    <div className="mb-4 pb-4">
-                      {
-                        this.state.wrongUsername
-                          ? <p className="text-danger text-center mb-0 pb-0">No user found with that username.</p>
-                          : ''
-                      }
-                    </div>
-                  </div>
-                </div>
-                <div className="form-row" style={{ height: '75px' }}>
-                  <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <label htmlFor="password">Password</label>
-                    <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      className="form-control"
-                      onChange={this.handleChange}
-                      value={this.state.password}
-                      placeholder="buhlakesl33tGHexpert"/>
-                    <div className="mb-4 pb-4">
-                      {
-                        this.state.incorrectPassword
-                          ? <p className="text-danger text-center mb-0 pb-0">You entered an incorrect password.</p>
-                          : ''
-                      }
-                    </div>
-                  </div>
-                </div>
-                <div className="form-row text-center">
-                  <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <button
-                      type="submit"
-                      name="submit"
-                      onClick={this.handleSubmit}
-                      className="btn btn-primary mt-4">
-                      Sign In
-                    </button>
-                  </div>
-                </div>
-              </form>
+        <form className="mx-auto login-form">
+          <div className="form-row" style={{ height: '75px' }}>
+            <div className="form-group col-12">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                className="form-control"
+                onChange={this.handleChange}
+                value={this.state.username}
+                placeholder="1337Dragonforce" />
+              <div className="mb-4 pb-4">
+                {
+                  this.state.wrongUsername
+                    ? <p className="text-danger text-center mb-0 pb-0">No user found with that username.</p>
+                    : ''
+                }
+              </div>
             </div>
           </div>
-        </main>
+          <div className="form-row" style={{ height: '75px' }}>
+            <div className="form-group col-12">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                className="form-control"
+                onChange={this.handleChange}
+                value={this.state.password}
+                placeholder="buhlakesl33tGHexpert" />
+              <div className="mb-4 pb-4">
+                {
+                  this.state.incorrectPassword
+                    ? <p className="text-danger text-center mb-0 pb-0">You entered an incorrect password.</p>
+                    : ''
+                }
+              </div>
+            </div>
+          </div>
+          <div className="form-row text-center">
+            <div className="form-group col-12">
+              <button
+                type="submit"
+                name="submit"
+                onClick={this.handleSubmit}
+                className="btn btn-primary mt-4">
+                Sign In
+              </button>
+            </div>
+          </div>
+        </form>
         <footer>
           <Link className="mt-5 pt-5 text-center" to="/signup"><h6>Sign up for an account here</h6></Link>
         </footer>
