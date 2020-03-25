@@ -1,34 +1,36 @@
 # Metalink
 A mobile-first, full-stack, web application for lovers of metal music that aims to link them with other fans of the genre
 ## Technologies Used
-- -@Babel/Core 7.8.0
-- -@Babel/Plugin-Transform-React-JSX 7.8.0
-- -Axios 0.19.2
-- -Babel-Loader 8.0.6
-- -Bcrypt 4.0.1
-- -Bootstrap 4.4.1
-- -CORS 2.8.5
-- -Disconnect 1.2.1
-- -Dotenv 8.2.0
-- -Express 4.17.1
-- -Express-Session 1.17.0
-- -FontAwesome 5.11.2
-- -Lodash 4.17.15
-- -Multer 1.4.2
-- -Nginx 1.14.0
-- -Node 10.15.3
-- -Node-Fetch 2.6.0
-- -NPM 6.4.1
-- -PG 7.17.1
-- -PM2 4.2.3
-- -PostgreSQL 10.10
-- -React 16.12.0
-- -React-DOM 16.12.0
-- -React-Router-DOM 5.1.2
-- -Session-File-Store 1.3.1
-- -Webpack 4.41.5
-- -Webpack-CLI 3.3.10
-- -YouTube-API-Search 0.0.5
+|              Dependency            | Version |
+|------------------------------------|--------:|
+| @Babel/Core                        | 7.8.0   |
+| @Babel/Plugin-Transform-React-JSX  | 7.8.0   |
+| Axios                              | 0.19.2  |
+| Babel-Loader                       | 8.0.6   |
+| Bcrypt                             | 4.0.1   |
+| Bootstrap                          | 4.4.1   |
+| CORS                               | 2.8.5   |
+| Disconnect                         | 1.2.1   |
+| Dotenv                             | 8.2.0   |
+| Express                            | 4.17.1  |
+| Express-Session                    | 1.17.0  |
+| FontAwesome                        | 5.11.2  |
+| Lodash                             | 4.17.15 |
+| Multer                             | 1.4.2   |
+| Nginx                              | 1.14.0  |
+| Node                               | 10.15.3 |
+| Node-Fetch                         | 2.6.0   |
+| NPM                                | 6.4.1   | 
+| PG                                 | 7.17.1  |
+| PM2                                | 4.2.3   |
+| PostgreSQL                         | 10.10   |
+| React                              | 16.12.0 |
+| React-DOM                          | 16.12.0 |
+| React-Router-DOM                   | 5.1.2   |
+| Session-File-Store                 | 1.3.1   |
+| Webpack                            | 4.41.5  |
+| Webpack-CLI                        | 3.3.10  |
+| YouTube-API-Search                 | 0.0.5   |
 ## Live Demo
 Try the application live [on my portfolio website](http://metalink.keith-tachibana.com/)
 ## Features
