@@ -303,6 +303,10 @@ footer div span {
       height: 430px;
       padding-left: 1.25rem;
     }
+    .concertsearch-table {
+      height: 393px;
+      overflow: auto;
+    }
 }
 
 /* Landscape */
@@ -320,8 +324,6 @@ footer div span {
       background-position: 25% 53%;
     }
 }
-
-
 
 /* ----------- iPad 3, 4 and Pro 9.7" ----------- */
 
@@ -343,13 +345,14 @@ footer div span {
       height: 350px;
       object-fit: cover;
     }
-    .login-form {
+    .login-form, .concertsearch-form {
       width: 375px;
     }
     .posts-container {
       height: 750px
     }
     .nav-bg {
+      background-size: 75%;
       height: 100px;
       background-position: 50% 53%;
     }
@@ -357,6 +360,10 @@ footer div span {
       height: 750px;
       padding-left: 5rem;
       margin-bottom: 4rem;
+    }
+    .concertsearch-table {
+      height: 700px;
+      overflow: auto;
     }
 }
 
