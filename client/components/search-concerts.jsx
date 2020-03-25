@@ -52,7 +52,7 @@ export default class SearchConcerts extends Component {
         <main className="container-fluid">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <form className="form-group mb-2">
+              <form className="form-group mx-auto mb-2 concertsearch-form">
                 <label htmlFor="search">ZipCode</label>
                 <input onChange={this.handleChange}
                   type="text" className="form-control"
