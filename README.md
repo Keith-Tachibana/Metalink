@@ -41,7 +41,7 @@ Try the application live [on my portfolio website](http://metalink.keith-tachiba
 - -Users can message other users to setup a chat session
 - -Users can search for band and/or album information using the Discogs API
 ## Preview
-To be announced later
+![Metalink Preview](preview.gif "Metalink Preview")
 ## Development
 - -[DB Designer available here](https://app.dbdesigner.net/designer/schema/312595)
 - -[Figma available here](https://www.figma.com/file/pzkKz7ZmE00RLNJQBJOxA7/MetaLink?node-id=0%3A1)
