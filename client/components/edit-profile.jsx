@@ -157,9 +157,9 @@ class EditProfile extends Component {
             </div>
           </div>
         </header>
-        <main className="container-fluid mb-4" style={{ height: '439px', overflow: 'auto' }}>
+        <main className="container overflow-auto mx-auto mb-4 profile-container">
           <div className="row">
-            <div className="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+            <div className="col-5">
               <div className="image-container">
                 {this.renderImage()}
               </div>
@@ -175,7 +175,7 @@ class EditProfile extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7 mb-2">
+            <div className="col-6 mb-2">
               <div><span className="text-danger">Name:</span> <p className="profile-element">{profile.name}</p></div>
               <div><span className="text-danger">Username:</span> <p className="profile-element">{profile.username}</p></div>
               <div><span className="text-danger">E-mail:</span> <p className="profile-element">{profile.email}</p></div>

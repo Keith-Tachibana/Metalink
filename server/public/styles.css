@@ -58,6 +58,13 @@ footer div span {
   height: 25px;
 }
 
+.profile-container {
+  margin: 0 auto;
+  margin-bottom: 4rem;
+  padding-left: 5rem;
+  height: 600px;
+}
+
 .signup-genre {
   height: 30px;
   width: 220px;
@@ -70,8 +77,8 @@ footer div span {
 .nav-bg {
   background-image: url('./images/metalink.jpg');
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  height: 100px;
+  background-position: 50% 53%;
 }
 
 .form-container > div {
@@ -162,6 +169,10 @@ footer div span {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+.posts-container {
+  height: 625px
 }
 
 .post-item:hover {
@@ -273,8 +284,23 @@ footer div span {
   and (max-device-width: 667px)
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) {
+    .login-heading {
+      width: 430px;
+      height: 200px;
+      object-fit: cover;
+    }
+    .nav-bg {
+      height: 70px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
     .posts-container {
       height: 450px;
+    }
+    .profile-container {
+      height: 430px;
+      padding-left: 1.25rem;
     }
 }
 
@@ -318,6 +344,11 @@ footer div span {
     .nav-bg {
       height: 100px;
       background-position: 50% 53%;
+    }
+    .profile-container {
+      height: 750px;
+      padding-left: 5rem;
+      margin-bottom: 4rem;
     }
 }
 
