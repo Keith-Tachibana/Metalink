@@ -30,6 +30,8 @@ class SignUp extends Component {
       usernameError: false
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleConfirmChange = this.handleConfirmChange.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.createAccount = this.createAccount.bind(this);
   }
@@ -47,7 +49,79 @@ class SignUp extends Component {
       genre2: '',
       genre3: ''
     });
-    window.location.reload(false);
+  }
+
+  handlePasswordChange(event) {
+    const { name, value } = event.target;
+    const capitalRegExp = new RegExp('.*[A-Z].*', 'g');
+    const specialRegExp = new RegExp('.*[!@#$%^&*()].*', 'g');
+    const digitRegExp = new RegExp('.*[\\d].*', 'g');
+    this.setState(prevState => {
+      return {
+        [name]: value,
+        length: this.state.password.length
+      };
+    }, () => {
+      this.setState({
+        hasCapital: capitalRegExp.test(this.state.password),
+        hasSpecial: specialRegExp.test(this.state.password),
+        hasDigit: digitRegExp.test(this.state.password)
+      });
+      if (this.state.length === 0 && !this.state.hasCapital && !this.state.hasDigit && !this.state.hasSpecial) {
+        this.setState(prevState => {
+          return {
+            strength: 'very weak'
+          };
+        });
+      } else if (this.state.length > 0 && this.state.length < 8 && !this.state.hasCapital && !this.state.hasDigit && !this.state.hasSpecial) {
+        this.setState(prevState => {
+          return {
+            strength: 'weak'
+          };
+        });
+      } else if (this.state.length > 8 && this.state.hasCapital && !this.state.hasDigit && !this.state.hasSpecial) {
+        this.setState(prevState => {
+          return {
+            strength: 'medium'
+          };
+        });
+      } else if (this.state.length > 8 && this.state.hasCapital && this.state.hasDigit && !this.state.hasSpecial) {
+        this.setState(prevState => {
+          return {
+            strength: 'strong'
+          };
+        });
+      } else if (this.state.length > 8 && this.state.hasCapital && this.state.hasDigit && this.state.hasSpecial) {
+        this.setState(prevState => {
+          return {
+            strength: 'very strong'
+          };
+        });
+      }
+    });
+  }
+
+  handleConfirmChange(event) {
+    const { name, value } = event.target;
+    this.setState(prevState => {
+      return {
+        [name]: value
+      };
+    }, () => {
+      if (this.state.password !== this.state.confirm) {
+        this.setState(prevState => {
+          return {
+            noPasswordMatch: false
+          };
+        });
+      } else {
+        this.setState(prevState => {
+          return {
+            noPasswordMatch: true
+          };
+        });
+      }
+    });
   }
 
   handleChange(event) {
@@ -55,9 +129,6 @@ class SignUp extends Component {
     const emailRegExp = new RegExp('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$', 'i');
     const zipcodeRegExp = new RegExp('^\\d{5}$');
     const phoneRegExp = new RegExp('^[2-9]\\d{2}-\\d{3}-\\d{4}$');
-    const capitalRegExp = new RegExp('.*[A-Z].*', 'g');
-    const specialRegExp = new RegExp('.*[!@#$%^&*()].*', 'g');
-    const digitRegExp = new RegExp('.*[\\d].*', 'g');
     const lettersRegExp = new RegExp('^[A-Za-z]+\\s[A-Za-z]+$', 'g');
     const usernameRegExp = new RegExp('^[a-zA-Z0-9]{4,}$');
     this.setState(prevState => {
@@ -74,14 +145,6 @@ class SignUp extends Component {
         case 'username':
           this.setState({
             usernameError: usernameRegExp.test(this.state.username)
-          });
-          break;
-        case 'password':
-          this.setState({
-            length: this.state.password.length,
-            hasCapital: capitalRegExp.test(this.state.password),
-            hasSpecial: specialRegExp.test(this.state.password),
-            hasDigit: digitRegExp.test(this.state.password)
           });
           break;
         case 'email':
@@ -109,19 +172,6 @@ class SignUp extends Component {
         };
       });
     }
-    if (password !== confirm) {
-      this.setState(prevState => {
-        return {
-          noPasswordMatch: false
-        };
-      });
-    } else {
-      this.setState(prevState => {
-        return {
-          noPasswordMatch: true
-        };
-      });
-    }
     if (fullname === '' || password === '' || confirm === '' || username === '' || email === '' || zipcode === '') {
       this.setState(prevState => {
         return {
@@ -132,37 +182,6 @@ class SignUp extends Component {
       this.setState(prevState => {
         return {
           emptyFields: false
-        };
-      });
-    }
-    if (this.state.length === 0 && !this.state.hasCapital && !this.state.hasDigit && !this.state.hasSpecial) {
-      this.setState(prevState => {
-        return {
-          strength: 'very weak'
-        };
-      });
-    } else if (this.state.length > 0 && this.state.length < 8 && !this.state.hasCapital && !this.state.hasDigit && !this.state.hasSpecial) {
-      this.setState(prevState => {
-        return {
-          strength: 'weak'
-        };
-      });
-    } else if (this.state.length > 8 && this.state.hasCapital && !this.state.hasDigit && !this.state.hasSpecial) {
-      this.setState(prevState => {
-        return {
-          strength: 'medium'
-        };
-      });
-    } else if (this.state.length > 8 && this.state.hasCapital && this.state.hasDigit && !this.state.hasSpecial) {
-      this.setState(prevState => {
-        return {
-          strength: 'strong'
-        };
-      });
-    } else if (this.state.length > 8 && this.state.hasCapital && this.state.hasDigit && this.state.hasSpecial) {
-      this.setState(prevState => {
-        return {
-          strength: 'very strong'
         };
       });
     }
@@ -384,7 +403,7 @@ class SignUp extends Component {
                       type="password"
                       id="password"
                       name="password"
-                      onChange={this.handleChange}
+                      onChange={this.handlePasswordChange}
                       value={this.state.password}
                       className="form-control" />
                     <p><small className="text-danger">{this.alertPasswordLength()}</small></p>
@@ -398,7 +417,7 @@ class SignUp extends Component {
                       type="password"
                       id="confirm"
                       name="confirm"
-                      onChange={this.handleChange}
+                      onChange={this.handleConfirmChange}
                       value={this.state.confirm}
                       className="form-control" />
                     <small className="text-danger">{this.alertPasswordMatch()}</small>
