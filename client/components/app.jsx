@@ -21,7 +21,7 @@ class App extends Component {
       profile: [],
       posts: [],
       editing: null,
-      user: null
+      authorizing: true
     };
     this.getProfile = this.getProfile.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
@@ -33,6 +33,10 @@ class App extends Component {
   }
 
   componentDidMount() {
+    fetch('/api/auth')
+      .then(res => res.json())
+      .then(profile => this.setState({ profile: profile.user, authorizing: false }))
+      .catch(err => console.error(err));
     this.getPosts();
   }
 
@@ -158,6 +162,7 @@ class App extends Component {
   }
 
   render() {
+    if (this.state.authorizing) return null;
     return (
       <Router>
         <Switch>
