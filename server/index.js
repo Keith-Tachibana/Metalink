@@ -428,7 +428,7 @@ io.on('connection', socket => {
     socket.username = username;
     ++population;
     addedUser = true;
-    socket.emit('login', {
+    io.emit('LOGIN', {
       population: population
     });
     socket.broadcast.emit('USER_CONNECTED', {

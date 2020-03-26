@@ -31,6 +31,11 @@ class ChatPage extends Component {
         population: data.population
       });
     });
+    socket.on('LOGIN', data => {
+      this.setState({
+        population: data.population
+      });
+    });
     socket.on('USER_DISCONNECTED', data => {
       socket.emit('SEND_MESSAGE', {
         message: data.username + ' has left the room.'
