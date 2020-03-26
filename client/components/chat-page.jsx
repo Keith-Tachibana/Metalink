@@ -47,6 +47,11 @@ class ChatPage extends Component {
     });
   }
 
+  componentDidUpdate() {
+    const messages = document.getElementById('messages');
+    messages.scrollTop = messages.scrollHeight;
+  }
+
   componentWillUnmount() {
     socket.close();
   }
@@ -94,7 +99,7 @@ class ChatPage extends Component {
                 <div className="card-body" style={{ color: '#FFF' }}>
                   <div className="card-title">Number of people in chat room: {this.state.population}</div>
                   <hr style={{ backgroundColor: '#FFF' }} />
-                  <div className="messages" style={{ height: '240px', overflow: 'auto' }}>
+                  <div id="messages" style={{ height: '240px', overflow: 'auto' }}>
                     {messages.map((message, index) => {
                       return (
                         <React.Fragment key={index}>
@@ -104,7 +109,7 @@ class ChatPage extends Component {
                       );
                     })}
                   </div>
-                  <div className="footer">
+                  <div>
                     <textarea
                       type="text"
                       placeholder="Message"
