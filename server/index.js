@@ -4,6 +4,7 @@ const path = require('path');
 const multer = require('multer');
 const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
+const socket = require('socket.io');
 const Discogs = require('disconnect').Client;
 
 const db = require('./database');
@@ -402,7 +403,47 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log('Listening on port', process.env.PORT);
+});
+
+const io = socket(server);
+let population = 0;
+
+io.on('connection', socket => {
+  let addedUser = false;
+
+  socket.on('SEND_MESSAGE', data => {
+    io.emit('RECEIVE_MESSAGE', {
+      username: socket.username,
+      message: data
+    });
+  });
+
+  socket.on('ADD_USER', username => {
+    if (addedUser) {
+      return;
+    }
+    socket.username = username;
+    ++population;
+    addedUser = true;
+    socket.emit('login', {
+      population: population
+    });
+    socket.broadcast.emit('USER_CONNECTED', {
+      username: socket.username,
+      population: population
+    });
+  });
+
+  socket.on('disconnect', () => {
+    if (addedUser) {
+      --population;
+      socket.broadcast.emit('USER_DISCONNECTED', {
+        username: socket.username,
+        population: population
+      });
+    }
+  });
 });

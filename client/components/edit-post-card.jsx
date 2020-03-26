@@ -33,9 +33,12 @@ class EditPostCard extends Component {
     const splitLast = split[2].split('T');
     const splitTime = splitLast[1].split(':');
     const hour = splitTime[0] < 10 ? splitTime[0].slice(1) : splitTime[0];
-    let hour12 = parseInt(hour) > 12 ? parseInt(hour) - 12 : parseInt(hour) - 7;
-    const amPM = (hour12 < 12 && hour12 > 0) ? 'AM' : 'PM';
-    const time = `${Math.abs(hour12) === 0 ? hour12 = 12 : Math.abs(hour12)}:${splitTime[1]} ${amPM}`;
+    const hourPST = parseInt(hour) - 7;
+    const realHour = ((hourPST - 7) < 0) ? (24 + hourPST) : hourPST;
+    const hour12 = (parseInt(realHour) > 12) ? (parseInt(realHour) - 12) : parseInt(realHour);
+    let realHour12 = hour12 > 12 ? hour12 - 12 : hour12;
+    const amPM = (realHour < 12) ? 'AM' : 'PM';
+    const time = `${Math.abs(realHour12) === 0 ? realHour12 = 12 : Math.abs(realHour12)}:${splitTime[1]} ${amPM}`;
     const month = split[1] < 10 ? split[1].slice(1) : split[1];
     const postDate = `${month}/${splitLast[0]}/${split[0]} @ ${time}`;
     return postDate;

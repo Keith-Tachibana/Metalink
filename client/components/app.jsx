@@ -12,6 +12,7 @@ import SearchPage from './search-page';
 import VideosPage from './videos-page';
 import SearchConcerts from './search-concerts';
 import CreatePost from './create-post';
+import ChatPage from './chat-page';
 
 class App extends Component {
   constructor(props) {
@@ -167,8 +168,8 @@ class App extends Component {
           } />
           <Route path='/home/:id' exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit} />
-              <HomePage profile={this.state.profile} />
+              <Menu handleExit={this.handleExit}/>
+              <HomePage profile={this.state.profile}/>
               <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
@@ -177,7 +178,7 @@ class App extends Component {
               <Menu handleExit={this.handleExit}/>
               <EditProfile
                 profile={this.state.profile}
-                updateProfile={this.updateProfile} />
+                updateProfile={this.updateProfile}/>
               <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
@@ -196,7 +197,7 @@ class App extends Component {
                 editing={this.state.editing}
                 deletePost={this.deletePost}
                 updatePostFetch={this.updatePostFetch}
-                updatePost={this.updatePost} />
+                updatePost={this.updatePost}/>
               <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
@@ -223,8 +224,15 @@ class App extends Component {
               <BottomNavbar handleExit={this.handleExit}/>
             </React.Fragment>
           } />
+          <Route path="/chat/:id" exact render={props =>
+            <React.Fragment>
+              <Menu handleExit={this.handleExit}/>
+              <ChatPage profile={this.state.profile}/>
+              <BottomNavbar handleExit={this.handleExit}/>
+            </React.Fragment>
+          } />
           <Route path="/" render={props =>
-            <LoginPage {...props} getProfile={this.getProfile} />
+            <LoginPage {...props} getProfile={this.getProfile}/>
           } />
           <Router path="*" render={<div><em>404:</em> Page Not Found</div>}/>
         </Switch>

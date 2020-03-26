@@ -19,7 +19,7 @@ class BottomNavbar extends Component {
               <span> Edit Posts</span>
             </div>
           </Link>
-          <Link to="/login">
+          <Link to="/">
             <div onClick={this.props.handleExit}>
               <i className="fas fa-sign-out-alt text-danger"></i>
               <span> Exit</span>
