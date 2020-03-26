@@ -63,7 +63,7 @@ class EditPosts extends Component {
   render() {
     const { posts, updatePost, deletePost, profile } = this.props;
     const userPosts = posts.filter(postobj => postobj.userId === profile.userId);
-    const postCard = userPosts.length === 0 ? <h3 className="text-center">You have no posts! Make some :)</h3>
+    const postCard = userPosts.length === 0 ? <h3 className="text-center">You have no posts! Make some &#129304;</h3>
       : userPosts.map(post => {
         return (
           <EditPostCard
