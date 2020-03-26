@@ -162,7 +162,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.authorizing) { return <h1 className="text-center">Authorizing...</h1>; }
+    if (this.state.authorizing) return null;
     return (
       <Router>
         <Switch>
