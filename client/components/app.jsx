@@ -168,73 +168,74 @@ class App extends Component {
           } />
           <Route path='/home/:id' exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit}/>
-              <HomePage profile={this.state.profile}/>
-              <BottomNavbar handleExit={this.handleExit}/>
+              <Menu handleExit={this.handleExit} />
+              <HomePage profile={this.state.profile} />
+              <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/profile/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit}/>
+              <Menu handleExit={this.handleExit} />
               <EditProfile
                 profile={this.state.profile}
-                updateProfile={this.updateProfile}/>
-              <BottomNavbar handleExit={this.handleExit}/>
+                updateProfile={this.updateProfile} />
+              <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/concerts/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit}/>
+              <Menu handleExit={this.handleExit} />
               <SearchConcerts />
-              <BottomNavbar handleExit={this.handleExit}/>
+              <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/posts/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit}/>
+              <Menu handleExit={this.handleExit} />
               <EditPosts
                 posts={this.state.posts}
                 editing={this.state.editing}
                 deletePost={this.deletePost}
                 updatePostFetch={this.updatePostFetch}
-                updatePost={this.updatePost}/>
-              <BottomNavbar handleExit={this.handleExit}/>
+                updatePost={this.updatePost}
+                profile={this.state.profile} />
+              <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/create/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit}/>
+              <Menu handleExit={this.handleExit} />
               <CreatePost
                 posts={this.state.posts}
-                createPost={this.createPost}/>
-              <BottomNavbar handleExit={this.handleExit}/>
+                createPost={this.createPost} />
+              <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/search/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit}/>
+              <Menu handleExit={this.handleExit} />
               <SearchPage />
-              <BottomNavbar handleExit={this.handleExit}/>
+              <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/videos/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit}/>
+              <Menu handleExit={this.handleExit} />
               <VideosPage />
-              <BottomNavbar handleExit={this.handleExit}/>
+              <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/chat/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit}/>
-              <ChatPage profile={this.state.profile}/>
-              <BottomNavbar handleExit={this.handleExit}/>
+              <Menu handleExit={this.handleExit} />
+              <ChatPage profile={this.state.profile} />
+              <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/" render={props =>
-            <LoginPage {...props} getProfile={this.getProfile}/>
+            <LoginPage {...props} getProfile={this.getProfile} />
           } />
-          <Router path="*" render={<div><em>404:</em> Page Not Found</div>}/>
+          <Router path="*" render={<div><em>404:</em> Page Not Found</div>} />
         </Switch>
       </Router>
     );

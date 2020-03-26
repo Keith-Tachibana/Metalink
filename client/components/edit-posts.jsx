@@ -61,8 +61,9 @@ class EditPosts extends Component {
   }
 
   render() {
-    const { posts, updatePost, deletePost } = this.props;
-    const postCard = posts.map(post => {
+    const { posts, updatePost, deletePost, profile } = this.props;
+    const userPosts = posts.filter(postobj => postobj.userId === profile.userId);
+    const postCard = userPosts.map(post => {
       return (
         <EditPostCard
           key={post.postId}

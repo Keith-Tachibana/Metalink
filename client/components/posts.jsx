@@ -23,11 +23,11 @@ class Posts extends React.Component {
     return (
       <div className="card col-10 mb-2 post-home">
         <div className="card-body post-body" style={{ color: '#FFF' }}>
-          <p><span>User: </span>{ this.props.username }</p>
-          <p><span>Date: </span>{ this.renderDate() }</p>
-          <p><span>Subject: </span>{ this.props.subject }</p>
+          <p><span>User: </span>{this.props.username}</p>
+          <p><span>Date: </span>{this.renderDate()}</p>
+          <p><span>Subject: </span>{this.props.subject}</p>
           <br />
-          <p>{ this.props.content }</p>
+          <p>{this.props.content}</p>
         </div>
       </div>
     );
