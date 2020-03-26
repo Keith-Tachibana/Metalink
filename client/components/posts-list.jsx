@@ -36,17 +36,17 @@ class PostsList extends React.Component {
     const posts = this.state.posts.map(post => {
       return (
         <Posts
-          key={ post.postId }
-          username={ post.username }
-          datePosted={ post.datePosted }
-          subject={ post.subject }
-          content={ post.content } />
+          key={post.postId}
+          username={post.username}
+          datePosted={post.datePosted}
+          subject={post.subject}
+          content={post.content} />
       );
     });
     return (
       <div className="mb-4 posts-container overflow-auto" >
         <div className="row d-flex justify-content-center">
-          { posts }
+          {posts}
         </div>
       </div>
     );
