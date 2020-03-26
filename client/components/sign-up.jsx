@@ -219,7 +219,7 @@ class SignUp extends Component {
 
   alertPasswordLength() {
     return (this.state.length >= 0 && this.state.length < 8)
-      ? 'Your password must be at least 8 characters long.'
+      ? 'Your password must be at least 9 characters long.'
       : null;
   }
 
