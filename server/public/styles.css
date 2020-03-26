@@ -22,7 +22,8 @@ input[type="search"],
 input[type="password"],
 .form-textarea,
 .post-home,
-.band-card {
+.band-card,
+.chat-message {
   background-color: #000;
   color: #FFF;
 }
