@@ -36,12 +36,26 @@ app.get('/api/users', (req, res, next) => {
            "name",
            "username",
            "email",
-           "zipcode"
+           "zipcode",
            "createdAt"
       FROM "users";
   `;
   db.query(sql)
     .then(result => res.json(result.rows))
+    .catch(err => next(err));
+});
+
+app.get('/api/auth', (req, res, next) => {
+  if (!req.session.userId) return res.json({ user: null });
+  const sql = `
+    SELECT "userId", "name", "username", "email", "zipcode", "phone", "profileImage", "genre1", "genre2", "genre3"
+    FROM  "users"
+    WHERE "userId" = $1;`;
+  db.query(sql, [req.session.userId])
+    .then(result => {
+      const user = result.rows[0];
+      res.json({ user });
+    })
     .catch(err => next(err));
 });
 
