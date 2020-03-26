@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import io from 'socket.io-client';
 
@@ -125,4 +126,4 @@ class ChatPage extends Component {
   }
 }
 
-export default ChatPage;
+export default withRouter(ChatPage);
