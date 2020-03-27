@@ -71,16 +71,16 @@ class SearchPage extends Component {
     const { band, discogs } = this.state;
     return (
       <React.Fragment>
-        <header className="container-fluid mb-4">
+        <header className="container-fluid mb-1">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <h1 className="text-center mt-4">Search</h1>
+              <h1 className="text-center mt-1 mb-0">Search</h1>
             </div>
           </div>
         </header>
         <main className="container-fluid mb-4">
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6">
               <form onSubmit={this.handleSubmit} className="form-inline">
                 <div className="form-group">
                   <label htmlFor="search">Band Name</label>
@@ -93,18 +93,18 @@ class SearchPage extends Component {
                     placeholder="Search for bands"
                     onChange={this.handleChange}
                     className="form-control" />
-                </div>
-                <button
-                  type="submit"
-                  name="submit"
-                  className="btn btn-primary mt-3">
+                  <button
+                    type="submit"
+                    name="submit"
+                    className="btn btn-primary mt-2">
                     Submit
-                </button>
+                  </button>
+                </div>
               </form>
             </div>
           </div>
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6">
               {
                 !band
                   ? <div>Searching...</div>
