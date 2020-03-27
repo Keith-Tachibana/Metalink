@@ -16,11 +16,9 @@ A mobile-first, full-stack, web application for lovers of metal music that aims 
 | Express-Session                    | 1.17.0  |
 | FontAwesome                        | 5.11.2  |
 | Lodash                             | 4.17.15 |
+| Moment                             | 2.24.0  |
 | Multer                             | 1.4.2   |
-| Nginx                              | 1.14.0  |
-| Node                               | 10.15.3 |
 | Node-Fetch                         | 2.6.0   |
-| NPM                                | 6.4.1   | 
 | PG                                 | 7.17.1  |
 | PM2                                | 4.2.3   |
 | PostgreSQL                         | 10.10   |
@@ -28,6 +26,7 @@ A mobile-first, full-stack, web application for lovers of metal music that aims 
 | React-DOM                          | 16.12.0 |
 | React-Router-DOM                   | 5.1.2   |
 | Session-File-Store                 | 1.3.1   |
+| Socket.io                          | 2.3.0   |
 | Webpack                            | 4.41.5  |
 | Webpack-CLI                        | 3.3.10  |
 | YouTube-API-Search                 | 0.0.5   |
@@ -47,13 +46,14 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
 - -[Figma available here](https://www.figma.com/file/pzkKz7ZmE00RLNJQBJOxA7/MetaLink?node-id=0%3A1)
 - -[MeisterTask available here](https://www.meistertask.com/app/project/i8BR5WmN/metalink)
 #### System Requirements
-| Requirement |     Version    |
-|-------------|---------------:|
-| Nginx       | 1.10 or higher |
-| Node        | 10 or higher   |
-| NPM         | 6 or higher    |
-| PM2         | 4 or higher    |
-| PostgreSQL  | 10 or higher   |
+|  Requirement  |     Version    |
+|---------------|---------------:|
+| Nginx         | 1.10 or higher |
+| Node          | 10 or higher   |
+| NPM           | 6 or higher    |
+| PM2           | 4 or higher    |
+| PostgreSQL    | 10 or higher   |
+| Ubuntu Server | 18.04 LTS      |
 #### Getting Started
 1. Clone the repository
   ```shell
@@ -111,6 +111,6 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
   ```
 11. Start the Express.js server using the pm2 module
   ```shell
-  sudo pm2 --name "Metalink" start "npm run start"
+  sudo pm2 --name "Metalink" start "npm run dev"
   ```
 12. Open your default web browser and navigate to http://localhost:3000/ to see the result!
