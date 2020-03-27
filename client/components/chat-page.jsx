@@ -14,6 +14,7 @@ class ChatPage extends Component {
       messages: [],
       population: 0
     };
+    this.timerID = null;
     this.handleChange = this.handleChange.bind(this);
     this.getMessages = this.getMessages.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
@@ -43,10 +44,13 @@ class ChatPage extends Component {
       });
     });
     this.timerID = setInterval(this.updateScroll, 1000);
+    this.getMessages();
   }
 
-  componentDidUpdate() {
-    this.getMessages();
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.messages.length !== this.state.messages.length) {
+      this.getMessages();
+    }
   }
 
   componentWillUnmount() {
@@ -76,6 +80,7 @@ class ChatPage extends Component {
     this.setState({
       message: ''
     });
+    this.getMessages();
   }
 
   updateScroll() {
@@ -109,7 +114,7 @@ class ChatPage extends Component {
                   <div className="card-title">Number of people in chat room: {this.state.population}</div>
                   <hr style={{ backgroundColor: '#FFF' }} />
                   <div id="messages" style={{ height: '240px', overflow: 'auto' }}>
-                    {!messages
+                    {messages.message === 'No chat messages found.'
                       ? <div>There are no chat messages to show.</div>
                       : messages.map((message, index) => {
                         return (
