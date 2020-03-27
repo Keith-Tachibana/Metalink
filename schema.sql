@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS "chat";
 DROP TABLE IF EXISTS "posts";
 DROP TABLE IF EXISTS "users";
 
@@ -26,6 +27,16 @@ CREATE TABLE "posts" (
 	"datePosted" TIMESTAMP DEFAULT NOW(),
 	"dateUpdated" TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY ("postId"),
-	CONSTRAINT "fk_userId_posts"
-	FOREIGN KEY ("userId") REFERENCES "users" ("userId")
+	CONSTRAINT "fk_userId_posts" FOREIGN KEY ("userId") REFERENCES "users" ("userId")
+);
+
+CREATE TABLE "chat" (
+	"chatId" SERIAL,
+	"userId" INTEGER,
+	"username" TEXT,
+	"message" TEXT,
+	"timeSent" TEXT,
+	PRIMARY KEY ("chatId"),
+	CONSTRAINT "fk_userId_chat" FOREIGN KEY ("userId") REFERENCES "users" ("userId"),
+	CONSTRAINT "fk_username_chat" FOREIGN KEY ("username") REFERENCES "users" ("username")
 );

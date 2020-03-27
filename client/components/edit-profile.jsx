@@ -16,7 +16,6 @@ class EditProfile extends Component {
       genre2: '',
       genre3: '',
       editing: false
-
     };
     this.handleFile = this.handleFile.bind(this);
     this.handleChange = this.handleChange.bind(this);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import ExitContext from './exit-context';
 import Menu from './menu';
 import BottomNavbar from './bottom-navbar';
 import SignUp from './sign-up';
@@ -23,13 +24,15 @@ class App extends Component {
       editing: null,
       authorizing: true
     };
+    this.contextValue = {
+      handleExit: this.handleExit.bind(this)
+    };
     this.getProfile = this.getProfile.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
     this.updatePost = this.updatePost.bind(this);
     this.updatePostFetch = this.updatePostFetch.bind(this);
     this.deletePost = this.deletePost.bind(this);
     this.createPost = this.createPost.bind(this);
-    this.handleExit = this.handleExit.bind(this);
   }
 
   componentDidMount() {
@@ -164,85 +167,87 @@ class App extends Component {
   render() {
     if (this.state.authorizing) return null;
     return (
-      <Router>
-        <Switch>
-          <Route path="/signup" exact render={props =>
-            <React.Fragment>
-              <SignUp />
-            </React.Fragment>
-          } />
-          <Route path='/home/:id' exact render={props =>
-            <React.Fragment>
-              <Menu handleExit={this.handleExit} />
-              <HomePage profile={this.state.profile} />
-              <BottomNavbar handleExit={this.handleExit} />
-            </React.Fragment>
-          } />
-          <Route path="/profile/:id" exact render={props =>
-            <React.Fragment>
-              <Menu handleExit={this.handleExit} />
-              <EditProfile
-                profile={this.state.profile}
-                updateProfile={this.updateProfile} />
-              <BottomNavbar handleExit={this.handleExit} />
-            </React.Fragment>
-          } />
-          <Route path="/concerts/:id" exact render={props =>
-            <React.Fragment>
-              <Menu handleExit={this.handleExit} />
-              <SearchConcerts />
-              <BottomNavbar handleExit={this.handleExit} />
-            </React.Fragment>
-          } />
-          <Route path="/posts/:id" exact render={props =>
-            <React.Fragment>
-              <Menu handleExit={this.handleExit} />
-              <EditPosts
-                posts={this.state.posts}
-                editing={this.state.editing}
-                deletePost={this.deletePost}
-                updatePostFetch={this.updatePostFetch}
-                updatePost={this.updatePost}
-                profile={this.state.profile} />
-              <BottomNavbar handleExit={this.handleExit} />
-            </React.Fragment>
-          } />
-          <Route path="/create/:id" exact render={props =>
-            <React.Fragment>
-              <Menu handleExit={this.handleExit} />
-              <CreatePost
-                posts={this.state.posts}
-                createPost={this.createPost} />
-              <BottomNavbar handleExit={this.handleExit} />
-            </React.Fragment>
-          } />
-          <Route path="/search/:id" exact render={props =>
-            <React.Fragment>
-              <Menu handleExit={this.handleExit} />
-              <SearchPage />
-              <BottomNavbar handleExit={this.handleExit} />
-            </React.Fragment>
-          } />
-          <Route path="/videos/:id" exact render={props =>
-            <React.Fragment>
-              <Menu handleExit={this.handleExit} />
-              <VideosPage />
-              <BottomNavbar handleExit={this.handleExit} />
-            </React.Fragment>
-          } />
-          <Route path="/chat/:id" exact render={props =>
-            <React.Fragment>
-              <Menu handleExit={this.handleExit} />
-              <ChatPage profile={this.state.profile} />
-              <BottomNavbar handleExit={this.handleExit} />
-            </React.Fragment>
-          } />
-          <Route path="/" render={props =>
-            <LoginPage {...props} getProfile={this.getProfile} />
-          } />
-          <Router path="*" render={<div><em>404:</em> Page Not Found</div>} />
-        </Switch>
-      </Router>
+      <ExitContext.Provider value={this.contextValue}>
+        <Router>
+          <Switch>
+            <Route path="/signup" exact render={props =>
+              <React.Fragment>
+                <SignUp />
+              </React.Fragment>
+            } />
+            <Route path='/home/:id' exact render={props =>
+              <React.Fragment>
+                <Menu />
+                <HomePage profile={this.state.profile} />
+                <BottomNavbar />
+              </React.Fragment>
+            } />
+            <Route path="/profile/:id" exact render={props =>
+              <React.Fragment>
+                <Menu />
+                <EditProfile
+                  profile={this.state.profile}
+                  updateProfile={this.updateProfile} />
+                <BottomNavbar />
+              </React.Fragment>
+            } />
+            <Route path="/concerts/:id" exact render={props =>
+              <React.Fragment>
+                <Menu />
+                <SearchConcerts />
+                <BottomNavbar />
+              </React.Fragment>
+            } />
+            <Route path="/posts/:id" exact render={props =>
+              <React.Fragment>
+                <Menu />
+                <EditPosts
+                  posts={this.state.posts}
+                  editing={this.state.editing}
+                  deletePost={this.deletePost}
+                  updatePostFetch={this.updatePostFetch}
+                  updatePost={this.updatePost}
+                  profile={this.state.profile} />
+                <BottomNavbar />
+              </React.Fragment>
+            } />
+            <Route path="/create/:id" exact render={props =>
+              <React.Fragment>
+                <Menu />
+                <CreatePost
+                  posts={this.state.posts}
+                  createPost={this.createPost} />
+                <BottomNavbar />
+              </React.Fragment>
+            } />
+            <Route path="/search/:id" exact render={props =>
+              <React.Fragment>
+                <Menu />
+                <SearchPage />
+                <BottomNavbar />
+              </React.Fragment>
+            } />
+            <Route path="/videos/:id" exact render={props =>
+              <React.Fragment>
+                <Menu />
+                <VideosPage />
+                <BottomNavbar />
+              </React.Fragment>
+            } />
+            <Route path="/chat/:id" exact render={props =>
+              <React.Fragment>
+                <Menu />
+                <ChatPage profile={this.state.profile} />
+                <BottomNavbar />
+              </React.Fragment>
+            } />
+            <Route path="/" exact render={props =>
+              <LoginPage {...props} getProfile={this.getProfile} />
+            } />
+            <Route path="*" render={() => (<div className="text-center mt-4"><em>404:</em> Page Not Found</div>)} />
+          </Switch>
+        </Router>
+      </ExitContext.Provider>
     );
   }
 }

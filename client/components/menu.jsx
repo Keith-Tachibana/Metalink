@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
+import ExitContext from './exit-context';
+
 class Menu extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +47,7 @@ class Menu extends Component {
           </Link>
           <Link to={'/'} >
             <h4 className="ml-4 mb-2"
-              onClick={this.props.handleExit}> Sign Out</h4>
+              onClick={this.context.handleExit()}> Sign Out</h4>
           </Link>
         </div>
         <div className="nav-bg">
@@ -56,4 +58,5 @@ class Menu extends Component {
   }
 }
 
+Menu.contextType = ExitContext;
 export default withRouter(Menu);

@@ -176,6 +176,24 @@ app.get('/api/discogs/:id', async (req, res, next) => {
   });
 });
 
+app.get('/api/chat', (req, res, next) => {
+  const sql = `
+    SELECT "username", "message", "timeSent"
+      FROM "chat";
+  `;
+  db.query(sql)
+    .then(result => {
+      if (result.rows.length === 0) {
+        res.status(401).json({
+          message: 'No chat messages found.'
+        });
+      } else {
+        res.status(200).json(result.rows);
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.delete('/api/posts/:postId', (req, res, next) => {
   const { postId } = req.params;
   if ((!parseInt(postId, 10)) || (parseInt(postId) < 0)) {
@@ -428,11 +446,18 @@ let population = 0;
 io.on('connection', socket => {
   let addedUser = false;
 
-  socket.on('SEND_MESSAGE', data => {
-    io.emit('RECEIVE_MESSAGE', {
-      username: socket.username,
-      message: data
-    });
+  socket.on('SEND_MESSAGE', (data, req, res, next) => {
+    const { username, message, time } = data;
+    const sendValues = [username, message, time];
+    const sendSQL = `
+      INSERT INTO "chat" ("userId", "username", "message", "timeSent")
+           VALUES (
+            (SELECT "userId" FROM "users" WHERE "username" = $1),
+            $1, $2, $3)
+        RETURNING *;
+    `;
+    db.query(sendSQL, sendValues)
+      .catch(err => next(err));
   });
 
   socket.on('ADD_USER', username => {

@@ -15,15 +15,13 @@ class ChatPage extends Component {
       population: 0
     };
     this.handleChange = this.handleChange.bind(this);
-    this.addMessage = this.addMessage.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.getMessages = this.getMessages.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentDidMount() {
     socket.emit('ADD_USER', this.state.username);
-    socket.on('RECEIVE_MESSAGE', data => {
-      this.addMessage(data);
-    });
     socket.on('USER_CONNECTED', data => {
       socket.emit('SEND_MESSAGE', {
         message: data.username + ' has joined the room.'
@@ -45,21 +43,28 @@ class ChatPage extends Component {
         population: data.population
       });
     });
+    this.timerID = setInterval(this.updateScroll, 1000);
   }
 
   componentDidUpdate() {
-    const messages = document.getElementById('messages');
-    messages.scrollTop = messages.scrollHeight;
+    this.getMessages();
   }
 
   componentWillUnmount() {
+    clearInterval(this.timerID);
     socket.close();
   }
 
-  addMessage(data) {
-    this.setState({
-      messages: [...this.state.messages, data.message]
-    });
+  async getMessages() {
+    try {
+      const response = await fetch('/api/chat');
+      const messages = await response.json();
+      this.setState({
+        messages
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   sendMessage(event) {
@@ -72,6 +77,11 @@ class ChatPage extends Component {
     this.setState({
       message: ''
     });
+  }
+
+  updateScroll() {
+    const messages = document.getElementById('messages');
+    messages.scrollTop = messages.scrollHeight;
   }
 
   handleChange(event) {
@@ -103,7 +113,7 @@ class ChatPage extends Component {
                     {messages.map((message, index) => {
                       return (
                         <React.Fragment key={index}>
-                          <div style={{ color: '#FFF' }}><span className="text-danger">{message.username}</span><span><small><em> {message.time}</em></small></span></div>
+                          <div style={{ color: '#FFF' }}><span className="text-danger">{message.username}</span><span><small><em className="text-success"> {message.timeSent}</em></small></span></div>
                           <div style={{ color: '#FFF' }}>{message.message}</div>
                         </React.Fragment>
                       );

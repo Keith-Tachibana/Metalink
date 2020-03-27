@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
+import ExitContext from './exit-context';
+
 class BottomNavbar extends Component {
   render() {
     const { match } = this.props;
@@ -20,7 +22,7 @@ class BottomNavbar extends Component {
             </div>
           </Link>
           <Link to="/">
-            <div onClick={this.props.handleExit}>
+            <div onClick={this.context.handleExit()}>
               <i className="fas fa-sign-out-alt text-danger"></i>
               <span> Exit</span>
             </div>
@@ -31,4 +33,5 @@ class BottomNavbar extends Component {
   }
 }
 
+BottomNavbar.contextType = ExitContext;
 export default withRouter(BottomNavbar);
