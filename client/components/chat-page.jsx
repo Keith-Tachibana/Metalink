@@ -109,14 +109,16 @@ class ChatPage extends Component {
                   <div className="card-title">Number of people in chat room: {this.state.population}</div>
                   <hr style={{ backgroundColor: '#FFF' }} />
                   <div id="messages" style={{ height: '240px', overflow: 'auto' }}>
-                    {messages.map((message, index) => {
-                      return (
-                        <React.Fragment key={index}>
-                          <div style={{ color: '#FFF' }}><span className="text-danger">{message.username}</span><span><small><em className="text-success"> {message.timeSent}</em></small></span></div>
-                          <div style={{ color: '#FFF' }}>{message.message}</div>
-                        </React.Fragment>
-                      );
-                    })}
+                    {!messages
+                      ? <div>There are no chat messages to show.</div>
+                      : messages.map((message, index) => {
+                        return (
+                          <React.Fragment key={index}>
+                            <div style={{ color: '#FFF' }}><span className="text-danger">{message.username}</span><span><small><em className="text-success"> {message.timeSent}</em></small></span></div>
+                            <div style={{ color: '#FFF' }}>{message.message}</div>
+                          </React.Fragment>
+                        );
+                      })}
                   </div>
                   <div>
                     <textarea
