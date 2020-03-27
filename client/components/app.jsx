@@ -22,7 +22,8 @@ class App extends Component {
       profile: [],
       posts: [],
       editing: null,
-      authorizing: true
+      authorizing: true,
+      loading: true
     };
     this.contextValue = {
       handleExit: this.handleExit.bind(this)
@@ -38,7 +39,10 @@ class App extends Component {
   componentDidMount() {
     fetch('/api/auth')
       .then(res => res.json())
-      .then(profile => this.setState({ profile: profile.user, authorizing: false }))
+      .then(profile => {
+        if (profile.user === null) return this.setState({ authorizing: false });
+        this.setState({ profile: profile.user, authorizing: false, loading: false });
+      })
       .catch(err => console.error(err));
     this.getPosts();
   }
@@ -47,7 +51,7 @@ class App extends Component {
     try {
       const response = await fetch(`/api/profile/${userId}`);
       const profile = await response.json();
-      this.setState({ profile });
+      this.setState({ profile, loading: false });
     } catch (error) {
       console.error(error.message);
     }
@@ -177,9 +181,10 @@ class App extends Component {
             } />
             <Route path='/home/:id' exact render={props =>
               <React.Fragment>
-                <Menu />
-                <HomePage profile={this.state.profile} />
-                <BottomNavbar />
+                <Menu handleExit={this.handleExit} />
+                {this.state.loading ? <h2 className="text-center">Profile Loading...</h2>
+                  : <HomePage profile={this.state.profile} />}
+                <BottomNavbar handleExit={this.handleExit} />
               </React.Fragment>
             } />
             <Route path="/profile/:id" exact render={props =>

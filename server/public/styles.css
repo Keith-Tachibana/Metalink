@@ -247,8 +247,13 @@ footer div span {
   border: 1px solid #FFF;
 }
 
+.concertsearch-form {
+  width: 500px;
+}
+
 .concertsearch-table {
-  height: 393px;
+  width: 500px;
+  height: 450px;
   overflow: auto;
 }
 
