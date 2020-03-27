@@ -254,7 +254,6 @@ footer div span {
 .concertsearch-table {
   width: 500px;
   height: 450px;
-  overflow: auto;
 }
 
 .search-img {
@@ -309,9 +308,11 @@ footer div span {
       height: 430px;
       padding-left: 1.25rem;
     }
+    .concertsearch-form, .concertsearch-table{
+      width: 345px;
+    }
     .concertsearch-table {
       height: 393px;
-      overflow: auto;
     }
 }
 
