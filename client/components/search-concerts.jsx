@@ -61,7 +61,7 @@ export default class SearchConcerts extends Component {
             </div>
           </div>
         </main>
-        <div className="concertsearch-table table-responsive-sm px-4">
+        <div className="concertsearch-table table-responsive-sm px-4 mx-auto">
           {this.state.message ? <h3 className="text-center">{this.state.message}</h3>
             : <table className="table table-sm table-dark table-striped">
               {resultItems}
