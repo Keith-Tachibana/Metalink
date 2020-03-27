@@ -15,7 +15,6 @@ class ChatPage extends Component {
       population: 0
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleScroll = this.handleScroll.bind(this);
     this.getMessages = this.getMessages.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
   }
