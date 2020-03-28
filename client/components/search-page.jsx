@@ -92,16 +92,16 @@ class SearchPage extends Component {
       </div>);
     return (
       <React.Fragment>
-        <header className="container-fluid">
+        <header className="container-fluid mb-1">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <h1 className="text-center mt-4 mb-4">Search</h1>
+              <h1 className="text-center mt-1 mb-0">Search</h1>
             </div>
           </div>
         </header>
         <main className="container-fluid">
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6 mb-md-3">
               <form>
                 <div className="form-group">
                   <label htmlFor="search">Band Name</label>
@@ -117,7 +117,7 @@ class SearchPage extends Component {
             </div>
           </div>
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6">
               {message
                 ? <h3 className="text-center" style={{ height: '377px', overflow: 'auto' }}>{message}</h3>
                 : <React.Fragment>{response}</React.Fragment> }

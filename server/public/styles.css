@@ -39,7 +39,8 @@ footer div span {
 
 .image-container {
   border: 1px solid #FFF;
-  height: 100px;
+  height: 200px;
+  width: 200px;
 }
 
 .profile-image {
@@ -271,6 +272,15 @@ footer div span {
   color: #FFF;
 }
 
+.band-card {
+  height: 600px;
+  border: 1px solid;
+}
+
+.videoresult-container, .chat-container {
+  height: 550px;
+}
+
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 
 /* Portrait and Landscape */
@@ -287,6 +297,10 @@ footer div span {
   and (max-device-width: 667px)
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) {
+    .image-container {
+      border: 1px solid #FFF;
+      height: 100px;
+    }
     .login-heading {
       width: 340px;
       height: 200px;
@@ -313,6 +327,16 @@ footer div span {
     }
     .concertsearch-table {
       height: 393px;
+    }
+    .band-card {
+      height: 353px;
+      border: 1px solid;
+    }
+    .videoresult-container {
+      height: 360px;
+    }
+    .chat-container {
+      height: 240px;
     }
 }
 
@@ -348,6 +372,11 @@ footer div span {
   and (max-device-width: 1024px)
   and (orientation: portrait)
   and (-webkit-min-device-pixel-ratio: 2) {
+    .image-container {
+      border: 1px solid #FFF;
+      height: 150px;
+      width: 150px;
+    }
     .login-heading {
       height: 350px;
       object-fit: cover;
@@ -356,7 +385,7 @@ footer div span {
       width: 375px;
     }
     .posts-container {
-      height: 750px
+      height: 750px;
     }
     .nav-bg {
       background-size: 75%;
@@ -371,6 +400,17 @@ footer div span {
     .concertsearch-table {
       height: 700px;
       overflow: auto;
+    }
+    .band-card {
+      width: 500px;
+      height: 750px;
+      border: 1px solid;
+    }
+    .videoresult-container {
+      height: 700px;
+    }
+    .chat-container {
+      height: 600px;
     }
 }
 

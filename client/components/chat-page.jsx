@@ -108,12 +108,12 @@ class ChatPage extends Component {
         </header>
         <main className="container-fluid mb-4">
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div className="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-6">
               <div className="card" style={{ backgroundColor: '#000' }}>
                 <div className="card-body" style={{ color: '#FFF' }}>
                   <div className="card-title">Number of people in chat room: {this.state.population}</div>
                   <hr style={{ backgroundColor: '#FFF' }} />
-                  <div id="messages" style={{ height: '240px', overflow: 'auto' }}>
+                  <div id="messages" className="overflow-auto chat-container">
                     {messages.message === 'No chat messages found.'
                       ? <div>There are no chat messages to show.</div>
                       : messages.map((message, index) => {
