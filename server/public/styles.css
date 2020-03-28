@@ -409,6 +409,9 @@ footer div span {
     .videoresult-container {
       height: 700px;
     }
+    .chat-container {
+      height: 600px;
+    }
 }
 
 /* Landscape */
