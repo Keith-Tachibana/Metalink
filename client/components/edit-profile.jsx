@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
 
 class EditProfile extends Component {
@@ -212,6 +212,10 @@ class EditProfile extends Component {
                   </select>
                 </label>
               </form>
+              <br />
+              <br />
+              <h5>Reset Password</h5>
+              <Link to="/email">Click here</Link>
             </div>
             <div className="col-6">
               <form onSubmit={this.handleSubmit} className="form-container mt-2">
