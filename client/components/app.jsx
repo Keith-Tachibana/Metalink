@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 import Menu from './menu';
 import BottomNavbar from './bottom-navbar';
@@ -13,6 +13,8 @@ import VideosPage from './videos-page';
 import SearchConcerts from './search-concerts';
 import CreatePost from './create-post';
 import ChatPage from './chat-page';
+import EmailPassword from './email-password';
+import ResetPassword from './reset-password';
 
 class App extends Component {
   constructor(props) {
@@ -242,10 +244,38 @@ class App extends Component {
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
+          <Route path="/email" exact render={props =>
+            <React.Fragment>
+              <EmailPassword />
+            </React.Fragment>
+          } />
+          <Route path="/reset/:token" exact render={props =>
+            <ResetPassword />
+          } />
           <Route path="/" exact render={props =>
             <LoginPage {...props} getProfile={this.getProfile} />
           } />
-          <Route path="*" render={() => (<div className="text-center mt-4"><em>404:</em> Page Not Found</div>)} />
+          <Route path="*" render={props =>
+            <React.Fragment>
+              <header className="container-fluid mb-4">
+                <div className="row">
+                  <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <img src="/images/metalink.jpg" alt="Metalink Logo" className="img-fluid mb-3" />
+                    <h1 className="text-center mt-4"><em>404:</em> Page Not Found</h1>
+                  </div>
+                </div>
+              </header>
+              <footer>
+                <div className="container-fluid justify-content-center d-flex">
+                  <Link to="/">
+                    <button className="btn btn-danger btn-sm">
+                      <i className="fas fa-arrow-circle-left"></i> Login
+                    </button>
+                  </Link>
+                </div>
+              </footer>
+            </React.Fragment>
+          } />
         </Switch>
       </Router>
     );

@@ -81,7 +81,7 @@ class LoginPage extends React.Component {
         <header className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 text-center">
-              <img src="./images/login.jpg" alt="Pentagram" className="mb-3 login-heading" />
+              <img src="/images/login.jpg" alt="Pentagram" className="mb-3 login-heading" />
               <h1 className="text-center mt-4 mb-4">Welcome to Metalink</h1>
               <h4 className="text-center">Your link to all things metal!</h4>
             </div>
@@ -142,6 +142,7 @@ class LoginPage extends React.Component {
         </form>
         <footer>
           <Link className="mt-5 pt-5 text-center" to="/signup"><h6>Sign up for an account here</h6></Link>
+          <Link className="text-center" to="/email"><h6>Reset your password here</h6></Link>
         </footer>
       </React.Fragment>
     );

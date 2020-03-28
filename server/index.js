@@ -5,6 +5,8 @@ const multer = require('multer');
 const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const socket = require('socket.io');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 const Discogs = require('disconnect').Client;
 
 const db = require('./database');
@@ -196,6 +198,29 @@ app.get('/api/chat', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/reset', (req, res, next) => {
+  const { resetPasswordToken } = req.query;
+  const value = [resetPasswordToken];
+  const sql = `
+    SELECT "username"
+      FROM "users"
+     WHERE "resetPasswordToken" = $1
+       AND TO_TIMESTAMP("resetPasswordExpires", 'YYYY-MM-DD HH24:MI:SS') > now();
+  `;
+  db.query(sql, value)
+    .then(result => {
+      if (result === null) {
+        res.json('The password reset link is invalid or has expired.');
+      } else {
+        res.status(200).send({
+          username: result.rows[0].username,
+          message: 'The password reset link is valid.'
+        });
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.delete('/api/posts/:postId', (req, res, next) => {
   const { postId } = req.params;
   if ((!parseInt(postId, 10)) || (parseInt(postId) < 0)) {
@@ -336,6 +361,71 @@ app.post('/api/login', (req, res, next) => {
     });
 });
 
+app.post('/api/email', (req, res, next) => {
+  const { email } = req.body;
+  if (!email) {
+    throw new ClientError('E-mail address is required.', 400);
+  } else {
+    const sql = `
+      SELECT "username"
+        FROM "users"
+       WHERE "email" = $1;
+    `;
+    const value = [email];
+    db.query(sql, value)
+      .then(result => {
+        if (result.rows.length === 0) {
+          res.status(403).json({
+            message: 'That e-mail address was not found.'
+          });
+        } else {
+          const token = crypto.randomBytes(20).toString('hex');
+          const updateSQL = `
+            UPDATE "users"
+               SET "resetPasswordToken" = $1, "resetPasswordExpires" = NOW() + INTERVAL '1 hour'
+             WHERE "username" = $2;
+          `;
+          const updateValues = [token, result.rows[0].username];
+          db.query(updateSQL, updateValues)
+            .then(updateResult => {
+              const transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                auth: {
+                  type: 'login',
+                  user: `${process.env.EMAIL_ADDRESS}`,
+                  pass: `${process.env.EMAIL_PASSWORD}`
+                }
+              });
+              const mailOptions = {
+                from: 'metalink.noreply@gmail.com',
+                to: `${email}`,
+                subject: 'Metalink: Here\'s Your Link to Reset Your Password',
+                text:
+                  'You are receiving this e-mail because you (or someone else) has requested a password reset.\n\n' +
+                  'Please click on the following link, or paste the link into your browser to complete the process.\n\n' +
+                  'You have 1 hour from the time this e-mail was sent to do so, then the link will expire.\n\n' +
+                  `Here's the link: http://localhost:3000/reset/${token}\n\n` +
+                  'If you did not request this, please ignore this e-mail and your password will remain unchanged.\n\n' +
+                  'Thank you for using Metalink!\n'
+              };
+              transporter.sendMail(mailOptions, (error, response) => {
+                if (error) {
+                  console.error(error.message);
+                } else {
+                  res.status(200).json({
+                    message: 'Password reset e-mail sent!'
+                  });
+                }
+              });
+            })
+            .catch(err => next(err));
+        }
+      })
+      .catch(err => next(err));
+  }
+});
+
 app.post('/api/logout', (req, res) => {
   const { userId } = req.session;
   if (!userId) return res.status(400).json({ error: `No userId ${userId} in session` });
@@ -420,6 +510,36 @@ app.put('/api/profile/:userId', (req, res, next) => {
       }
     })
     .catch(err => next(err));
+});
+
+app.put('/api/update', (req, res, next) => {
+  const { username, password } = req.body;
+  bcrypt.hash(password, 12, (err, hash) => {
+    if (err) {
+      console.error(err.message);
+    } else {
+      const sql = `
+    UPDATE "users"
+       SET "password" = $1, "resetPasswordToken" = NULL, "resetPasswordExpires" = NULL
+     WHERE "username" = $2
+ RETURNING *;
+  `;
+      const value = [hash, username];
+      if (username !== null) {
+        db.query(sql, value)
+          .then(result => {
+            res.status(200).json({
+              message: 'Password successfully updated.'
+            });
+          })
+          .catch(err => next(err));
+      } else {
+        res.status(404).json({
+          message: 'That username was not found.'
+        });
+      }
+    }
+  });
 });
 
 app.use('/api', (req, res, next) => {
