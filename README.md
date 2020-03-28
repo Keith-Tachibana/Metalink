@@ -19,7 +19,7 @@ A mobile-first, full-stack, web application for lovers of metal music that aims 
 | Moment                             | 2.24.0  |
 | Multer                             | 1.4.2   |
 | Node-Fetch                         | 2.6.0   |
-| Nodemailer                         | 0.1.1   |
+| Node-Mailer                        | 0.1.1   |
 | PG                                 | 7.17.1  |
 | PM2                                | 4.2.3   |
 | PostgreSQL                         | 10.10   |
@@ -34,12 +34,17 @@ A mobile-first, full-stack, web application for lovers of metal music that aims 
 ## Live Demo
 Try the application live [on my portfolio website](https://metalink.keith-tachibana.com/)
 ## Features
+- -Users can register for an account by setting up a password which gets hashed and saved in the database
+- -Users can authenticate themselves at the login page using said password
+- -Users can reset their password and be sent an e-mail containing a password reset link that expires in 1 hour using a token
 - -Users can post comments, album reviews, or other information for others to see when they log into the application, sorted by date from most recent to oldest
-- -Users can add a profile to their account, including a profile picture, screen name, e-mail address, real name, location, phone number, location, and favorite sub-genres of metal
-- -Users can view their post history (if any) and make changes to them if desired
-- -Users can search for concerts in their area via the TicketMaster API and see the results in tabular format
-- -Users can message other users to setup a chat session
-- -Users can search for band and/or album information using the Discogs API
+- -Users can add a profile to their account, including a profile picture, screen name, e-mail address, real name, location, phone number, and favorite sub-genres of metal
+- -Users can view their individual post history (if any) and edit or delete them
+- -Users can search for concerts via the TicketMaster API and see the results in tabular format
+- -Users can join a global chat session with other currently logged-in users and message each other in real-time
+- -Users can log out and rejoin the chat room and still see all previous chat messages
+- -Users can search for band profiles using the Discogs API
+- -Users can search for YouTube videos and play them inside the application
 ## Preview
 ![Metalink Preview](preview.gif "Metalink Preview")
 ## Development
