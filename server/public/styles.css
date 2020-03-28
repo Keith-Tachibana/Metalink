@@ -299,7 +299,8 @@ footer div span {
   and (orientation: portrait) {
     .image-container {
       border: 1px solid #FFF;
-      height: 100px;
+      height: 125px;
+      width: 125px;
     }
     .login-heading {
       width: 340px;
