@@ -17,7 +17,7 @@ class SignUp extends Component {
       genre3: '',
       emptyFields: false,
       duplicate: false,
-      noPasswordMatch: false,
+      passwordMatch: false,
       emailError: false,
       zipcodeError: false,
       phoneError: false,
@@ -111,13 +111,13 @@ class SignUp extends Component {
       if (this.state.password !== this.state.confirm) {
         this.setState(prevState => {
           return {
-            noPasswordMatch: false
+            passwordMatch: false
           };
         });
       } else {
         this.setState(prevState => {
           return {
-            noPasswordMatch: true
+            passwordMatch: true
           };
         });
       }
@@ -188,31 +188,31 @@ class SignUp extends Component {
   }
 
   alertEmptyFields() {
-    return this.state.emptyFields === true
+    return (this.state.emptyFields === true)
       ? 'Please fill out all fields that have an asterisk.'
       : null;
   }
 
   alertDuplicate() {
-    return this.state.duplicate === true
+    return (this.state.duplicate === true)
       ? 'That name, username, or e-mail address has already been taken.'
       : null;
   }
 
   alertName() {
-    return this.state.nameIsLetters === false
+    return (this.state.nameIsLetters === false)
       ? 'Your full name must be upper/lowercase letters with a space.'
       : null;
   }
 
   alertUsername() {
-    return this.state.usernameError === false
+    return (this.state.usernameError === false)
       ? 'Your username must be alphanumeric only and at least 4 characters.'
       : null;
   }
 
   alertPasswordMatch() {
-    return this.state.noPasswordMatch === false
+    return (this.state.passwordMatch === false)
       ? 'Your passwords do not match.'
       : null;
   }
@@ -224,37 +224,37 @@ class SignUp extends Component {
   }
 
   alertNoCapital() {
-    return this.state.hasCapital === false
+    return (this.state.hasCapital === false)
       ? 'Your password must contain at least 1 capital letter.'
       : null;
   }
 
   alertNoSpecial() {
-    return this.state.hasSpecial === false
+    return (this.state.hasSpecial === false)
       ? 'Your password must contain at least 1 special character.'
       : null;
   }
 
   alertNoDigit() {
-    return this.state.hasDigit === false
+    return (this.state.hasDigit === false)
       ? 'Your password must contain at least 1 digit.'
       : null;
   }
 
   alertEmail() {
-    return this.state.emailError === false
+    return (this.state.emailError === false)
       ? 'Please enter a valid e-mail address.'
       : null;
   }
 
   alertZipcode() {
-    return this.state.zipcodeError === false
+    return (this.state.zipcodeError === false)
       ? 'Please enter a valid zipcode in this format: XXXXX.'
       : null;
   }
 
   alertPhone() {
-    return this.state.phoneError === false
+    return (this.state.phoneError === false)
       ? 'Please enter a valid phone number in this format: XXX-XXX-XXXX.'
       : null;
   }
@@ -296,7 +296,7 @@ class SignUp extends Component {
   }
 
   renderIconConfirm() {
-    return this.state.noPasswordMatch === true
+    return (this.state.length > 8 && this.state.passwordMatch === true)
       ? 'fas fa-check fa-lg valid'
       : 'fas fa-times fa-lg invalid';
   }
@@ -357,7 +357,7 @@ class SignUp extends Component {
         <header className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <img src="./images/metalink.jpg" alt="Metalink Logo" className="img-fluid mb-3" />
+              <img src="/images/metalink.jpg" alt="Metalink Logo" className="img-fluid mb-3" />
               <h1 className="text-center mt-4">Account Sign Up</h1>
             </div>
           </div>
@@ -370,6 +370,7 @@ class SignUp extends Component {
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <label htmlFor="fullname">Name<em className="asterisk">&#42;</em><span className="ml-4"><i className={this.renderIconName()}></i></span></label>
                     <input
+                      autoFocus
                       type="text"
                       id="fullname"
                       name="fullname"
@@ -495,28 +496,29 @@ class SignUp extends Component {
             </div>
           </div>
         </main>
-        <div className="container-fluid justify-content-center d-flex">
-          <Link to="/">
-            <button className="btn btn-danger btn-sm">
-              <i className="fas fa-arrow-circle-left"></i> Back
+        <footer>
+          <div className="container-fluid justify-content-center d-flex">
+            <Link to="/">
+              <button className="btn btn-danger btn-sm">
+                <i className="fas fa-arrow-circle-left"></i> Back
+              </button>
+            </Link>
+            <button
+              className="btn btn-primary btn-sm ml-2"
+              disabled={this.state.emptyFields ? 'disabled' : false}
+              name="submit"
+              type="submit"
+              onClick={this.createAccount}>
+              <i className="far fa-check-square"></i> Submit
             </button>
-          </Link>
-          <button
-            className="btn btn-primary btn-sm ml-2"
-            disabled={this.state.emptyFields ? 'disabled' : false}
-            name="submit"
-            type="submit"
-            onClick={this.createAccount}>
-            Create Account
-          </button>
-          <button className="btn btn-warning btn-sm ml-2"
-            name="reset"
-            type="reset"
-            onClick={this.handleReset}
-          >
-            Reset
-          </button>
-        </div>
+            <button className="btn btn-warning btn-sm ml-2"
+              name="reset"
+              type="reset"
+              onClick={this.handleReset}>
+              <i className="fas fa-eraser"></i> Reset
+            </button>
+          </div>
+        </footer>
       </React.Fragment>
     );
   }
