@@ -42,13 +42,13 @@ class VideosPage extends Component {
           </div>
         </header>
         <main className="container-fluid">
-          <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <div className="row justify-content-center">
+            <div className="col-12 col-sm-12 col-md-11 col-lg-12 col-xl-8">
               <VideoSearch onSearchTermChange={videoSearch} />
             </div>
           </div>
-          <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 overflow-auto videoresult-container" >
+          <div className="row justify-content-center">
+            <div className="col-12 col-sm-12 col-md-11 col-lg-12 col-xl-8 overflow-auto videoresult-container" >
               <VideoDetail video={this.state.selectedVideo} />
               <VideoList
                 onVideoSelect={selectedVideo => this.setState({ selectedVideo })}
