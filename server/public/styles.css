@@ -277,7 +277,7 @@ footer div span {
   border: 1px solid;
 }
 
-.videoresult-container {
+.videoresult-container, .chat-container {
   height: 550px;
 }
 
@@ -334,6 +334,9 @@ footer div span {
     }
     .videoresult-container {
       height: 360px;
+    }
+    .chat-container {
+      height: 240px;
     }
 }
 
