@@ -245,9 +245,7 @@ class App extends Component {
             </React.Fragment>
           } />
           <Route path="/email" exact render={props =>
-            <React.Fragment>
-              <EmailPassword />
-            </React.Fragment>
+            <EmailPassword />
           } />
           <Route path="/reset/:token" exact render={props =>
             <ResetPassword />
