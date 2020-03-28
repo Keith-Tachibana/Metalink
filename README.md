@@ -19,6 +19,7 @@ A mobile-first, full-stack, web application for lovers of metal music that aims 
 | Moment                             | 2.24.0  |
 | Multer                             | 1.4.2   |
 | Node-Fetch                         | 2.6.0   |
+| Nodemailer                         | 0.1.1   |
 | PG                                 | 7.17.1  |
 | PM2                                | 4.2.3   |
 | PostgreSQL                         | 10.10   |
