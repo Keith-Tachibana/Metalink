@@ -80,7 +80,7 @@ class SearchPage extends Component {
         </header>
         <main className="container-fluid mb-4">
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6">
+            <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6 mb-md-3">
               <form onSubmit={this.handleSubmit} className="form-inline">
                 <div className="form-group">
                   <label htmlFor="search">Band Name</label>
@@ -96,7 +96,7 @@ class SearchPage extends Component {
                   <button
                     type="submit"
                     name="submit"
-                    className="btn btn-primary mt-2">
+                    className="btn btn-primary mt-2 mt-md-0">
                     Submit
                   </button>
                 </div>
@@ -108,7 +108,7 @@ class SearchPage extends Component {
               {
                 !band
                   ? <div>Searching...</div>
-                  : (<div className="card band-card" style={{ height: '353px', overflow: 'auto', border: '1px solid #FFF' }}>
+                  : (<div className="card band-card overflow-auto">
                     <img src={band.image} alt={band.band} className="card-img-top img-fluid search-img" />
                     <div className="card-body">
                       <h5 className="card-title text-center" style={{ color: '#FFF' }}><u><em>{band.band}</em></u></h5>

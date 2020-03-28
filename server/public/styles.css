@@ -271,6 +271,11 @@ footer div span {
   color: #FFF;
 }
 
+.band-card {
+  height: 600px;
+  border: 1px solid;
+}
+
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 
 /* Portrait and Landscape */
@@ -314,6 +319,10 @@ footer div span {
     .concertsearch-table {
       height: 393px;
     }
+    .band-card {
+      height: 353px;
+      border: 1px solid;
+    }
 }
 
 /* Landscape */
@@ -356,7 +365,7 @@ footer div span {
       width: 375px;
     }
     .posts-container {
-      height: 750px
+      height: 750px;
     }
     .nav-bg {
       background-size: 75%;
@@ -371,6 +380,11 @@ footer div span {
     .concertsearch-table {
       height: 700px;
       overflow: auto;
+    }
+    .band-card {
+      width: 500px;
+      height: 750px;
+      border: 1px solid;
     }
 }
 
