@@ -153,7 +153,9 @@ app.get('/api/bands/:band', async (req, res, next) => {
   });
   const result = await response.json();
   if (!result) {
-    throw new ClientError('No results found.', 400);
+    return res.status(400).json({
+      error: 'No results found.'
+    });
   } else {
     res.status(200).send({
       band: result.results[0].title,

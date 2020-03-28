@@ -370,6 +370,7 @@ class SignUp extends Component {
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <label htmlFor="fullname">Name<em className="asterisk">&#42;</em><span className="ml-4"><i className={this.renderIconName()}></i></span></label>
                     <input
+                      autoFocus
                       type="text"
                       id="fullname"
                       name="fullname"

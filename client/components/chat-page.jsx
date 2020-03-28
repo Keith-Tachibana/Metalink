@@ -119,7 +119,7 @@ class ChatPage extends Component {
                       : messages.map((message, index) => {
                         return (
                           <React.Fragment key={index}>
-                            <div style={{ color: '#FFF' }}><span className="text-danger">{message.username}</span><span><small><em className="text-success"> {message.timeSent}</em></small></span></div>
+                            <div style={{ color: '#FFF' }}><span className="text-danger">{message.username}</span><span><small><em className="text-muted"> {message.timeSent}</em></small></span></div>
                             <div style={{ color: '#FFF' }}>{message.message}</div>
                           </React.Fragment>
                         );
