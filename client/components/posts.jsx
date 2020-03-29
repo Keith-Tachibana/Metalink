@@ -21,7 +21,7 @@ class Posts extends React.Component {
   render() {
     this.renderDate();
     return (
-      <div className="card col-10 mb-2 post-home">
+      <div className="card col-11 mb-2 post-home">
         <div className="card-body post-body" style={{ color: '#FFF' }}>
           <p><span>User: </span>{this.props.username}</p>
           <p><span>Date: </span>{this.renderDate()}</p>

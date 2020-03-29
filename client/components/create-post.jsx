@@ -46,9 +46,9 @@ class CreatePost extends Component {
         </div>
         <div className="container" style={{ height: '399px', overflow: 'auto' }}>
           <div className="row justify-content-center">
-            <div className="col-10">
+            <div className="col-12">
               <form className="post-form">
-                <div className="input-group justify-content-center mb-2 pr-4">
+                <div className="input-group justify-content-center mb-2">
                   <input type="text"
                     name="subject"
                     id="subject"
@@ -61,7 +61,7 @@ class CreatePost extends Component {
                   <textarea name="content"
                     rows="10"
                     placeholder="Post Body"
-                    className="form-control mr-4 mb-4 form-textarea"
+                    className="form-control mb-4 form-textarea"
                     onChange={ this.handleChange }
                     value={ this.state.content } >
                   </textarea>

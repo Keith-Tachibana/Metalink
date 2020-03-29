@@ -15,7 +15,7 @@ CREATE TABLE "users" (
 	"genre2" TEXT,
 	"genre3" TEXT,
 	"resetPasswordToken" TEXT,
-	"resetPasswordExpires" TIMESTAMP,
+	"resetPasswordExpires" TEXT,
 	"createdAt" TIMESTAMP DEFAULT NOW(),
 	"updatedAt" TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY ("userId")

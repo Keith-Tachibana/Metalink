@@ -14,7 +14,6 @@ class EditPosts extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleReset = this.handleReset.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -45,19 +44,6 @@ class EditPosts extends Component {
       postId: parseInt(this.state.postId)
     };
     updatePostFetch(entry);
-  }
-
-  handleReset(event) {
-    event.preventDefault();
-    this.clearFields();
-  }
-
-  clearFields() {
-    const clearFields = {
-      subject: '',
-      content: ''
-    };
-    this.setState(clearFields);
   }
 
   render() {
@@ -96,29 +82,23 @@ class EditPosts extends Component {
           </div>
           <div className="row justify-content-center mt-4">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <form onClick={this.handleSubmit} className="post-form">
-                <div className="input-group mb-4 pr-3">
-                  <div className="input-group-prepend">
-                    <i className="input-group-text fas fa-bookmark pt-2 ml-4"></i>
-                  </div>
+              <form onClick={this.handleSubmit}>
+                <div className="input-group mb-2">
                   <input
                     type="text"
                     name="subject"
                     value={this.state.subject}
-                    placeholder="Updated Post Subject"
+                    placeholder="Post Subject"
                     onChange={this.handleChange}
-                    className="form-control mr-4" />
+                    className="form-control" />
                 </div>
-                <div className="input-group mb-4 pr-3">
-                  <div className="input-group-prepend">
-                    <i className="input-group-text fas fa-paragraph pt-2 ml-4"></i>
-                  </div>
+                <div className="input-group mb-4">
                   <textarea
                     name="content"
                     value={this.state.content}
-                    placeholder="Updated Post Content"
+                    placeholder="Post Body"
                     onChange={this.handleChange}
-                    className="form-control mr-4 form-textarea"
+                    className="form-control form-textarea"
                     cols="30"
                     rows="3">
                   </textarea>
@@ -126,14 +106,8 @@ class EditPosts extends Component {
                 <button
                   name="update"
                   type="submit"
-                  className="btn btn-success ml-4 form-buttons">
+                  className="btn btn-success mr-2 form-buttons">
                   Update
-                </button>
-                <button
-                  name="cancel"
-                  onClick={this.handleReset}
-                  className="btn btn-danger ml-4 form-buttons">
-                  Cancel
                 </button>
               </form>
             </div>

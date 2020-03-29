@@ -6,7 +6,7 @@ import VideoSearch from './video-search';
 import VideoList from './video-list';
 import VideoDetail from './video-detail';
 
-const API_KEY = 'AIzaSyDRqxcYbeqom6kgNF80bEu8La0KpyM6naU';
+const API_KEY = 'AIzaSyB8NGy5OC9hEQWqBtAhGr7gFAX5ZYRsvy8';
 
 class VideosPage extends Component {
   constructor(props) {

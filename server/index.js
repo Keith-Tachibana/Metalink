@@ -130,7 +130,10 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
               name: obj.name,
               date: obj.dates.start.localDate,
               venues: venues.name,
+              url: obj.url,
               location: `${venues.city.name}, ${venues.state.stateCode}`,
+              long: venues.location.longitude,
+              lat: venues.location.latitude,
               image: obj.images[0].url,
               genre: obj.classifications[0].genre.name
             };
@@ -205,11 +208,11 @@ app.get('/api/reset', (req, res, next) => {
     SELECT "username"
       FROM "users"
      WHERE "resetPasswordToken" = $1
-       AND TO_TIMESTAMP("resetPasswordExpires", 'YYYY-MM-DD HH24:MI:SS') > now();
+       AND TO_TIMESTAMP("resetPasswordExpires", 'YYYY-MM-DD HH24:MI:SS') > NOW();
   `;
   db.query(sql, value)
     .then(result => {
-      if (result === null) {
+      if (result.rows.length === 0) {
         res.json('The password reset link is invalid or has expired.');
       } else {
         res.status(200).send({
@@ -375,9 +378,7 @@ app.post('/api/email', (req, res, next) => {
     db.query(sql, value)
       .then(result => {
         if (result.rows.length === 0) {
-          res.status(403).json({
-            message: 'That e-mail address was not found.'
-          });
+          res.status(403).send('That e-mail address was not found.');
         } else {
           const token = crypto.randomBytes(20).toString('hex');
           const updateSQL = `

@@ -73,7 +73,7 @@ class EmailPassword extends Component {
           email: this.state.email
         })
         .then(response => {
-          if (response.data.message === 'That e-mail address was not found.') {
+          if (response.status === 403) {
             this.setState({
               error: true,
               message: ''
