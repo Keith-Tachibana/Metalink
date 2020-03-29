@@ -41,6 +41,7 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
 - -Users can add a profile to their account, including a profile picture, screen name, e-mail address, real name, location, phone number, and favorite sub-genres of metal
 - -Users can view their individual post history (if any) and edit or delete them
 - -Users can search for concerts via the TicketMaster API and see the results in tabular format
+- -Users can also view the concert search results on Google Maps as clickable, animated markers with the corresponding concert information
 - -Users can join a global chat session with other currently logged-in users and message each other in real-time
 - -Users can log out and rejoin the chat room and still see all previous chat messages
 - -Users can search for band profiles using the Discogs API
