@@ -299,7 +299,8 @@ footer div span {
   and (orientation: portrait) {
     .image-container {
       border: 1px solid #FFF;
-      height: 100px;
+      height: 125px;
+      width: 125px;
     }
     .login-heading {
       width: 340px;
@@ -329,7 +330,7 @@ footer div span {
       height: 393px;
     }
     .band-card {
-      height: 353px;
+      height: 395px;
       border: 1px solid;
     }
     .videoresult-container {
@@ -403,7 +404,7 @@ footer div span {
     }
     .band-card {
       width: 500px;
-      height: 750px;
+      height: 700px;
       border: 1px solid;
     }
     .videoresult-container {
