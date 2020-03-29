@@ -2,7 +2,7 @@ import React from 'react';
 
 const VideoDetail = ({ video }) => {
   if (!video) {
-    return <div className="ml-4">Loading...</div>;
+    return <div className="ml-4"><p>This API key has exceeded its maximum allotted quota from YouTube. Please try again later when it resets.</p></div>;
   }
 
   const videoId = video.id.videoId;

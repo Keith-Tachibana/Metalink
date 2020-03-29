@@ -119,7 +119,7 @@ class SearchPage extends Component {
           <div className="row justify-content-center">
             <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6">
               {message
-                ? <h3 className="text-center">{message}</h3>
+                ? <h3 className="text-center" style={{ height: '418px' }}>{message}</h3>
                 : <React.Fragment>{response}</React.Fragment> }
             </div>
           </div>
