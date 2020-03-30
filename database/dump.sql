@@ -204,18 +204,6 @@ ALTER TABLE ONLY public.users ALTER COLUMN "userId" SET DEFAULT nextval('public.
 --
 
 COPY public.chat ("chatId", "userId", username, message, "timeSent") FROM stdin;
-24	15	jcacct	gresgresgreg	11:53:17 AM
-25	15	jcacct	regresgresgres	11:53:19 AM
-26	15	jcacct	esgrregersgregerg	11:53:21 AM
-27	15	jcacct	esgrergresgregregregresg	11:53:24 AM
-28	15	jcacct	fewafweafewf	11:57:03 AM
-29	15	jcacct	efewafewfewf	11:57:05 AM
-30	15	jcacct	gregresgerg	11:57:08 AM
-31	15	jcacct	trhgrthrdthr	11:57:15 AM
-32	15	jcacct	fewfgrgrg	12:19:41 PM
-33	15	jcacct	ewagwgewgwegew	4:55:02 PM
-34	15	jcacct	ewafewfwef	4:55:05 PM
-35	15	jcacct	ewfwefewafewf	4:55:08 PM
 \.
 
 
@@ -235,8 +223,7 @@ COPY public.posts ("postId", "userId", subject, content, "datePosted", "dateUpda
 9	9	Glam metal is the worst sub-genre	Out of all the genres in metal, I think glam metal has got to be the worst. It's all flash and no substance. Technically their music is not that impressive at all. The guitar solos are lacking and the drumming sounds like it belongs to the realm of soft rock instead.	2019-12-25 00:00:00	\N
 10	10	Classical music and metal	I grew up listening to classical music as a kid (I played the piano) and discovered metal quite late. But after sampling some metal bands, I can definitely hear the classical music influence in many metal songs. If Bach picked up a guitar, he would have played metal for sure!!!	2019-11-26 00:00:00	\N
 11	11	Bruce Dickenson has a pilot license	I just found out that the lead singer for Iron Maiden is a licensed pilot, and that he flew the entire band in a Boeing 747 for one of their world tours a number of years ago. Man, talk about talented!	2019-07-04 00:00:00	\N
-12	12	Swedish metal invasion!	Check out this lineup: Arch Enemy, Amon Amarth, and At The Gates! This all-Swedish lineup will be playing in Hollywood in 2 weeks. Get your tickets now!	2019-10-30 00:00:00	2020-03-24 18:13:14.360019
-14	15	test test	test test	2020-03-26 06:06:10.701198	2020-03-26 06:06:10.701198
+12	12	Swedish metal invasion!	Check out this lineup: Arch Enemy, Amon Amarth, and At The Gates! This all-Swedish lineup will be playing in Hollywood in 2 weeks. Get your tickets now!	2019-10-30 00:00:00	\N
 \.
 
 
@@ -245,20 +232,20 @@ COPY public.posts ("postId", "userId", subject, content, "datePosted", "dateUpda
 --
 
 COPY public.users ("userId", name, password, username, email, zipcode, phone, "profileImage", genre1, genre2, genre3, "createdAt", "updatedAt", "resetPasswordToken", "resetPasswordExpires") FROM stdin;
-2	Alexi Laiho	\N	ChildrenOfBodom	alexi@bodom.net	10003	212-998-1113	\N	Black Metal	Thrash Metal	Doom Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-3	Yngvie Malmsteen	\N	SymphonyX	yngvie@metal.com	11222	917-663-1123	\N	Symphonic Metal	Folk Metal	Speed Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-4	Dave Mustaine	\N	Megadeth	dave@megadeth.org	90210	310-355-2353	\N	Thrash Metal	Speed Metal	Heavy Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-5	Lars Ulrich	\N	Metallica	lars@metallica.net	91714	310-345-2567	\N	Heavy Metal	Thrash Metal	Speed Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-6	Hansi Kursch	\N	BlindGuardian	hansi@blindguardian.com	71423	342-223-9050	\N	Power Metal	Symphonic Metal	Black Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-7	Varg Vikernes	\N	Burzum	varg@burzum.net	61232	214-246-6432	\N	Black Metal	Death Metal	Doom Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-8	Gaal Jorgensen	\N	Mayhem	gaal@mayhem.com	23233	944-323-3255	\N	Black Metal	Doom Metal	Pagan Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-9	Axl Bloomberg	\N	Satyricon	axl@satyricon.org	53133	949-323-3599	\N	Black Metal	Deathcore	Grindcore	2020-03-09 19:35:39.508588	\N	\N	\N
-10	James Hetfield	\N	DeathAngel	james@deathangel.org	92333	352-835-2335	\N	Heavy Metal	Groove Metal	Viking Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-11	Morty Smith	\N	Mortison	morty@mortison.com	32353	422-235-3252	\N	Sludge Metal	Progressive Metal	Pagan Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-12	Rick Sanchez	\N	RicksyBusiness	rick@sanchez.net	83445	534-235-1456	\N	Symphonic Metal	Viking Metal	Deathcore	2020-03-09 19:35:39.508588	\N	\N	\N
-13	Beth Smith	\N	Bethesda	beth@bethesda.net	74345	334-342-3462	\N	Pirate Metal	Pagan Metal	Death Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-1	Buhlake RossLyn	7$ZbqtjFgpk@dYTQE7VngVU4	1337Dragonforce	guitarheroexpert@gmail.com	92609	949-262-1337	/images/profileImages/serveimage-1585007105091-1585008406705.jfif	Power Metal	Groove Metal	Glam Metal	2020-03-09 19:35:39.508588	\N	\N	\N
-15	Jane	$2b$10$jWGrMgX8BZMstl7RssuhOu0du/mzTIahR9TzqCDUmB9w3ulT0/mNy	jcacct	jcacct@gmail.com	92870	132-456-8789	/images/profileImages/269650441004201-1585095837585.jpg	Black Metal	Blackened Death Metal	Deathcore	2020-03-24 11:24:47.571678	2020-03-24 19:38:26.750522	\N	\N
+1	Buhlake RossLyn	1234	1337Dragonforce	guitarheroexpert@gmail.com	92609	949-262-1337	/images/profileImages/serveimage-1585007105091-1585008406705.jfif	Power Metal	Groove Metal	Glam Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+2	Alexi Laiho	1234	ChildrenOfBodom	alexi@bodom.net	10003	212-998-1113	\N	Black Metal	Thrash Metal	Doom Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+3	Yngvie Malmsteen	1234	SymphonyX	yngvie@metal.com	11222	917-663-1123	\N	Symphonic Metal	Folk Metal	Speed Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+4	Dave Mustaine	1234	Megadeth	dave@megadeth.org	90210	310-355-2353	\N	Thrash Metal	Speed Metal	Heavy Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+5	Lars Ulrich	1234	Metallica	lars@metallica.net	91714	310-345-2567	\N	Heavy Metal	Thrash Metal	Speed Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+6	Hansi Kursch	1234	BlindGuardian	hansi@blindguardian.com	71423	342-223-9050	\N	Power Metal	Symphonic Metal	Black Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+7	Varg Vikernes	1234	Burzum	varg@burzum.net	61232	214-246-6432	\N	Black Metal	Death Metal	Doom Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+8	Gaal Jorgensen	1234	Mayhem	gaal@mayhem.com	23233	944-323-3255	\N	Black Metal	Doom Metal	Pagan Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+9	Axl Bloomberg	1234	Satyricon	axl@satyricon.org	53133	949-323-3599	\N	Black Metal	Deathcore	Grindcore	2020-03-09 19:35:39.508588	\N	\N	\N
+10	James Hetfield	1234	DeathAngel	james@deathangel.org	92333	352-835-2335	\N	Heavy Metal	Groove Metal	Viking Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+11	Morty Smith	1234	Mortison	morty@mortison.com	32353	422-235-3252	\N	Sludge Metal	Progressive Metal	Pagan Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+12	Rick Sanchez	1234	RicksyBusiness	rick@sanchez.net	83445	534-235-1456	\N	Symphonic Metal	Viking Metal	Deathcore	2020-03-09 19:35:39.508588	\N	\N	\N
+13	Beth Smith	1234	Bethesda	beth@bethesda.net	74345	334-342-3462	\N	Pirate Metal	Pagan Metal	Death Metal	2020-03-09 19:35:39.508588	\N	\N	\N
+14	Joe Johnson	$2b$10$jWGrMgX8BZMstl7RssuhOu0du/mzTIahR9TzqCDUmB9w3ulT0/mNy	jcacct	jcacct@gmail.com	92870	132-456-8789	\N	Black Metal	Blackened Death Metal	Deathcore	2020-03-09 19:35:39.508588	\N	3/24/2020 11:24	3/24/2020 19:38
 \.
 
 
@@ -266,21 +253,21 @@ COPY public.users ("userId", name, password, username, email, zipcode, phone, "p
 -- Name: chat_chatId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."chat_chatId_seq"', 35, true);
+SELECT pg_catalog.setval('public."chat_chatId_seq"', 1, false);
 
 
 --
 -- Name: posts_postId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."posts_postId_seq"', 14, true);
+SELECT pg_catalog.setval('public."posts_postId_seq"', 13, true);
 
 
 --
 -- Name: users_userId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."users_userId_seq"', 17, true);
+SELECT pg_catalog.setval('public."users_userId_seq"', 15, true);
 
 
 --
