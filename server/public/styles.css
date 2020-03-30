@@ -81,7 +81,7 @@ footer div span {
 }
 
 .nav-bg {
-  background-image: url('./images/metalink.jpg');
+  background-image: url('./images/metalink.webp');
   background-repeat: no-repeat;
   height: 100px;
   background-position: 50% 53%;
@@ -276,6 +276,36 @@ footer div span {
   height: 550px;
 }
 
+.carousel {
+  display: flex;
+  text-align: center;
+  border: 2px solid #000;
+  height: 375px;
+}
+
+.dot {
+  font-size: 1rem;
+  cursor: pointer;
+  padding-top: 15px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.previous {
+  transform: translateY(40%);
+  cursor: pointer;
+  font-size: 2rem;
+  padding-right: 10px;
+}
+
+.next {
+  transform: translateY(40%);
+  cursor: pointer;
+  font-size: 2rem;
+  padding-left: 10px;
+}
+
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 
 /* Portrait and Landscape */
@@ -315,7 +345,7 @@ footer div span {
       height: 450px;
     }
     .profile-container {
-      height: 430px;
+      height: 439px;
       padding-left: 1.25rem;
     }
     .concertsearch-form, .concertsearch-table{
@@ -329,7 +359,7 @@ footer div span {
       border: 1px solid;
     }
     .videoresult-container {
-      height: 360px;
+      height: 377px;
     }
     .chat-container {
       height: 240px;

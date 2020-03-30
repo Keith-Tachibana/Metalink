@@ -83,7 +83,7 @@ class SearchPage extends Component {
     const { band, discogs, message } = this.state;
     const response = band.error
       ? <div>{band.error}</div>
-      : (<div className="card band-card" style={{ height: '425px', overflow: 'auto' }} >
+      : (<div className="card band-card" style={{ height: '401px', overflow: 'auto' }} >
         <img src={band.image} alt={band.band} className="card-img-top img-fluid search-img" />
         <div className="card-body">
           <h5 className="card-title text-center" style={{ color: '#FFF' }}><u><em>{band.band}</em></u></h5>
@@ -92,10 +92,10 @@ class SearchPage extends Component {
       </div>);
     return (
       <React.Fragment>
-        <header className="container-fluid mb-1">
+        <header className="container-fluid mt-4">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <h1 className="text-center mt-1 mb-0">Search</h1>
+              <h1 className="text-center">Search</h1>
             </div>
           </div>
         </header>

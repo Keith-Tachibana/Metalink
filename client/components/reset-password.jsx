@@ -252,7 +252,7 @@ class ResetPassword extends Component {
         <header className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <img src="/images/metalink.jpg" alt="Metalink Logo" className="img-fluid mb-3" />
+              <img src="/images/metalink.webp" alt="Metalink Logo" className="img-fluid mb-3" />
               <h1 className="text-center mt-4">Reset Password</h1>
             </div>
           </div>

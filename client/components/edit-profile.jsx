@@ -33,7 +33,8 @@ class EditProfile extends Component {
     const headers = new Headers();
     headers.append('Content-Type', 'multipart/form-data');
     const config = { headers };
-    axios.post('/api/profileImage', formData, config)
+    axios
+      .post('/api/profileImage', formData, config)
       .then(response => {
         this.setState({
           profileImage: response.data
@@ -116,7 +117,7 @@ class EditProfile extends Component {
     const { profileImage } = this.state;
     return (
       profileImage === null
-        ? <img src='/images/placeholder.png' alt='Placeholder' className="profile-image" />
+        ? <img src='/images/placeholder.webp' alt='Placeholder' className="profile-image" />
         : <img src={profileImage} alt="My profile picture" className="profile-image" />
     );
   }
@@ -167,7 +168,7 @@ class EditProfile extends Component {
               </form>
               <div>
                 <div>
-                  <span className="text-danger"><u>My Favorite Genres</u></span>
+                  <span><u>My Favorite Genres</u></span>
                   <div><span className="text-danger">First:</span> <p className="genres">{profile.genre1}</p></div>
                   <div><span className="text-danger">Second:</span> <p className="genres">{profile.genre2}</p></div>
                   <div><span className="text-danger">Third:</span> <p className="genres">{profile.genre3}</p></div>
@@ -213,7 +214,6 @@ class EditProfile extends Component {
                 </label>
               </form>
               <br />
-              <br />
               <h5>Reset Password</h5>
               <Link to="/email">Click here</Link>
             </div>
@@ -221,9 +221,8 @@ class EditProfile extends Component {
               <form onSubmit={this.handleSubmit} className="form-container mt-2">
                 <div className="form-group">
                   <label htmlFor="name">
-                    Name<em className="asterisk">&#42;</em>
+                    Name
                     <input
-                      autoFocus
                       type="text"
                       name="name"
                       id="name"
@@ -235,7 +234,7 @@ class EditProfile extends Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="username">
-                    Username<em className="asterisk">&#42;</em>
+                    Username
                     <input
                       type="text"
                       name="username"
@@ -248,7 +247,7 @@ class EditProfile extends Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="email">
-                    E-mail Address<em className="asterisk">&#42;</em>
+                    E-mail Address
                     <input
                       type="email"
                       name="email"
@@ -261,7 +260,7 @@ class EditProfile extends Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="zipcode">
-                    Zipcode<em className="asterisk">&#42;</em>
+                    Zipcode
                     <input
                       type="text"
                       name="zipcode"
@@ -283,7 +282,6 @@ class EditProfile extends Component {
                       onChange={this.handleChange}
                       className="form-control profile-input"
                     />
-                    <small className="asterisk">&#42; &#61; required</small>
                   </label>
                 </div>
                 {this.renderButton()}

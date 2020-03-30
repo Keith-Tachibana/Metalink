@@ -13,6 +13,7 @@ import VideosPage from './videos-page';
 import SearchConcerts from './search-concerts';
 import CreatePost from './create-post';
 import ChatPage from './chat-page';
+import AboutPage from './about-page';
 import EmailPassword from './email-password';
 import ResetPassword from './reset-password';
 
@@ -180,7 +181,7 @@ class App extends Component {
           <Route path='/home/:id' exact render={props =>
             <React.Fragment>
               <Menu handleExit={this.handleExit} />
-              {this.state.loading ? <h2 className="text-center">Profile Loading...</h2>
+              {this.state.loading ? <h1 className="text-center mt-4" style={{ height: '535px' }}>Profile Loading...</h1>
                 : <HomePage profile={this.state.profile} />}
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
@@ -244,6 +245,13 @@ class App extends Component {
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
+          <Route path="/about/:id" exact render={props =>
+            <React.Fragment>
+              <Menu handleExit={this.handleExit} />
+              <AboutPage />
+              <BottomNavbar handleExit={this.handleExit} />
+            </React.Fragment>
+          } />
           <Route path="/email" exact render={props =>
             <EmailPassword />
           } />
@@ -258,7 +266,7 @@ class App extends Component {
               <header className="container-fluid mb-4">
                 <div className="row">
                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <img src="/images/metalink.jpg" alt="Metalink Logo" className="img-fluid mb-3" />
+                    <img src="/images/metalink.webp" alt="Metalink Logo" className="img-fluid mb-3" />
                     <h1 className="text-center mt-4"><em>404:</em> Page Not Found</h1>
                   </div>
                 </div>

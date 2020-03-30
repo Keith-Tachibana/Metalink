@@ -21,7 +21,7 @@ class Menu extends Component {
     const { match } = this.props;
     return (
       <React.Fragment>
-        <div className={cssClass}>
+        <nav className={cssClass}>
           <h1 className="ml-4"><u>Menu</u></h1>
           <a href="#" onClick={this.handleClick} className="close-button">Close</a>
           <br />
@@ -43,14 +43,16 @@ class Menu extends Component {
           <Link to={`/chat/${match.params.id}`} onClick={this.handleClick}>
             <h4 className="ml-4 mb-2">Chat</h4>
           </Link>
-          <Link to={'/'} >
-            <h4 className="ml-4 mb-2"
-              onClick={this.props.handleExit}> Sign Out</h4>
+          <Link to={`/about/${match.params.id}`} onClick={this.handleClick}>
+            <h4 className="ml-4 mb-2">About</h4>
           </Link>
-        </div>
-        <div className="nav-bg">
+          <Link to={'/'} onClick={this.props.handleExit}>
+            <h4 className="ml-4 mb-2">Sign Out</h4>
+          </Link>
+        </nav>
+        <nav className="nav-bg">
           <i onClick={this.handleClick} className="fas fa-bars fa-2x menu ml-4 mt-4 text-danger"></i>
-        </div>
+        </nav>
       </React.Fragment>
     );
   }

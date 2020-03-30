@@ -117,7 +117,7 @@ export default class SearchConcerts extends Component {
       });
     return (
       <div>
-        <h1 className="text-center mt-4 mb-4">Concerts near you</h1>
+        <h1 className="text-center mt-4 mb-4">Concerts Near You</h1>
         <main className="container-fluid">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
