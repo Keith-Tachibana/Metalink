@@ -17,7 +17,7 @@ const images = [
     src: '/images/Andrew_Song.webp',
     title: 'Andrew Song',
     subtitle: 'Role: Frontend and Backend Developer',
-    text: 'His love of learning new languages and technologies led to decision to become a full-stack web developer by enrolling in a coding bootcamp at LearningFuze. He is from Irvine, California.'
+    text: 'His love of learning new languages and technologies led to his decision to become a full-stack web developer by enrolling in a coding bootcamp at LearningFuze. He is from Irvine, California.'
   },
 
   {
