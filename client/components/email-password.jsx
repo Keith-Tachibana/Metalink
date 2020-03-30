@@ -73,16 +73,21 @@ class EmailPassword extends Component {
           email: this.state.email
         })
         .then(response => {
-          if (response.status === 403) {
-            this.setState({
-              error: true,
-              message: ''
-            });
-          } else if (response.data.message === 'Password reset e-mail sent!') {
-            this.setState({
+          if (response.data.message === 'Password reset e-mail sent!') {
+            this.setState(prevState => ({
               error: false,
               message: 'Password reset e-mail sent!'
-            });
+            }));
+          } else if (response.data.message === 'That e-mail address was not found.') {
+            this.setState(prevState => ({
+              error: true,
+              message: 'That e-mail address was not found.'
+            }));
+          } else {
+            this.setState(prevState => ({
+              error: false,
+              message: ''
+            }));
           }
         })
         .catch(error => {
@@ -92,7 +97,7 @@ class EmailPassword extends Component {
   }
 
   render() {
-    const { message, error } = this.state;
+    const { message } = this.state;
     return (
       <React.Fragment>
         <header className="container-fluid mb-4">
@@ -129,7 +134,7 @@ class EmailPassword extends Component {
               </form>
             </div>
           </div>
-          {error && (
+          {message === 'That e-mail address was not found.' && (
             <React.Fragment>
               <div className="d-flex justify-content-center">
                 <h6 className="text-danger">That e-mail address was not recognized. Please try again or register for a new account.</h6>

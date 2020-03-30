@@ -378,7 +378,9 @@ app.post('/api/email', (req, res, next) => {
     db.query(sql, value)
       .then(result => {
         if (result.rows.length === 0) {
-          res.status(403).send('That e-mail address was not found.');
+          res.status(404).json({
+            message: 'That e-mail address was not found.'
+          });
         } else {
           const token = crypto.randomBytes(20).toString('hex');
           const updateSQL = `
