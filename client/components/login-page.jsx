@@ -88,7 +88,7 @@ class LoginPage extends React.Component {
           </div>
         </header>
         <form className="mx-auto login-form">
-          <div className="form-row" style={{ height: '75px' }}>
+          <div className="form-row" style={{ height: '87px' }}>
             <div className="form-group col-12">
               <label htmlFor="username">Username</label>
               <input
