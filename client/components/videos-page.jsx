@@ -1,33 +1,50 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import YTSearch from 'youtube-api-search';
 
 import VideoSearch from './video-search';
 import VideoList from './video-list';
 import VideoDetail from './video-detail';
-
-const API_KEY = 'AIzaSyB8NGy5OC9hEQWqBtAhGr7gFAX5ZYRsvy8';
 
 class VideosPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       videos: [],
-      selectedVideo: null
+      selectedVideo: null,
+      message: ''
     };
+    this.videoSearch = this.videoSearch.bind(this);
   }
 
   componentDidMount() {
     this.videoSearch('Metalocalypse');
   }
 
-  videoSearch(term) {
-    YTSearch({ key: API_KEY, term }, videos => {
-      this.setState({
-        videos,
-        selectedVideo: videos[0]
+  async videoSearch(term) {
+    if (term) {
+      try {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        const response = await fetch(`/api/videos/${term}`, {
+          method: 'POST',
+          headers
+        });
+        const json = response.json();
+        json.then(videos => {
+          this.setState({
+            videos,
+            selectedVideo: videos[0],
+            message: ''
+          });
+        }).catch(err => console.error(err.message));
+      } catch (error) {
+        console.error(error.message);
+      }
+    } else {
+      return this.setState({
+        message: 'Please enter a search query.'
       });
-    });
+    }
   }
 
   render() {
@@ -52,6 +69,7 @@ class VideosPage extends Component {
               <VideoDetail video={this.state.selectedVideo} />
               <VideoList
                 onVideoSelect={selectedVideo => this.setState({ selectedVideo })}
+                message={this.state.message}
                 videos={this.state.videos} />
             </div>
           </div>

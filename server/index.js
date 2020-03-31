@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const socket = require('socket.io');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const YTSearch = require('youtube-api-search');
 const Discogs = require('disconnect').Client;
 
 const db = require('./database');
@@ -426,6 +427,17 @@ app.post('/api/email', (req, res, next) => {
         }
       })
       .catch(err => next(err));
+  }
+});
+
+app.post('/api/videos/:term', (req, res, next) => {
+  const { term } = req.params;
+  if (!term) {
+    throw new ClientError('A search query is required.', 400);
+  } else {
+    YTSearch({ key: process.env.YOUTUBE_API_KEY, term }, videos => {
+      res.status(200).json(videos);
+    });
   }
 });
 

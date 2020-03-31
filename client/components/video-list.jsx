@@ -3,14 +3,16 @@ import React from 'react';
 import VideoListItem from './video-list-item';
 
 const VideoList = props => {
-  const videoItems = props.videos.map(video => {
-    return (
-      <VideoListItem
-        onVideoSelect={props.onVideoSelect}
-        key={video.etag}
-        video={video} />
-    );
-  });
+  const videoItems = props.message
+    ? <h3 className="text-center">{props.message}</h3>
+    : props.videos.map(video => {
+      return (
+        <VideoListItem
+          onVideoSelect={props.onVideoSelect}
+          key={video.etag}
+          video={video} />
+      );
+    });
 
   return (
     <ul

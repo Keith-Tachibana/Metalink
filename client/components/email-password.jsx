@@ -78,11 +78,6 @@ class EmailPassword extends Component {
               error: false,
               message: 'Password reset e-mail sent!'
             }));
-          } else if (response.data.message === 'That e-mail address was not found.') {
-            this.setState(prevState => ({
-              error: true,
-              message: 'That e-mail address was not found.'
-            }));
           } else {
             this.setState(prevState => ({
               error: false,
@@ -92,6 +87,10 @@ class EmailPassword extends Component {
         })
         .catch(error => {
           console.error(error.message);
+          this.setState(prevState => ({
+            error: true,
+            message: 'That e-mail address was not found.'
+          }));
         });
     }
   }
@@ -136,15 +135,15 @@ class EmailPassword extends Component {
           </div>
           {message === 'That e-mail address was not found.' && (
             <React.Fragment>
-              <div className="d-flex justify-content-center">
-                <h6 className="text-danger">That e-mail address was not recognized. Please try again or register for a new account.</h6>
+              <div>
+                <h6 className="text-danger text-center">That e-mail address was not recognized. Please try again or register for a new account.</h6>
               </div>
             </React.Fragment>
           )}
           {message === 'Password reset e-mail sent!' && (
             <React.Fragment>
-              <div className="d-flex justify-content-center">
-                <h6 className="text-danger">The password reset e-mail was successfully sent!</h6>
+              <div>
+                <h6 className="text-danger text-center">The password reset e-mail was successfully sent!</h6>
               </div>
             </React.Fragment>
           )}
