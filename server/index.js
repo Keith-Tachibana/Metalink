@@ -599,18 +599,19 @@ io.on('connection', socket => {
 
   socket.on('ADD_USER', username => {
     if (addedUser) {
-      return;
+      return null;
+    } else {
+      socket.username = username;
+      ++population;
+      addedUser = true;
+      io.emit('LOGIN', {
+        population
+      });
+      socket.broadcast.emit('USER_CONNECTED', {
+        username: socket.username,
+        population
+      });
     }
-    socket.username = username;
-    ++population;
-    addedUser = true;
-    io.emit('LOGIN', {
-      population: population
-    });
-    socket.broadcast.emit('USER_CONNECTED', {
-      username: socket.username,
-      population: population
-    });
   });
 
   socket.on('disconnect', () => {
@@ -618,7 +619,7 @@ io.on('connection', socket => {
       --population;
       socket.broadcast.emit('USER_DISCONNECTED', {
         username: socket.username,
-        population: population
+        population
       });
     }
   });
