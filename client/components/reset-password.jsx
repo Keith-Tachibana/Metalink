@@ -216,15 +216,14 @@ class ResetPassword extends Component {
             updated: true,
             error: false
           });
-        } else {
-          this.setState({
-            updated: false,
-            error: true
-          });
         }
       })
       .catch(error => {
         console.error(error.message);
+        this.setState({
+          updated: false,
+          error: true
+        });
       });
   }
 
@@ -276,7 +275,6 @@ class ResetPassword extends Component {
                       onBlur={this.handleBlur}
                       value={this.state.password}
                       className="form-control"
-                      autoComplete="off"
                       placeholder="Please enter a new password" />
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-pw" style={{ height: '200px' }}>
@@ -303,6 +301,7 @@ class ResetPassword extends Component {
             </div>
           </div>
           {this.state.updated && (<h6 className="text-center text-danger">Your password has been successfully reset, please try logging in again.</h6>)}
+          {this.state.error && (<h6 className="text-center text-danger">An error occured when attempting to reset your password. Please try again.</h6>)}
         </main>
         <footer>
           <div className="container-fluid justify-content-center d-flex">

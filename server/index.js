@@ -362,7 +362,8 @@ app.post('/api/login', (req, res, next) => {
           }
         });
       }
-    });
+    })
+    .catch(err => next(err));
 });
 
 app.post('/api/email', (req, res, next) => {
@@ -457,18 +458,11 @@ app.put('/api/posts/:postId', (req, res, next) => {
     throw new ClientError('The postId must be a positive integer.', 400);
   }
   const values = [subject, content, postId];
-  const updatedValues = [postId];
   const sql = `
       UPDATE "posts"
-        SET "subject" = $1, "content" = $2
+        SET "subject" = $1, "content" = $2, "dateUpdated" = default
       WHERE "postId" = $3
   RETURNING *;
-  `;
-  const updatedSQL = `
-    UPDATE "posts"
-       SET "dateUpdated" = default
-     WHERE "postId" = $1
- RETURNING *;
   `;
   db.query(sql, values)
     .then(result => {
@@ -476,11 +470,7 @@ app.put('/api/posts/:postId', (req, res, next) => {
       if (!post) {
         throw new ClientError(`Cannot find post with postId ${postId}`, 404);
       } else {
-        db.query(updatedSQL, updatedValues)
-          .then(updatedResult => {
-            res.status(200).json(post);
-          })
-          .catch(err => next(err));
+        res.status(200).json(post);
       }
     })
     .catch(err => {
@@ -497,19 +487,12 @@ app.put('/api/profile/:userId', (req, res, next) => {
   if ((!parseInt(userId, 10)) || (parseInt(userId) < 0)) {
     throw new ClientError('The userId must be a positive integer.', 400);
   }
-  const values = [name, username, email, zipcode, phone, profileImage, genre1, genre2, genre3, userId];
-  const updatedValues = [parseInt(userId)];
+  const values = [name, username, email, zipcode, phone, profileImage, genre1, genre2, genre3, parseInt(userId)];
   const sql = `
       UPDATE "users"
-        SET "name" = $1, "username" = $2, "email" = $3, "zipcode" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9
+        SET "name" = $1, "username" = $2, "email" = $3, "zipcode" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9, "updatedAt" = default
       WHERE "userId" = $10
   RETURNING *;
-  `;
-  const updatedSQL = `
-    UPDATE "users"
-       SET "updatedAt" = default
-     WHERE "userId" = $1
- RETURNING *;
   `;
   db.query(sql, values)
     .then(result => {
@@ -517,11 +500,7 @@ app.put('/api/profile/:userId', (req, res, next) => {
       if (!profile) {
         throw new ClientError(`Cannot find user with userId ${userId}`, 404);
       } else {
-        db.query(updatedSQL, updatedValues)
-          .then(updatedResult => {
-            res.status(200).json(profile);
-          })
-          .catch(err => next(err));
+        res.status(200).json(profile);
       }
     })
     .catch(err => next(err));

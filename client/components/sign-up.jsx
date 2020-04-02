@@ -377,7 +377,6 @@ class SignUp extends Component {
                       onChange={this.handleChange}
                       value={this.state.fullname}
                       className="form-control"
-                      autoComplete="off"
                       placeholder="Full name" />
                     <small className="text-danger">{this.alertName()}</small>
                   </div>
@@ -389,7 +388,6 @@ class SignUp extends Component {
                       name="username"
                       onChange={this.handleChange}
                       value={this.state.username}
-                      autoComplete="off"
                       className="form-control" />
                     <small className="text-danger">{this.alertUsername()}</small>
                   </div>
@@ -434,7 +432,6 @@ class SignUp extends Component {
                       onChange={this.handleChange}
                       value={this.state.email}
                       className="form-control"
-                      autoComplete="off"
                       placeholder="example@example.com" />
                     <small className="text-danger">{this.alertEmail()}</small>
                   </div>
@@ -442,13 +439,13 @@ class SignUp extends Component {
                     <label htmlFor="zipcode">Zipcode<em className="asterisk">&#42;</em><span className="ml-4"><i className={this.renderIconZipcode()}></i></span></label>
                     <input
                       type="text"
-                      inputMode="numeric"
+                      id="zipcode"
                       name="zipcode"
+                      inputMode="numeric"
                       onChange={this.handleChange}
                       value={this.state.zipcode}
                       className="form-control"
-                      placeholder="XXXXX"
-                      autoComplete="off"
+                      placeholder="Format: XXXXX"
                       pattern="^\d{5}$" />
                     <small className="text-danger">{this.alertZipcode()}</small>
                   </div>
@@ -461,8 +458,7 @@ class SignUp extends Component {
                       onChange={this.handleChange}
                       value={this.state.phone}
                       className="form-control"
-                      autoComplete="off"
-                      placeholder="XXX-XXX-XXXX" />
+                      placeholder="Format: XXX-XXX-XXXX" />
                     <small className="text-danger">{this.alertPhone()}</small>
                   </div>
                 </div>

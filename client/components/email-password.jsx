@@ -123,8 +123,7 @@ class EmailPassword extends Component {
                       onChange={this.handleChange}
                       onBlur={this.handleBlur}
                       placeholder="example@example.com"
-                      className="form-control"
-                      autoComplete="off" />
+                      className="form-control" />
                     <p><small className="text-danger">{this.alertEmail()}</small></p>
                     <p><small className="text-danger">{this.alertLength()}</small></p>
                   </div>

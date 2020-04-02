@@ -264,7 +264,9 @@ class EditProfile extends Component {
                     <input
                       type="text"
                       name="zipcode"
-                      id="zipcopde"
+                      id="zipcode"
+                      inputMode="numeric"
+                      pattern="^\d{5}$"
                       value={this.state.zipcode}
                       onChange={this.handleChange}
                       className="form-control profile-input"

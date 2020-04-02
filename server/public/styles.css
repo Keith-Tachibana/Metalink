@@ -8,7 +8,7 @@ body {
   color: #FFF;
 }
 
-input[type='file'] {
+input[type="file"] {
   color: transparent;
   font-size: 0.75rem;
 }
