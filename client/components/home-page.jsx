@@ -24,7 +24,8 @@ class HomePage extends React.Component {
     }
     return (
       <div className="container-md">
-        <h4 className="col-12 d-flex justify-content-center text-white mt-4">{greeting} {this.props.profile.username}!</h4>
+        <h4 className="col-12 d-flex justify-content-center text-white mt-4">{greeting}</h4>
+        <h4 className="col-12 d-flex justify-content-center text-white">{this.props.profile.username}!</h4>
         <h5 className="col-12 d-flex justify-content-center font-weight-bold text-white">Here are the latest posts...</h5>
         <PostsList />
       </div>
