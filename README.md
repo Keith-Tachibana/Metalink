@@ -82,17 +82,11 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
   ```shell
   createdb metalink
   ```
-6. Import schema
+6. Import the schema and dummy data
   ```shell
-  psql -d metalink -f schema.sql
+  npm run db:import
   ```
-7. Use the psql REPL (Read Eval Print Loop) to import example data
-  ```shell
-  psql db=metalink
-  \copy products from '/home/dev/lfz/Metalink/posts-data.csv' delimiter ',' csv header;
-  ```
-  - ...where `/home/dev/lfz/Metalink` is the absolute path to your cloned folder from step 2
-8. Edit your nginx default site configuration to reverse proxy the Express.js server
+7. Edit your nginx default site configuration to reverse proxy the Express.js server
   ```shell
   cd /etc/nginx/sites-available
   sudo nano default
@@ -102,22 +96,30 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
   location /api {
     proxy_pass http://127.0.0.1:3001;
   }
+  
+  location /socket.io {
+    proxy_pass http://127.0.0.1:3001;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+  }
   ```
    - Save your changes (`Ctrl + O`) and exit (`Ctrl + X`)
    - Link your default site to the sites-enabled directory (if not already done):
   ```shell
   sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
   ```
-9. Start nginx
+8. Start nginx
   ```shell
   sudo service nginx start
   ```
-10. Transpile React components using Webpack
+9. Transpile React components using Webpack
   ```shell
   npm run build
   ```
-11. Start the Express.js server using the pm2 module
+10. Start the Express.js server using the pm2 module
   ```shell
   sudo pm2 --name "Metalink" start "npm run dev"
   ```
-12. Open your default web browser and navigate to http://localhost:3000/ to see the result!
+11. Open your default web browser and navigate to http://localhost:3000/ to see the result!
