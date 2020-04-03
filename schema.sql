@@ -39,6 +39,5 @@ CREATE TABLE "chat" (
 	"message" TEXT,
 	"timeSent" TEXT,
 	PRIMARY KEY ("chatId"),
-	CONSTRAINT "fk_userId_chat" FOREIGN KEY ("userId") REFERENCES "users" ("userId"),
-	CONSTRAINT "fk_username_chat" FOREIGN KEY ("username") REFERENCES "users" ("username")
+	CONSTRAINT "fk_userId_chat" FOREIGN KEY ("userId") REFERENCES "users" ("userId")
 );
