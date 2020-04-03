@@ -81,7 +81,11 @@ class LoginPage extends React.Component {
         <header className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 text-center">
-              <img src="/images/login.webp" alt="Pentagram" className="mb-3 login-heading" />
+              <picture>
+                <source srcSet="/images/login.webp" type="image/webp" />
+                <source srcSet="/images/login.png" type="image/png" />
+                <img src="/images/login.png" alt="Pentagram" className="mb-3 login-heading" />
+              </picture>
               <h1 className="text-center mt-4 mb-4">Welcome to Metalink</h1>
               <h4 className="text-center">Your link to all things metal!</h4>
             </div>

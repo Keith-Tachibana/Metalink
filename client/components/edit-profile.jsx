@@ -117,7 +117,7 @@ class EditProfile extends Component {
     const { profileImage } = this.state;
     return (
       profileImage === null
-        ? <img src='/images/placeholder.webp' alt='Placeholder' className="profile-image" />
+        ? <img src='/images/placeholder.png' alt='Placeholder' className="profile-image" />
         : <img src={profileImage} alt="My profile picture" className="profile-image" />
     );
   }

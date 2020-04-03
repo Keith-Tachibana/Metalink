@@ -6,6 +6,7 @@ const images = [
     id: 1,
     alt: 'Jack Chou',
     src: '/images/Jack_Chou.webp',
+    altsrc: '/images/Jack_Chou.png',
     title: 'Jack Chou',
     subtitle: 'Role: Frontend and Backend Developer',
     text: 'His experience interacting with Salesforce, Microsoft Access, and SQL in his previous roles ultimately led to his decision to attend an accelerated web development program at LearningFuze. He lives in Fullerton, California.'
@@ -15,6 +16,7 @@ const images = [
     id: 2,
     alt: 'Andrew Song',
     src: '/images/Andrew_Song.webp',
+    altsrc: '/images/Andrew_Song.png',
     title: 'Andrew Song',
     subtitle: 'Role: Frontend and Backend Developer',
     text: 'His love of learning new languages and technologies led to his decision to become a full-stack web developer by enrolling in a coding bootcamp at LearningFuze. He is from Irvine, California.'
@@ -24,6 +26,7 @@ const images = [
     id: 3,
     alt: 'Keith Tachibana',
     src: '/images/Keith_Tachibana.webp',
+    altsrc: '/images/Keith_Tachibana.png',
     title: 'Keith Tachibana',
     subtitle: 'Role: Frontend and Backend Developer',
     text: 'His prior work experience as an IT (Information Technology) Technician led to his decision to change roles and become a full-stack web developer by attending a program at LearningFuze. He resides in Irvine, California.'
@@ -131,12 +134,16 @@ class AboutPage extends Component {
               <div className="carousel">
                 <i className="previous fas fa-chevron-left" onClick={this.handlePrevious}></i>
                 <div className="card bg-dark" style={{ overflow: 'auto' }}>
-                  <img
-                    className="card-img-top"
-                    height="250"
-                    src={images[this.state.imageIndex].src}
-                    alt={images[this.state.imageIndex].alt}
-                    key={images[this.state.imageIndex].id}/>
+                  <picture>
+                    <source srcSet={images[this.state.imageIndex].src} type="image/webp" />
+                    <source srcSet={images[this.state.imageIndex].altsrc} type="image/png" />
+                    <img
+                      className="card-img-top"
+                      height="250"
+                      src={images[this.state.imageIndex].altsrc}
+                      alt={images[this.state.imageIndex].alt}
+                      key={images[this.state.imageIndex].id} />
+                  </picture>
                   <div className="card-body">
                     <h5 className="card-title text-danger">{images[this.state.imageIndex].title}</h5>
                     <h6 className="card-subtitle mb-2 text-info">{images[this.state.imageIndex].subtitle}</h6>
