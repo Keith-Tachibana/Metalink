@@ -120,6 +120,6 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
   ```
 10. Start the Express.js server using the pm2 module
   ```shell
-  sudo pm2 --name "Metalink" start "npm run dev"
+  sudo pm2 --name "Metalink" start "npm run start"
   ```
 11. Open your default web browser and navigate to http://localhost:3000/ to see the result!
