@@ -1,5 +1,7 @@
 # Metalink
 A mobile-first, full-stack, web application for lovers of metal music that aims to link them with other fans of the genre
+## Developed By
+[Jack Chou](https://github.com/jackmchou), [Andrew Song](https://github.com/andrewsong11), and [Keith Tachibana](https://github.com/Keith-Tachibana)
 ## Technologies Used
 |              Dependency            | Version |
 |------------------------------------|--------:|
