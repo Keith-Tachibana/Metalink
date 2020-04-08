@@ -3,36 +3,36 @@ A mobile-first, full-stack, web application for lovers of metal music that aims 
 ## Developed By
 [Jack Chou](https://github.com/jackmchou), [Andrew Song](https://github.com/andrewsong11), and [Keith Tachibana](https://github.com/Keith-Tachibana)
 ## Technologies Used
-|              Dependency            | Version |
-|------------------------------------|--------:|
-| @Babel/Core                        | 7.8.0   |
-| @Babel/Plugin-Transform-React-JSX  | 7.8.0   |
-| Axios                              | 0.19.2  |
-| Babel-Loader                       | 8.0.6   |
-| Bcrypt                             | 4.0.1   |
-| Bootstrap                          | 4.4.1   |
-| CORS                               | 2.8.5   |
-| Disconnect                         | 1.2.1   |
-| Dotenv                             | 8.2.0   |
-| Express                            | 4.17.1  |
-| Express-Session                    | 1.17.0  |
-| FontAwesome                        | 5.11.2  |
-| Lodash                             | 4.17.15 |
-| Moment                             | 2.24.0  |
-| Multer                             | 1.4.2   |
-| Node-Fetch                         | 2.6.0   |
-| Node-Mailer                        | 0.1.1   |
-| PG                                 | 7.17.1  |
-| PM2                                | 4.2.3   |
-| PostgreSQL                         | 10.10   |
-| React                              | 16.12.0 |
-| React-DOM                          | 16.12.0 |
-| React-Router-DOM                   | 5.1.2   |
-| Session-File-Store                 | 1.3.1   |
-| Socket.io                          | 2.3.0   |
-| Webpack                            | 4.41.5  |
-| Webpack-CLI                        | 3.3.10  |
-| YouTube-API-Search                 | 0.0.5   |
+|            **Dependency**          | **Version** |
+|------------------------------------|------------:|
+| @Babel/Core                        |   7.8.0     |
+| @Babel/Plugin-Transform-React-JSX  |   7.8.0     |
+| Axios                              |   0.19.2    |
+| Babel-Loader                       |   8.0.6     |
+| Bcrypt                             |   4.0.1     |
+| Bootstrap                          |   4.4.1     |
+| CORS                               |   2.8.5     |
+| Disconnect                         |   1.2.1     |
+| Dotenv                             |   8.2.0     |
+| Express                            |   4.17.1    |
+| Express-Session                    |   1.17.0    |
+| FontAwesome                        |   5.11.2    |
+| Lodash                             |   4.17.15   |
+| Moment                             |   2.24.0    |
+| Multer                             |   1.4.2     |
+| Node-Fetch                         |   2.6.0     |
+| Node-Mailer                        |   0.1.1     |
+| PG                                 |   7.17.1    |
+| PM2                                |   4.2.3     |
+| PostgreSQL                         |   10.10     |
+| React                              |   16.12.0   |
+| React-DOM                          |   16.12.0   |
+| React-Router-DOM                   |   5.1.2     |
+| Session-File-Store                 |   1.3.1     |
+| Socket.io                          |   2.3.0     |
+| Webpack                            |   4.41.5    |
+| Webpack-CLI                        |   3.3.10    |
+| YouTube-API-Search                 |   0.0.5     |
 ## Live Demo
 Try the application live [on my portfolio website](https://metalink.keith-tachibana.com/)
 ## Features
@@ -56,14 +56,14 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
 - _*_ [MeisterTask available here](https://www.meistertask.com/app/project/i8BR5WmN/metalink)
 - _*_ [Wireframe available here](https://github.com/Keith-Tachibana/Metalink/wiki)
 #### System Requirements
-|  Requirement  |     Version    |
-|---------------|---------------:|
-| Nginx         | 1.10 or higher |
-| Node          | 10 or higher   |
-| NPM           | 6 or higher    |
-| PM2           | 4 or higher    |
-| PostgreSQL    | 10 or higher   |
-| Ubuntu Server | 18.04 LTS      |
+|  **Requirement**  |   **Version**    |
+|----------    -----|-----------  ----:|
+| Nginx             | 1.10 or higher   |
+| Node              | 10 or higher     |
+| NPM               | 6 or higher      |
+| PM2               | 4 or higher      |
+| PostgreSQL        | 10 or higher     |
+| Ubuntu Server     | 18.04 LTS        |
 #### Getting Started
 1. Clone the repository
   ```shell
