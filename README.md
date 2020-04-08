@@ -117,7 +117,7 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
   ```shell
   sudo service nginx start
   ```
-9. Make a copy of the .env.example file and add your API keys to it
+9. Make a copy of the .env.example file, update it with your PostgreSQL credentials, and add your API keys to it
   ```shell
   cp .env.example .env
   ```
