@@ -121,7 +121,7 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
   ```shell
   cp .env.example .env
   ```
-- You'll need API keys for the following: [Discogs](https://www.discogs.com/developers), [TicketMaster](https://developer.ticketmaster.com/products-and-docs/apis/getting-started/), [YouTube](https://developers.google.com/youtube/v3/getting-started)
+- You'll need API keys for the following: [Discogs](https://www.discogs.com/developers), [TicketMaster](https://developer.ticketmaster.com/products-and-docs/apis/getting-started/), and [YouTube](https://developers.google.com/youtube/v3/getting-started)
 10. Transpile React components using Webpack
   ```shell
   npm run build
