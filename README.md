@@ -57,7 +57,7 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
 - _*_ [Wireframe available here](https://github.com/Keith-Tachibana/Metalink/wiki)
 #### System Requirements
 |  **Requirement**  |   **Version**    |
-|----------    -----|-----------  ----:|
+|-------------------|-----------------:|
 | Nginx             | 1.10 or higher   |
 | Node              | 10 or higher     |
 | NPM               | 6 or higher      |
