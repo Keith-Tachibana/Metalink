@@ -117,12 +117,17 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
   ```shell
   sudo service nginx start
   ```
-9. Transpile React components using Webpack
+9. Make a copy of the .env.example file and add your API keys to it
+  ```shell
+  cp .env.example .env
+  ```
+  You'll need API keys for the following: [Discogs](https://www.discogs.com/developers), [TicketMaster](https://developer.ticketmaster.com/products-and-docs/apis/getting-started/), [YouTube](https://developers.google.com/youtube/v3/getting-started)
+10. Transpile React components using Webpack
   ```shell
   npm run build
   ```
-10. Start the Express.js server using the pm2 module
+11. Start the Express.js server using the PM2 module
   ```shell
   sudo pm2 --name "Metalink" start "npm run start"
   ```
-11. Open your default web browser and navigate to http://localhost:3000/ to see the result!
+12. Open your default web browser and navigate to http://localhost:3000/ to see the result!
