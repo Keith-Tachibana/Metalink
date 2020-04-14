@@ -79,8 +79,7 @@ class ChatPage extends Component {
     });
     this.setState({
       message: ''
-    });
-    this.getMessages();
+    }, () => this.getMessages());
   }
 
   updateScroll() {

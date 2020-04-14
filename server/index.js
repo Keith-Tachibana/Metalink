@@ -579,24 +579,23 @@ io.on('connection', socket => {
   socket.on('ADD_USER', username => {
     if (addedUser) {
       return null;
-    } else {
-      socket.username = username;
-      ++population;
-      addedUser = true;
-      io.emit('LOGIN', {
-        population
-      });
-      socket.broadcast.emit('USER_CONNECTED', {
-        username: socket.username,
-        population
-      });
     }
+    socket.username = username;
+    ++population;
+    addedUser = true;
+    socket.emit('LOGIN', {
+      population
+    });
+    socket.emit('USER_CONNECTED', {
+      username: socket.username,
+      population
+    });
   });
 
   socket.on('disconnect', () => {
     if (addedUser) {
       --population;
-      socket.broadcast.emit('USER_DISCONNECTED', {
+      socket.emit('USER_DISCONNECTED', {
         username: socket.username,
         population
       });

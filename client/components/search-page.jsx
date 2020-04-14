@@ -76,7 +76,7 @@ class SearchPage extends Component {
     const { name, value } = event.target;
     this.setState({
       [name]: value
-    }, _.debounce(value => { this.getBandInfo(value); }, 300));
+    }, _.debounce(value => { this.getBandInfo(value); }, 1000));
   }
 
   render() {

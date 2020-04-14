@@ -101,8 +101,7 @@ class LoginPage extends React.Component {
                 name="username"
                 className="form-control"
                 onChange={this.handleChange}
-                value={this.state.username}
-                placeholder="1337Dragonforce" />
+                value={this.state.username} />
               <div className="mb-4 pb-4">
                 {
                   this.state.wrongUsername
@@ -121,8 +120,7 @@ class LoginPage extends React.Component {
                 name="password"
                 className="form-control"
                 onChange={this.handleChange}
-                value={this.state.password}
-                placeholder="buhlakesl33tGHexpert" />
+                value={this.state.password} />
               <div className="mb-4 pb-4">
                 {
                   this.state.incorrectPassword
