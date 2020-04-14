@@ -94,7 +94,7 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
   cd /etc/nginx/sites-available
   sudo nano default
   ```
-   - In the "server" code block, add this underneath the first location definition:
+   - 7a. In the "server" code block, add this underneath the first location definition:
   ```shell
   location /api {
     proxy_pass http://127.0.0.1:3001;
@@ -108,8 +108,8 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
     proxy_set_header Host $host;
   }
   ```
-   - Save your changes (`Ctrl + O`) and exit (`Ctrl + X`)
-   - Link your default site to the sites-enabled directory (if not already done):
+   - 7b. Save your changes (`Ctrl + O`) and exit (`Ctrl + X`)
+   - 7c. Link your default site to the sites-enabled directory (if not already done):
   ```shell
   sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
   ```
@@ -121,7 +121,7 @@ Try the application live [on my portfolio website](https://metalink.keith-tachib
   ```shell
   cp .env.example .env
   ```
-- You'll need API keys for the following: [Discogs](https://www.discogs.com/developers), [TicketMaster](https://developer.ticketmaster.com/products-and-docs/apis/getting-started/), and [YouTube](https://developers.google.com/youtube/v3/getting-started)
+- 9a. You'll need API keys for the following: [Discogs](https://www.discogs.com/developers), [TicketMaster](https://developer.ticketmaster.com/products-and-docs/apis/getting-started/), and [YouTube](https://developers.google.com/youtube/v3/getting-started)
 10. Transpile React components using Webpack
   ```shell
   npm run build
