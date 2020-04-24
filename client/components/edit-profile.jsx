@@ -193,21 +193,21 @@ class EditProfile extends Component {
               <form onSubmit={this.handleSubmit}>
                 <label htmlFor="genre1">
                   1<sup>st</sup> Favorite Genre
-                  <select name="genre1" id="genre1" className="profile-select" value={this.state.genre1} onChange={this.handleChange}>
+                  <select name="genre1" id="genre1" className="profile-select ml-2" value={this.state.genre1} onChange={this.handleChange}>
                     <option defaultValue=""></option>
                     {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
                   </select>
                 </label>
                 <label htmlFor="genre2">
                   2<sup>nd</sup> Favorite Genre
-                  <select name="genre2" id="genre2" className="profile-select" value={this.state.genre2} onChange={this.handleChange}>
+                  <select name="genre2" id="genre2" className="profile-select ml-2" value={this.state.genre2} onChange={this.handleChange}>
                     <option defaultValue=""></option>
                     {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
                   </select>
                 </label>
                 <label htmlFor="genre3">
                   3<sup>rd</sup> Favorite Genre
-                  <select name="genre3" id="genre3" className="profile-select" value={this.state.genre3} onChange={this.handleChange}>
+                  <select name="genre3" id="genre3" className="profile-select ml-2" value={this.state.genre3} onChange={this.handleChange}>
                     <option defaultValue=""></option>
                     {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
                   </select>

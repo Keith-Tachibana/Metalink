@@ -586,7 +586,7 @@ io.on('connection', socket => {
     socket.emit('LOGIN', {
       population
     });
-    socket.emit('USER_CONNECTED', {
+    socket.broadcast.emit('USER_CONNECTED', {
       username: socket.username,
       population
     });
@@ -595,7 +595,7 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     if (addedUser) {
       --population;
-      socket.emit('USER_DISCONNECTED', {
+      socket.broadcast.emit('USER_DISCONNECTED', {
         username: socket.username,
         population
       });

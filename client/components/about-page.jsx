@@ -131,7 +131,7 @@ class AboutPage extends Component {
         <main className="container-fluid" style={{ height: '487px' }}>
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <div className="carousel">
+              <div className="carousel" style={{ width: '450px', margin: 'auto' }}>
                 <i className="previous fas fa-chevron-left" onClick={this.handlePrevious}></i>
                 <div className="card bg-dark" style={{ overflow: 'auto' }}>
                   <picture>
