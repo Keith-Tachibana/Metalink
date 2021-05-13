@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
@@ -21,16 +22,11 @@ class ChatPage extends Component {
   }
 
   componentDidMount() {
-    socket.emit('ADD_USER', this.state.username);
-    socket.on('USER_CONNECTED', data => {
+    socket.emit('LOGGED_IN', { username: this.state.username });
+    socket.on('POP_INCREASE', data => {
       socket.emit('SEND_MESSAGE', {
         message: data.username + ' has joined the room.'
       });
-      this.setState({
-        population: data.population
-      });
-    });
-    socket.on('LOGIN', data => {
       this.setState({
         population: data.population
       });

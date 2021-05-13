@@ -4,7 +4,6 @@ const path = require('path');
 const multer = require('multer');
 const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
-const socket = require('socket.io');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const YTSearch = require('youtube-api-search');
@@ -16,6 +15,9 @@ const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
 
 const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+const { addUser, getUser, deleteUser } = require('./chat-users');
 const discogsDB = new Discogs().database();
 
 app.use(staticMiddleware);
@@ -446,8 +448,12 @@ app.post('/api/logout', (req, res) => {
   const { userId } = req.session;
   if (!userId) return res.status(400).json({ error: `No userId ${userId} in session` });
   else {
-    delete req.session.userId;
-    return res.status(200).json({ success: `User ${userId} logged out!` });
+    req.session.destroy(err => {
+      if (err) {
+        console.error(err);
+      }
+      return res.status(200).json({ success: `User ${userId} logged out!` });
+    });
   }
 });
 
@@ -551,18 +557,31 @@ app.use((err, req, res, next) => {
   }
 });
 
-const server = app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log('Listening on port', process.env.PORT);
 });
 
-const io = socket(server);
 let population = 0;
-
 io.on('connection', socket => {
-  let addedUser = false;
+  socket.on('LOGGED_IN', data => {
+    const { user, error } = addUser(socket.id, data.username);
+    if (error) {
+      console.error(error.message);
+    }
+    ++population;
+    socket.emit('POP_INCREASE', {
+      username: user.username,
+      population
+    });
+  });
 
-  socket.on('SEND_MESSAGE', (data, req, res, next) => {
+  socket.on('SEND_MESSAGE', (data, next) => {
+    const user = getUser(socket.id);
+    socket.emit('SEND_MESSAGE', {
+      username: user.username,
+      message: data.message
+    });
     const { username, message, time } = data;
     const sendValues = [username, message, time];
     const sendSQL = `
@@ -576,27 +595,12 @@ io.on('connection', socket => {
       .catch(err => next(err));
   });
 
-  socket.on('ADD_USER', username => {
-    if (addedUser) {
-      return null;
-    }
-    socket.username = username;
-    ++population;
-    addedUser = true;
-    socket.emit('LOGIN', {
-      population
-    });
-    socket.broadcast.emit('USER_CONNECTED', {
-      username: socket.username,
-      population
-    });
-  });
-
   socket.on('disconnect', () => {
-    if (addedUser) {
-      --population;
-      socket.broadcast.emit('USER_DISCONNECTED', {
-        username: socket.username,
+    const user = deleteUser(socket.id);
+    --population;
+    if (user) {
+      socket.emit('USER_DISCONNECTED', {
+        username: user.username,
         population
       });
     }
