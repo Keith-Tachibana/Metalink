@@ -2,13 +2,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const socket = io('localhost:3001');
+// const socket = io('localhost:3001');
 
 class ChatPage extends Component {
   constructor(props) {
     super(props);
+    const { chatHistory } = props;
     this.state = {
       username: this.props.profile.username,
       message: '',
@@ -22,6 +23,8 @@ class ChatPage extends Component {
   }
 
   componentDidMount() {
+    this.props.registerHandler(this.onMessageReceived);
+    /*
     socket.emit('LOGGED_IN', { username: this.state.username });
     socket.on('POP_INCREASE', data => {
       socket.emit('SEND_MESSAGE', {
@@ -40,18 +43,22 @@ class ChatPage extends Component {
       });
     });
     this.timerID = setInterval(this.updateScroll, 1000);
-    this.getMessages();
+    this.getMessages(); */
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
+    this.scrollChatToBottom();
+    /*
     if (prevState.messages.length !== this.state.messages.length) {
       this.getMessages();
-    }
+    } */
   }
 
   componentWillUnmount() {
+  /*
     clearInterval(this.timerID);
-    socket.close();
+    socket.close(); */
+    this.props.unregisterHandler();
   }
 
   async getMessages() {
