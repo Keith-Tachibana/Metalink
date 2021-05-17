@@ -9,7 +9,9 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   entry: clientPath,
+  mode: 'production',
   output: {
+    filename: 'main.js',
     path: publicPath
   },
   module: {

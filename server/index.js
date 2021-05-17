@@ -1,6 +1,7 @@
 require('dotenv/config');
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const multer = require('multer');
 const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
@@ -16,13 +17,20 @@ const sessionMiddleware = require('./session-middleware');
 
 const app = express();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
-const { addUser, getUser, deleteUser } = require('./chat-users');
 const discogsDB = new Discogs().database();
+const { addUser, deleteUser, getUsersInRoom } = require('./chat-users');
+const chatMsg = require('./chat-messages');
 
+app.use(cors());
 app.use(staticMiddleware);
 app.use(sessionMiddleware);
 app.use(express.json());
+
+const io = require('socket.io')(http, {
+  cors: {
+    origin: 'http://localhost:5001'
+  }
+});
 
 const storage = multer.diskStorage({
   destination: './server/public/images/profileImages',
@@ -38,11 +46,11 @@ const upload = multer({
 app.get('/api/users', (req, res, next) => {
   const sql = `
     SELECT "userId",
-           "name",
-           "username",
-           "email",
-           "zipcode",
-           "createdAt"
+    "name",
+    "username",
+    "email",
+    "zipcode",
+    "createdAt"
       FROM "users";
   `;
   db.query(sql)
@@ -70,7 +78,7 @@ app.get('/api/profile/:userId', (req, res, next) => {
     const sql = `
     SELECT "userId", "name", "username", "email", "zipcode", "phone", "profileImage", "genre1", "genre2", "genre3"
       FROM "users"
-     WHERE "userId" = $1;
+    WHERE "userId" = $1;
   `;
     db.query(sql, [userId])
       .then(result => {
@@ -100,11 +108,11 @@ app.get('/api/profile/:userId', (req, res, next) => {
 app.get('/api/posts', (req, res, next) => {
   const sql = `
     SELECT "p"."postId",
-           "p"."userId",
-           "p"."subject",
-           "p"."content",
-           "p"."datePosted",
-           "u"."username"
+    "p"."userId",
+    "p"."subject",
+    "p"."content",
+    "p"."datePosted",
+    "u"."username"
       FROM "posts" AS "p"
       JOIN "users" AS "u" USING ("userId")
   ORDER BY "postId" DESC;
@@ -210,8 +218,8 @@ app.get('/api/reset', (req, res, next) => {
   const sql = `
     SELECT "username"
       FROM "users"
-     WHERE "resetPasswordToken" = $1
-       AND TO_TIMESTAMP("resetPasswordExpires", 'YYYY-MM-DD HH24:MI:SS') > NOW();
+    WHERE "resetPasswordToken" = $1
+    AND TO_TIMESTAMP("resetPasswordExpires", 'YYYY-MM-DD HH24:MI:SS') > NOW();
   `;
   db.query(sql, value)
     .then(result => {
@@ -225,6 +233,16 @@ app.get('/api/reset', (req, res, next) => {
       }
     })
     .catch(err => next(err));
+});
+
+app.get('/rooms/:roomId/users', (req, res) => {
+  const users = getUsersInRoom(req.params.roomId);
+  return res.json({ users });
+});
+
+app.get('/rooms/:roomId/messages', (req, res) => {
+  const messages = chatMsg.getMessagesInRoom(req.params.roomId);
+  return res.json({ messages });
 });
 
 app.delete('/api/posts/:postId', (req, res, next) => {
@@ -277,8 +295,8 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
   } else {
     const sql = `
       UPDATE "users"
-         SET "profileImage" = $1
-       WHERE "userId" = $2
+      SET "profileImage" = $1
+      WHERE "userId" = $2
    RETURNING *;
     `;
     db.query(sql, ['/images/profileImages/' + req.file.filename, req.session.userId])
@@ -304,7 +322,7 @@ app.post('/api/signup', (req, res, next) => {
     } else {
       const sql = `
         INSERT INTO "users" ("name", "password", "username", "email", "zipcode", "phone", "genre1", "genre2", "genre3")
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
           RETURNING *;
       `;
       const values = [fullname, hash, username, email, zipcode, phone, genre1, genre2, genre3];
@@ -328,12 +346,12 @@ app.post('/api/login', (req, res, next) => {
   const sql = `
     SELECT "password"
       FROM "users"
-     WHERE "username" = $1;
+    WHERE "username" = $1;
   `;
   const idSQL = `
     SELECT "userId"
       FROM "users"
-     WHERE "username" = $1;
+    WHERE "username" = $1;
   `;
   const value = [username];
   db.query(sql, value)
@@ -376,7 +394,7 @@ app.post('/api/email', (req, res, next) => {
     const sql = `
       SELECT "username"
         FROM "users"
-       WHERE "email" = $1;
+      WHERE "email" = $1;
     `;
     const value = [email];
     db.query(sql, value)
@@ -389,8 +407,8 @@ app.post('/api/email', (req, res, next) => {
           const token = crypto.randomBytes(20).toString('hex');
           const updateSQL = `
             UPDATE "users"
-               SET "resetPasswordToken" = $1, "resetPasswordExpires" = NOW() + INTERVAL '1 hour'
-             WHERE "username" = $2;
+            SET "resetPasswordToken" = $1, "resetPasswordExpires" = NOW() + INTERVAL '1 hour'
+            WHERE "username" = $2;
           `;
           const updateValues = [token, result.rows[0].username];
           db.query(updateSQL, updateValues)
@@ -520,9 +538,9 @@ app.put('/api/update', (req, res, next) => {
     } else {
       const sql = `
     UPDATE "users"
-       SET "password" = $1, "resetPasswordToken" = NULL, "resetPasswordExpires" = NULL
-     WHERE "username" = $2
- RETURNING *;
+    SET "password" = $1, "resetPasswordToken" = NULL, "resetPasswordExpires" = NULL
+    WHERE "username" = $2
+    RETURNING *;
   `;
       const value = [hash, username];
       if (username !== null) {
@@ -562,47 +580,32 @@ app.listen(process.env.PORT, () => {
   console.log('Listening on port', process.env.PORT);
 });
 
-let population = 0;
-io.on('connection', socket => {
-  socket.on('LOGGED_IN', data => {
-    const { user, error } = addUser(socket.id, data.username);
-    if (error) {
-      console.error(error.message);
-    }
-    ++population;
-    socket.emit('POP_INCREASE', {
-      username: user.username,
-      population
-    });
-  });
+http.listen(process.env.CHAT_PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log('Listening on port', process.env.CHAT_PORT);
+});
 
-  socket.on('SEND_MESSAGE', (data, next) => {
-    const user = getUser(socket.id);
-    socket.emit('SEND_MESSAGE', {
-      username: user.username,
-      message: data.message
-    });
-    const { username, message, time } = data;
-    const sendValues = [username, message, time];
-    const sendSQL = `
-      INSERT INTO "chat" ("userId", "username", "message", "timeSent")
-           VALUES (
-            (SELECT "userId" FROM "users" WHERE "username" = $1),
-            $1, $2, $3)
-        RETURNING *;
-    `;
-    db.query(sendSQL, sendValues)
-      .catch(err => next(err));
+io.on('connection', socket => {
+  const { id } = socket.client;
+  // eslint-disable-next-line no-console
+  console.log(`User with ID ${id} connected!`);
+
+  const { roomId, username } = socket.handshake.query;
+  // eslint-disable-next-line no-console
+  console.log('RoomID:', roomId);
+  socket.join(roomId);
+
+  const user = addUser(socket.id, roomId, username);
+  io.in(roomId).emit('new user join', user);
+
+  socket.on('message', data => {
+    const message = chatMsg.addMessage(roomId, data);
+    io.in(roomId).emit('message', message);
   });
 
   socket.on('disconnect', () => {
-    const user = deleteUser(socket.id);
-    --population;
-    if (user) {
-      socket.emit('USER_DISCONNECTED', {
-        username: user.username,
-        population
-      });
-    }
+    deleteUser(socket.id);
+    io.in(roomId).emit('user left', user);
+    socket.leave(roomId);
   });
 });

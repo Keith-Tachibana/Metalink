@@ -2,65 +2,48 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 
-// const socket = io('localhost:3001');
+const socket = io.connect('http://localhost:4001');
 
 class ChatPage extends Component {
   constructor(props) {
     super(props);
-    const { chatHistory } = props;
     this.state = {
       username: this.props.profile.username,
       message: '',
-      messages: [],
+      chat: [],
       population: 0
     };
-    this.timerID = null;
+    // this.timerID = null;
     this.handleChange = this.handleChange.bind(this);
     this.getMessages = this.getMessages.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentDidMount() {
-    this.props.registerHandler(this.onMessageReceived);
-    /*
-    socket.emit('LOGGED_IN', { username: this.state.username });
-    socket.on('POP_INCREASE', data => {
-      socket.emit('SEND_MESSAGE', {
-        message: data.username + ' has joined the room.'
-      });
+    socket.on('message', ({ id, username, msg }) => {
       this.setState({
-        population: data.population
+        chat: [...this.state.chat, { id, username, msg }]
       });
     });
-    socket.on('USER_DISCONNECTED', data => {
-      socket.emit('SEND_MESSAGE', {
-        message: data.username + ' has left the room.'
-      });
-      this.setState({
-        population: data.population
-      });
-    });
-    this.timerID = setInterval(this.updateScroll, 1000);
-    this.getMessages(); */
   }
 
-  componentDidUpdate() {
+  /*  componentDidUpdate() {
     this.scrollChatToBottom();
-    /*
+
     if (prevState.messages.length !== this.state.messages.length) {
       this.getMessages();
-    } */
+    }
   }
 
   componentWillUnmount() {
-  /*
+
     clearInterval(this.timerID);
-    socket.close(); */
+    socket.close();
     this.props.unregisterHandler();
   }
-
+*/
   async getMessages() {
     try {
       const response = await fetch('/api/chat');
@@ -73,16 +56,29 @@ class ChatPage extends Component {
     }
   }
 
+  renderChat() {
+    const { chat } = this.state;
+    return (
+      chat.map(({ username, msg }, idx) => (
+        <div key={idx}>
+          <span style={{ color: 'green' }}>{username}: </span>
+
+          <span>{msg}</span>
+        </div>
+      ))
+    );
+  }
+
   sendMessage(event) {
     event.preventDefault();
-    socket.emit('SEND_MESSAGE', {
+    socket.emit('message', {
       username: this.state.username,
       message: this.state.message,
       time: moment().format('h:mm:ss A')
     });
     this.setState({
       message: ''
-    }, () => this.getMessages());
+    });
   }
 
   updateScroll() {
@@ -98,7 +94,6 @@ class ChatPage extends Component {
   }
 
   render() {
-    const { messages } = this.state;
     return (
       <React.Fragment>
         <header className="container-fluid">
@@ -116,17 +111,7 @@ class ChatPage extends Component {
                   <div className="card-title">Number of people in chat room: {this.state.population}</div>
                   <hr style={{ backgroundColor: '#FFF' }} />
                   <div id="messages" className="overflow-auto chat-container">
-                    {messages.message === 'No chat messages found.'
-                      ? <div>There are no chat messages to show.</div>
-                      : messages.map((message, index) => {
-                        return (
-                          <React.Fragment key={index}>
-                            <div style={{ color: '#FFF' }}><span className="text-danger">{message.username}</span><span><small><em className="text-muted"> {message.timeSent}</em></small></span></div>
-                            <div style={{ color: '#FFF' }}>{message.message}</div>
-                          </React.Fragment>
-                        );
-                      })}
-                  </div>
+                    <div>{this.renderChat()}</div>
                   <div>
                     <textarea
                       type="text"
@@ -143,8 +128,9 @@ class ChatPage extends Component {
               </div>
             </div>
           </div>
-        </main>
-      </React.Fragment>
+        </div>
+      </main>
+    </React.Fragment>
     );
   }
 }

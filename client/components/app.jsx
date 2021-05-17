@@ -12,6 +12,7 @@ import SearchPage from './search-page';
 import VideosPage from './videos-page';
 import SearchConcerts from './search-concerts';
 import CreatePost from './create-post';
+import ChatRoom from './chat-room';
 import ChatPage from './chat-page';
 import AboutPage from './about-page';
 import EmailPassword from './email-password';
@@ -181,7 +182,8 @@ class App extends Component {
           <Route path='/home/:id' exact render={props =>
             <React.Fragment>
               <Menu handleExit={this.handleExit} />
-              {this.state.loading ? <h1 className="text-center mt-4" style={{ height: '535px' }}>Profile Loading...</h1>
+              {this.state.loading
+                ? <h1 className="text-center mt-4" style={{ height: '535px' }}>Profile Loading...</h1>
                 : <HomePage profile={this.state.profile} />}
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
@@ -241,6 +243,13 @@ class App extends Component {
           <Route path="/chat/:id" exact render={props =>
             <React.Fragment>
               <Menu handleExit={this.handleExit} />
+              <ChatRoom profile={this.state.profile} />
+              <BottomNavbar handleExit={this.handleExit} />
+            </React.Fragment>
+          } />
+          <Route path="/rooms/:roomId/users" exact render={props =>
+            <React.Fragment>
+              <Menu handleExit={this.handleExit} />
               <ChatPage profile={this.state.profile} />
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
@@ -263,7 +272,7 @@ class App extends Component {
           } />
           <Route path="*" render={props =>
             <React.Fragment>
-              <header className="container-fluid mb-4">
+              <header className="container-fluid justify-content-center mb-4">
                 <div className="row">
                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <picture>
