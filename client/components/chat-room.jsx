@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 const ChatRoom = () => {
   const [roomName, setRoomName] = useState('');
@@ -9,20 +9,28 @@ const ChatRoom = () => {
 
   return (
     <React.Fragment>
-      <div>
-        <input
-          type="text"
-          placeholder="Enter room name"
-          value={roomName}
-          onChange={handleRoomNameChange}
-          className="form-control"
-        />
-        <Link to={`/rooms/${roomName}/users`}>
-          Join Room
-        </Link>
+      <div className="container-fluid d-flex justify-content-center">
+        <div className="row">
+          <input
+            type="text"
+            placeholder="Enter room name"
+            value={roomName}
+            onChange={handleRoomNameChange}
+            className="form-control"
+          />
+          <input
+            type="text"
+            value={this.props.profile.username}
+            disabled
+            className="form-control"
+          />
+          <Link to={`/rooms/${roomName}/:id`}>
+            Join Room
+          </Link>
+        </div>
       </div>
     </React.Fragment>
   );
 };
 
-export default ChatRoom;
+export default withRouter(ChatRoom);

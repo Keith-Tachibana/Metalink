@@ -21,6 +21,8 @@ const discogsDB = new Discogs().database();
 const { addUser, deleteUser, getUsersInRoom } = require('./chat-users');
 const chatMsg = require('./chat-messages');
 
+const rooms = {};
+
 app.use(cors());
 app.use(staticMiddleware);
 app.use(sessionMiddleware);
@@ -235,7 +237,7 @@ app.get('/api/reset', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/rooms/:roomId/users', (req, res) => {
+app.get('/rooms/:roomId/:id', (req, res) => {
   const users = getUsersInRoom(req.params.roomId);
   return res.json({ users });
 });
@@ -268,6 +270,21 @@ app.delete('/api/posts/:postId', (req, res, next) => {
       }
     })
     .catch(err => next(err));
+});
+
+app.post('/rooms/:roomName', (req, res) => {
+  const { roomName } = req.params;
+  if (rooms[roomName]) {
+    res.status(409).json({ successful: false });
+  } else {
+    rooms[roomName] = {
+      roomName,
+      connectedUsers: {},
+      messages: []
+    };
+    res.status(201).json({ successful: true, roomName });
+    io.emit('room created', { roomName });
+  }
 });
 
 app.post('/api/posts', (req, res, next) => {
