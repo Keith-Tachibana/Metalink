@@ -237,13 +237,13 @@ app.get('/api/reset', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/rooms/:roomId/:id', (req, res) => {
-  const users = getUsersInRoom(req.params.roomId);
+app.get('/rooms/:roomName', (req, res) => {
+  const users = getUsersInRoom(req.params.roomName);
   return res.json({ users });
 });
 
-app.get('/rooms/:roomId/messages', (req, res) => {
-  const messages = chatMsg.getMessagesInRoom(req.params.roomId);
+app.get('/rooms/:roomName/messages', (req, res) => {
+  const messages = chatMsg.getMessagesInRoom(req.params.roomName);
   return res.json({ messages });
 });
 
@@ -607,22 +607,33 @@ io.on('connection', socket => {
   // eslint-disable-next-line no-console
   console.log(`User with ID ${id} connected!`);
 
-  const { roomId, username } = socket.handshake.query;
-  // eslint-disable-next-line no-console
-  console.log('RoomID:', roomId);
-  socket.join(roomId);
-
-  const user = addUser(socket.id, roomId, username);
-  io.in(roomId).emit('new user join', user);
+  socket.on('join room', ({ username, roomName }) => {
+    const user = addUser(socket.id, roomName, username);
+    socket.join(user.roomName);
+    // eslint-disable-next-line no-console
+    console.log(`ID #${id} has joined room ${roomName}!`);
+    socket.emit('message', {
+      userId: user.id,
+      username: user.username,
+      message: `Welcome ${user.username}!`
+    });
+    socket.broadcast.to(user.room).emit('message', {
+      userId: user.id,
+      username: user.username,
+      message: `${user.username} has joined the chat!`
+    });
+  });
 
   socket.on('message', data => {
-    const message = chatMsg.addMessage(roomId, data);
-    io.in(roomId).emit('message', message);
+    const message = chatMsg.addMessage(roomName, data);
+    io.in(roomName).emit('message', message);
   });
 
   socket.on('disconnect', () => {
+    // eslint-disable-next-line no-console
+    console.log(`User with ID ${id} has disconnected!`);
     deleteUser(socket.id);
-    io.in(roomId).emit('user left', user);
-    socket.leave(roomId);
+    io.in(roomName).emit('user left', user);
+    socket.leave(roomName);
   });
 });

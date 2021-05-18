@@ -12,7 +12,7 @@ import SearchPage from './search-page';
 import VideosPage from './videos-page';
 import SearchConcerts from './search-concerts';
 import CreatePost from './create-post';
-import ChatRoom from './chat-room';
+import ChatHome from './chat-home';
 import ChatPage from './chat-page';
 import AboutPage from './about-page';
 import EmailPassword from './email-password';
@@ -240,10 +240,10 @@ class App extends Component {
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
-          <Route path="/chat/:id" exact render={props =>
+          <Route path="/chatHome/:id" exact render={() =>
             <React.Fragment>
               <Menu handleExit={this.handleExit} />
-              <ChatRoom profile={this.state.profile} />
+              <ChatHome profile={this.state.profile} />
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />

@@ -36,7 +36,7 @@ CREATE TABLE "chat" (
 	"userId" INTEGER,
 	"username" TEXT,
 	"message" TEXT,
-	"timeSent" TEXT,
+	"timeSent" TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY ("chatId"),
 	CONSTRAINT "fk_userId_chat" FOREIGN KEY ("userId") REFERENCES "users" ("userId")
 );

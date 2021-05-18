@@ -2,10 +2,10 @@ const uuid = require('uuid');
 
 const messages = [];
 
-function addMessage(room, message) {
+function addMessage(roomName, message) {
   const msg = {
     id: uuid.v4(),
-    room,
+    roomName,
     ...message
   };
   messages.push(msg);
@@ -26,7 +26,7 @@ function getMessage(id) {
 }
 
 function getMessagesInRoom(room) {
-  messages.filter(message => message.room === room);
+  messages.filter(message => message.roomName === roomName);
 }
 
 module.exports.addMessage = addMessage;
