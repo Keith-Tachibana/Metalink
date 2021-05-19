@@ -88,6 +88,25 @@ class App extends Component {
     }
   }
 
+  async createRoom(roomName) {
+    try {
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      const response = await fetch(`/chat/rooms/${roomName}`, {
+        method: 'POST',
+        headers
+      });
+      const data = await response.json();
+      if (!data.successful) {
+        return ({ successful: false });
+      } else {
+        return ({ successful: true });
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   async updateProfile(entry) {
     try {
       const headers = new Headers();
@@ -240,17 +259,17 @@ class App extends Component {
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
-          <Route path="/chatHome/:id" exact render={() =>
+          <Route path="/chatHome/:id" exact render={props =>
             <React.Fragment>
               <Menu handleExit={this.handleExit} />
-              <ChatHome profile={this.state.profile} />
+              <ChatHome {...props} profile={this.state.profile} createRoom={this.createRoom} />
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
-          <Route path="/rooms/:roomId/users" exact render={props =>
+          <Route path="/chat/rooms/:room" exact render={props =>
             <React.Fragment>
               <Menu handleExit={this.handleExit} />
-              <ChatPage profile={this.state.profile} />
+              <ChatPage {...props} profile={this.state.profile} />
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
@@ -272,9 +291,9 @@ class App extends Component {
           } />
           <Route path="*" render={props =>
             <React.Fragment>
-              <header className="container-fluid justify-content-center mb-4">
+              <header className="container-fluid mb-4">
                 <div className="row">
-                  <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-center">
                     <picture>
                       <source srcSet="/images/metalink.webp" type="image/webp" />
                       <source srcSet="/images/metalink.png" type="image/png" />

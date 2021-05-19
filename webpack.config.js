@@ -36,7 +36,8 @@ module.exports = {
     host: '0.0.0.0',
     port: process.env.DEV_SERVER_PORT,
     proxy: {
-      '/api': `http://localhost:${process.env.PORT}`
+      '/api': `http://localhost:${process.env.PORT}`,
+      '/chat': `http://localhost:${process.env.CHAT_PORT}`
     },
     stats: 'minimal',
     watchContentBase: true,

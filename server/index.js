@@ -14,14 +14,14 @@ const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
+const { getUser } = require('./chat-users');
 
 const app = express();
 const http = require('http').createServer(app);
 const discogsDB = new Discogs().database();
-const { addUser, deleteUser, getUsersInRoom } = require('./chat-users');
-const chatMsg = require('./chat-messages');
 
 const rooms = {};
+const userList = [];
 
 app.use(cors());
 app.use(staticMiddleware);
@@ -237,14 +237,19 @@ app.get('/api/reset', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/rooms/:roomName', (req, res) => {
-  const users = getUsersInRoom(req.params.roomName);
-  return res.json({ users });
-});
+app.get('/chat/rooms/:roomName', (req, res) => {
+  const { roomName } = req.params;
+  const { username } = req.query;
+  if (!rooms[roomName]) {
+    return (res.status(400).json({ successful: false, message: 'Cannot find room' }));
+  }
 
-app.get('/rooms/:roomName/messages', (req, res) => {
-  const messages = chatMsg.getMessagesInRoom(req.params.roomName);
-  return res.json({ messages });
+  if (rooms[roomName].connectedUsers[username]) {
+    return (res.status(400).json({ successful: false, message: 'That username already exists' }));
+  } else {
+    rooms[roomName].connectedUsers[username] = { username };
+    return (res.status(200).json({ successful: true }));
+  }
 });
 
 app.delete('/api/posts/:postId', (req, res, next) => {
@@ -272,18 +277,18 @@ app.delete('/api/posts/:postId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/rooms/:roomName', (req, res) => {
+app.post('/chat/rooms/:roomName', (req, res) => {
   const { roomName } = req.params;
   if (rooms[roomName]) {
-    res.status(409).json({ successful: false });
+    return (res.status(409).json({ successful: false }));
   } else {
     rooms[roomName] = {
       roomName,
       connectedUsers: {},
       messages: []
     };
-    res.status(201).json({ successful: true, roomName });
     io.emit('room created', { roomName });
+    return (res.status(201).json({ successful: true, roomName }));
   }
 });
 
@@ -602,38 +607,42 @@ http.listen(process.env.CHAT_PORT, () => {
   console.log('Listening on port', process.env.CHAT_PORT);
 });
 
-io.on('connection', socket => {
+const roomsPage = io.of('/chat/rooms');
+roomsPage.on('connection', socket => {
   const { id } = socket.client;
   // eslint-disable-next-line no-console
   console.log(`User with ID ${id} connected!`);
 
-  socket.on('join room', ({ username, roomName }) => {
-    const user = addUser(socket.id, roomName, username);
-    socket.join(user.roomName);
+  socket.on('new user', (room, name) => {
+    if (!rooms[room]) return;
+    const { id } = socket.client;
+    socket.join(room);
     // eslint-disable-next-line no-console
-    console.log(`ID #${id} has joined room ${roomName}!`);
-    socket.emit('message', {
-      userId: user.id,
-      username: user.username,
-      message: `Welcome ${user.username}!`
-    });
-    socket.broadcast.to(user.room).emit('message', {
-      userId: user.id,
-      username: user.username,
-      message: `${user.username} has joined the chat!`
-    });
+    console.log(`ID #${id} has joined room ${rooms}!`);
+    rooms[room].connectedUsers[name].socketId = socket.id;
+    socket.to(room).broadcast.emit('user connected', name);
+    userList.push(name);
   });
-
-  socket.on('message', data => {
-    const message = chatMsg.addMessage(roomName, data);
-    io.in(roomName).emit('message', message);
+  socket.on('sent message', (room, name, message) => {
+    if (!rooms[room]) return;
+    rooms[room].messages.push({ sender: name, message });
+    socket.to(room).broadcast.emit('new message', name, message);
   });
-
   socket.on('disconnect', () => {
+    const { id } = socket.client;
     // eslint-disable-next-line no-console
     console.log(`User with ID ${id} has disconnected!`);
-    deleteUser(socket.id);
-    io.in(roomName).emit('user left', user);
-    socket.leave(roomName);
+    const userInfo = userList.find(user => user.id === id);
+    const [name] = userInfo;
+    const { room } = rooms[room].connectedUsers[name];
+    if (!userInfo) return;
+
+    delete rooms[room].connectedUsers[user];
+    socket.to(room).broadcast.emit('user disconnected', user);
+    socket.leave(room);
+    if (!Object.keys(room[room].connectedUsers).length) {
+      delete rooms[room];
+      io.emit('room closed', room);
+    }
   });
 });
