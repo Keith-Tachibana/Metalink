@@ -14,7 +14,6 @@ const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
-const { getUser } = require('./chat-users');
 
 const app = express();
 const http = require('http').createServer(app);
@@ -599,12 +598,12 @@ app.use((err, req, res, next) => {
 
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
-  console.log('Listening on port', process.env.PORT);
+  console.log('Express server listening on port', process.env.PORT);
 });
 
 http.listen(process.env.CHAT_PORT, () => {
   // eslint-disable-next-line no-console
-  console.log('Listening on port', process.env.CHAT_PORT);
+  console.log('Chat server listening on port', process.env.CHAT_PORT);
 });
 
 const roomsPage = io.of('/chat/rooms');
@@ -632,17 +631,6 @@ roomsPage.on('connection', socket => {
     const { id } = socket.client;
     // eslint-disable-next-line no-console
     console.log(`User with ID ${id} has disconnected!`);
-    const userInfo = userList.find(user => user.id === id);
-    const [name] = userInfo;
-    const { room } = rooms[room].connectedUsers[name];
-    if (!userInfo) return;
 
-    delete rooms[room].connectedUsers[user];
-    socket.to(room).broadcast.emit('user disconnected', user);
-    socket.leave(room);
-    if (!Object.keys(room[room].connectedUsers).length) {
-      delete rooms[room];
-      io.emit('room closed', room);
-    }
   });
 });
