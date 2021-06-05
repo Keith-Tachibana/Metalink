@@ -9,9 +9,9 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   entry: clientPath,
-  mode: 'production',
+  mode: 'development',
   output: {
-    filename: 'main.js',
+    filename: '[name].bundle.js',
     path: publicPath
   },
   module: {
@@ -42,7 +42,7 @@ module.exports = {
     stats: 'minimal',
     watchContentBase: true,
     watchOptions: {
-      ignored: path.join(__dirname, 'server', 'public', 'images')
+      ignored: path.join(__dirname, 'server/public/images/')
     }
   }
 };

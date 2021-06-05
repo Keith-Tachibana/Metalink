@@ -16,7 +16,7 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-ALTER TABLE ONLY public.chat DROP CONSTRAINT fk_username_chat;
+
 ALTER TABLE ONLY public.posts DROP CONSTRAINT "fk_userId_posts";
 ALTER TABLE ONLY public.chat DROP CONSTRAINT "fk_userId_chat";
 ALTER TABLE ONLY public.users DROP CONSTRAINT users_pkey;
@@ -77,7 +77,7 @@ CREATE TABLE public.chat (
     "userId" integer,
     username text,
     message text,
-    "timeSent" text
+    "timeSent" timestamp without time zone DEFAULT now()
 );
 
 
@@ -152,9 +152,9 @@ CREATE TABLE public.users (
     genre2 text,
     genre3 text,
     "createdAt" timestamp without time zone DEFAULT now(),
-    "updatedAt" timestamp without time zone DEFAULT now(),
+    "updatedAt" timestamp without time zone DEFAULT now(),     
     "resetPasswordToken" text,
-    "resetPasswordExpires" text
+    "resetPasswordExpires" text   
 );
 
 
@@ -339,7 +339,7 @@ ALTER TABLE ONLY public.posts
 --
 
 ALTER TABLE ONLY public.chat
-    ADD CONSTRAINT fk_username_chat FOREIGN KEY (username) REFERENCES public.users(username);
+    ADD CONSTRAINT "fk_username_chat" FOREIGN KEY ("username") REFERENCES public.users("username");
 
 
 --

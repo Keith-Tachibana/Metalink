@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "dev": "npm-run-all --silent --parallel dev:*",
-    "dev:client": "webpack serve --mode=development --config webpack.config.js --progress",
+    "dev:client": "webpack serve",
     "dev:server": "nodemon server/index.js",
     "db:import": "source .env; psql $DATABASE_URL < database/dump.sql",
     "db:export": "source .env; pg_dump -c -O $DATABASE_URL > database/dump.sql",
@@ -33,7 +33,7 @@
     ]
   },
   "eslintIgnore": [
-    "server/public/main.js"
+    "server/public/main.bundle.js"
   ],
   "eslintConfig": {
     "env": {
@@ -125,7 +125,7 @@
     "lint-staged": "^11.0.0",
     "nodemon": "^2.0.7",
     "npm-run-all": "4.1.5",
-    "webpack": "^5.37.0",
+    "webpack": "^4.42.0",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2"
   },

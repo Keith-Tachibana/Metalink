@@ -9,6 +9,7 @@ CREATE TABLE "users" (
 	"username" TEXT CONSTRAINT "unique_username" UNIQUE,
 	"email" TEXT CONSTRAINT "unique_email" UNIQUE,
 	"zipcode" INTEGER,
+	"phone" TEXT,
 	"profileImage" TEXT,
 	"genre1" TEXT,
 	"genre2" TEXT,

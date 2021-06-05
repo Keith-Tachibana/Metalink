@@ -2,6 +2,7 @@ require('dotenv/config');
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const moment = require('moment');
 const multer = require('multer');
 const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
@@ -19,9 +20,6 @@ const app = express();
 const http = require('http').createServer(app);
 const discogsDB = new Discogs().database();
 
-const rooms = {};
-const userList = [];
-
 app.use(cors());
 app.use(staticMiddleware);
 app.use(sessionMiddleware);
@@ -29,7 +27,8 @@ app.use(express.json());
 
 const io = require('socket.io')(http, {
   cors: {
-    origin: 'http://localhost:5001'
+    origin: [`http://localhost:${process.env.CHAT_PORT}`, 'https://metalink.keith-tachibana.com', `http://localhost:${process.env.PORT}`],
+    methods: ['GET', 'POST']
   }
 });
 
@@ -125,7 +124,7 @@ app.get('/api/posts', (req, res, next) => {
 
 app.get('/api/concerts/:postalCode', (req, res, next) => {
   const { postalCode } = req.params;
-  const ticketMasterApiKey = process.env.ticketMasterAPI_KEYJC;
+  const ticketMasterApiKey = process.env.ticketMasterAPI_KEY;
   const metalClassificationId = 'KnvZfZ7vAvt';
   const ticketMasterUrl = `
   https://app.ticketmaster.com/discovery/v2/events.json?apikey=${ticketMasterApiKey}&postalCode=${postalCode}&classificationId=${metalClassificationId}`;
@@ -236,21 +235,6 @@ app.get('/api/reset', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/chat/rooms/:roomName', (req, res) => {
-  const { roomName } = req.params;
-  const { username } = req.query;
-  if (!rooms[roomName]) {
-    return (res.status(400).json({ successful: false, message: 'Cannot find room' }));
-  }
-
-  if (rooms[roomName].connectedUsers[username]) {
-    return (res.status(400).json({ successful: false, message: 'That username already exists' }));
-  } else {
-    rooms[roomName].connectedUsers[username] = { username };
-    return (res.status(200).json({ successful: true }));
-  }
-});
-
 app.delete('/api/posts/:postId', (req, res, next) => {
   const { postId } = req.params;
   if ((!parseInt(postId, 10)) || (parseInt(postId) < 0)) {
@@ -274,21 +258,6 @@ app.delete('/api/posts/:postId', (req, res, next) => {
       }
     })
     .catch(err => next(err));
-});
-
-app.post('/chat/rooms/:roomName', (req, res) => {
-  const { roomName } = req.params;
-  if (rooms[roomName]) {
-    return (res.status(409).json({ successful: false }));
-  } else {
-    rooms[roomName] = {
-      roomName,
-      connectedUsers: {},
-      messages: []
-    };
-    io.emit('room created', { roomName });
-    return (res.status(201).json({ successful: true, roomName }));
-  }
 });
 
 app.post('/api/posts', (req, res, next) => {
@@ -436,7 +405,7 @@ app.post('/api/email', (req, res, next) => {
             .then(updateResult => {
               const transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
-                port: 465,
+                port: 587,
                 auth: {
                   type: 'login',
                   user: `${process.env.EMAIL_ADDRESS}`,
@@ -451,7 +420,7 @@ app.post('/api/email', (req, res, next) => {
                   'You are receiving this e-mail because you (or someone else) has requested a password reset.\n\n' +
                   'Please click on the following link, or paste the link into your browser to complete the process.\n\n' +
                   'You have 1 hour from the time this e-mail was sent to do so, then the link will expire.\n\n' +
-                  `Here's the link: http://localhost:3000/reset/${token}\n\n` +
+                  `Here's the link: https://metalink.keith-tachibana.com/reset/${token}\n\n` +
                   'If you did not request this, please ignore this e-mail and your password will remain unchanged.\n\n' +
                   'Thank you for using Metalink!\n'
               };
@@ -606,31 +575,31 @@ http.listen(process.env.CHAT_PORT, () => {
   console.log('Chat server listening on port', process.env.CHAT_PORT);
 });
 
-const roomsPage = io.of('/chat/rooms');
-roomsPage.on('connection', socket => {
-  const { id } = socket.client;
+const users = {};
+io.of('/').socketsJoin('Metalink');
+io.on('connection', socket => {
   // eslint-disable-next-line no-console
-  console.log(`User with ID ${id} connected!`);
-
-  socket.on('new user', (room, name) => {
-    if (!rooms[room]) return;
-    const { id } = socket.client;
-    socket.join(room);
+  console.log('Socket ID:', socket.id);
+  const count = io.of('/').sockets.size;
+  socket.on('User connected', data => {
     // eslint-disable-next-line no-console
-    console.log(`ID #${id} has joined room ${rooms}!`);
-    rooms[room].connectedUsers[name].socketId = socket.id;
-    socket.to(room).broadcast.emit('user connected', name);
-    userList.push(name);
-  });
-  socket.on('sent message', (room, name, message) => {
-    if (!rooms[room]) return;
-    rooms[room].messages.push({ sender: name, message });
-    socket.to(room).broadcast.emit('new message', name, message);
-  });
-  socket.on('disconnect', () => {
-    const { id } = socket.client;
+    console.log('Data:', data);
+    users[data.username] = socket.id;
     // eslint-disable-next-line no-console
-    console.log(`User with ID ${id} has disconnected!`);
-
+    console.log('Users:', users);
+    socket.emit('Announcement', {
+      socketId: socket.id,
+      username: data.username,
+      population: count,
+      announcement: `${data.username} has joined the Metalink chat room!`,
+      time: moment().format('h:mm:ss A')
+    });
+  });
+  socket.on('Send message', data => {
+    socket.emit('Send message', {
+      username: data.username,
+      message: data.message,
+      time: data.time
+    });
   });
 });

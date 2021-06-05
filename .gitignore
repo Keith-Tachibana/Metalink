@@ -9,7 +9,7 @@
 node_modules
 server/public/images/profileImages/*
 server/sessions/*.json
-server/public/main.js*
+server/public/main.bundle.js*
 
 # User-specific files
 *.rsuser

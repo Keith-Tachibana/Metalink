@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 
-const socket = io.connect('http://localhost:4001');
+const socket = io('http://localhost:4009');
 
 class ChatRoom extends Component {
   constructor(props) {
@@ -13,7 +13,9 @@ class ChatRoom extends Component {
       username: this.props.profile.username,
       message: '',
       chat: [],
-      population: 0
+      users: {},
+      population: 0,
+      announcement: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.getMessages = this.getMessages.bind(this);
@@ -21,28 +23,21 @@ class ChatRoom extends Component {
   }
 
   componentDidMount() {
-    socket.on('message', ({ id, username, msg }) => {
+    const { username } = this.props.profile;
+    // eslint-disable-next-line no-console
+    console.log('Username:', username);
+    socket.emit('User connected', {
+      username
+    });
+    socket.on('Announcement', data => {
       this.setState({
-        chat: [...this.state.chat, { id, username, msg }]
+        username: data.username,
+        population: data.population,
+        announcement: data.announcement
       });
     });
   }
 
-  /*  componentDidUpdate() {
-    this.scrollChatToBottom();
-
-    if (prevState.messages.length !== this.state.messages.length) {
-      this.getMessages();
-    }
-  }
-
-  componentWillUnmount() {
-
-    clearInterval(this.timerID);
-    socket.close();
-    this.props.unregisterHandler();
-  }
-*/
   async getMessages() {
     try {
       const response = await fetch('/api/chat');
@@ -55,29 +50,19 @@ class ChatRoom extends Component {
     }
   }
 
-  renderChat() {
-    const { chat } = this.state;
-    return (
-      chat.map(({ username, msg }, idx) => (
-        <div key={idx}>
-          <span style={{ color: 'green' }}>{username}: </span>
-
-          <span>{msg}</span>
-        </div>
-      ))
-    );
-  }
-
   sendMessage(event) {
     event.preventDefault();
-    socket.emit('sent message', {
+    const current = moment().format('h:mm:ss A');
+    socket.emit('Send message', {
+      time: current,
       username: this.state.username,
-      message: this.state.message,
-      time: moment().format('h:mm:ss A')
+      message: this.state.message
     });
+    const entry = { time: current, username: this.state.username, message: this.state.message };
     this.setState({
+      chat: [...this.state.chat, entry],
       message: ''
-    });
+    }, () => this.updateScroll());
   }
 
   updateScroll() {
@@ -110,25 +95,32 @@ class ChatRoom extends Component {
                   <div className="card-title">Number of people in chat room: {this.state.population}</div>
                   <hr style={{ backgroundColor: '#FFF' }} />
                   <div id="messages" className="overflow-auto chat-container">
-                    <div>{this.renderChat()}</div>
-                  <div>
-                    <textarea
-                      type="text"
-                      placeholder="Message"
-                      name="message"
-                      value={this.state.message}
-                      onChange={this.handleChange}
-                      className="form-control chat-message">
-                    </textarea>
-                    <br />
-                    <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>
+                    <ul style={{ listStyleType: 'none' }}>
+                      {this.state.chat.map(message => {
+                        return (
+                          <>
+                            <li key={message.time} style={{ color: 'lightgrey' }}>{message.time}</li>
+                            <li><em><span style={{ color: 'darkred' }}>{message.username}:</span></em> {message.message}</li>
+                          </>
+                        );
+                      })}
+                    </ul>
                   </div>
+                  <textarea
+                    type="text"
+                    placeholder="Message"
+                    name="message"
+                    value={this.state.message}
+                    onChange={this.handleChange}
+                    className="form-control chat-message">
+                  </textarea>
+                  <br />
+                  <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
     </React.Fragment>
     );
   }
