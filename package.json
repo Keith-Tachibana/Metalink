@@ -8,7 +8,7 @@
     "dev:client": "webpack serve",
     "dev:server": "nodemon server/index.js",
     "db:import": "source .env; psql $DATABASE_URL < database/dump.sql",
-    "db:export": "source .env; pg_dump -c -O $DATABASE_URL > database/dump.sql",
+    "db:export": "pg_dump -c -C -O metalink > database/dump.sql",
     "build": "webpack --mode=production",
     "start": "NODE_ENV=production node server/index.js"
   },
@@ -100,15 +100,15 @@
     "node-fetch": "^2.6.1",
     "node-mailer": "0.1.1",
     "pg": "^8.6.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-router-dom": "^5.2.0",
     "react-scroll-to-bottom": "^4.1.1",
     "session-file-store": "^1.5.0",
     "socket.io": "^4.1.1",
     "socket.io-client": "^4.1.1",
     "uuid": "^8.3.2",
-    "youtube-api-search": "0.0.5"
+    "youtube-api-search-reloaded": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.2",
@@ -119,7 +119,7 @@
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.23.2",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",

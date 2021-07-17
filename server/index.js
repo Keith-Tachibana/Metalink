@@ -8,7 +8,7 @@ const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const YTSearch = require('youtube-api-search');
+const YTsearch = require('youtube-api-search-reloaded');
 const Discogs = require('disconnect').Client;
 
 const db = require('./database');
@@ -443,12 +443,24 @@ app.post('/api/email', (req, res, next) => {
 
 app.post('/api/videos/:term', (req, res, next) => {
   const { term } = req.params;
+  const params = {
+    part: 'snippet',
+    key: process.env.YOUTUBE_API_KEY,
+    term,
+    type: 'video'
+  };
   if (!term) {
     throw new ClientError('A search query is required.', 400);
   } else {
-    YTSearch({ key: process.env.YOUTUBE_API_KEY, term }, videos => {
-      res.status(200).json(videos);
-    });
+    YTsearch({ params })
+      .then(videos => {
+        // eslint-disable-next-line no-console
+        console.log('Videos:', videos);
+        return res.status(200).send(videos);
+      })
+      .catch(error => {
+        console.error(error.message);
+      });
   }
 });
 
