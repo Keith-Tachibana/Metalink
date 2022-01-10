@@ -53,9 +53,9 @@ class SignUp extends Component {
 
   handlePasswordChange(event) {
     const { name, value } = event.target;
-    const capitalRegExp = new RegExp('.*[A-Z].*', 'g');
-    const specialRegExp = new RegExp('.*[!@#$%^&*()].*', 'g');
-    const digitRegExp = new RegExp('.*[\\d].*', 'g');
+    const capitalRegExp = /'.*[A-Z].*'/g;
+    const specialRegExp = /'.*[!@#$%^&*()].*'/g;
+    const digitRegExp = /'.*[\\d].*'/g;
     this.setState(prevState => {
       return {
         [name]: value,
@@ -126,11 +126,11 @@ class SignUp extends Component {
 
   handleChange(event) {
     const { name, value } = event.target;
-    const emailRegExp = new RegExp('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$', 'i');
-    const zipcodeRegExp = new RegExp('^\\d{5}$');
-    const phoneRegExp = new RegExp('^[2-9]\\d{2}-\\d{3}-\\d{4}$');
-    const lettersRegExp = new RegExp('^[A-Za-z]+\\s[A-Za-z]+$', 'g');
-    const usernameRegExp = new RegExp('^[a-zA-Z0-9]{4,}$');
+    const emailRegExp = /'^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$'/i;
+    const zipcodeRegExp = /'^\\d{5}$'/;
+    const phoneRegExp = /'^[2-9]\\d{2}-\\d{3}-\\d{4}$'/;
+    const lettersRegExp = /'^[A-Za-z]+\\s[A-Za-z]+$'/g;
+    const usernameRegExp = /'^[a-zA-Z0-9]{4,}$'/;
     this.setState(prevState => {
       return {
         [name]: value
@@ -366,7 +366,7 @@ class SignUp extends Component {
             </div>
           </div>
         </header>
-        <main className="container-fluid mb-4" style={{ height: '275px', overflow: 'auto' }}>
+        <main className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <form>

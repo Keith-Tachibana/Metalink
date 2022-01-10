@@ -20,7 +20,7 @@ class EmailPassword extends Component {
 
   handleChange(event) {
     const { name, value } = event.target;
-    const emailRegExp = new RegExp('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$', 'i');
+    const emailRegExp = /'^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$'/i;
     this.setState(prevState => {
       return {
         [name]: value,
@@ -111,7 +111,7 @@ class EmailPassword extends Component {
             </div>
           </div>
         </header>
-        <main className="container-fluid mb-4" style={{ height: '275px', overflow: 'auto' }}>
+        <main className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <form>

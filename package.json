@@ -87,7 +87,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "bcrypt": "5.0.1",
+    "bcrypt": "^5.0.1",
     "chokidar": "3.5.1",
     "cors": "^2.8.5",
     "disconnect": "^1.2.2",

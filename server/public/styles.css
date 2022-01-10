@@ -28,9 +28,16 @@ input[type="password"],
   color: #FFF;
 }
 
+footer {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  bottom: 5px;
+}
+
 footer div span {
   color: #FFF;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .login-form {
@@ -68,7 +75,7 @@ footer div span {
   margin: 0 auto;
   margin-bottom: 4rem;
   padding-left: 5rem;
-  height: 600px;
+  min-height: 100%;
 }
 
 .signup-genre {
@@ -136,6 +143,11 @@ footer div span {
 
 .container {
   background-color: black;
+  min-height: 100%;
+}
+
+.container-fluid {
+  min-height: 100%;
 }
 
 .fixed-bottom {
@@ -168,7 +180,7 @@ footer div span {
 }
 
 .posts-container {
-  height: 630px
+  min-height: 100%;
 }
 
 .post-item:hover {
@@ -269,14 +281,14 @@ footer div span {
 }
 
 .videoresult-container, .chat-container {
-  height: 550px;
+  min-height: 100%;
 }
 
 .carousel {
   display: flex;
   text-align: center;
   border: 2px solid #000;
-  height: 375px;
+  min-height: 100%;
 }
 
 .dot {

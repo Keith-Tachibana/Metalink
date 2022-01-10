@@ -26,7 +26,7 @@ class VideosPage extends Component {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         const response = await fetch(`/api/videos/${term}`, {
-          method: 'POST',
+          method: 'GET',
           headers
         });
         const json = response.json();

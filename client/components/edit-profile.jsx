@@ -157,7 +157,7 @@ class EditProfile extends Component {
             </div>
           </div>
         </header>
-        <main className="container overflow-auto mx-auto mb-4 profile-container">
+        <main className="mx-auto mb-4 profile-container">
           <div className="row">
             <div className="col-5">
               <div className="image-container">

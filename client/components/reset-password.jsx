@@ -57,9 +57,9 @@ class ResetPassword extends Component {
 
   handlePasswordChange() {
     const { name, value } = event.target;
-    const capitalRegExp = new RegExp('.*[A-Z].*', 'g');
-    const specialRegExp = new RegExp('.*[!@#$%^&*()].*', 'g');
-    const digitRegExp = new RegExp('.*[\\d].*', 'g');
+    const capitalRegExp = /'.*[A-Z].*'/g;
+    const specialRegExp = /'.*[!@#$%^&*()].*'/g;
+    const digitRegExp = /'.*[\\d].*'/g;
     this.setState(prevState => {
       return {
         [name]: value,
@@ -260,9 +260,9 @@ class ResetPassword extends Component {
             </div>
           </div>
         </header>
-        <main className="container-fluid mb-4" style={{ height: '275px', overflow: 'auto' }}>
+        <main className="container-fluid mb-4">
           <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style={{ height: '250px' }}>
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <form>
                 <div className="form-row">
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-pw">
@@ -281,7 +281,7 @@ class ResetPassword extends Component {
                       className="form-control"
                       placeholder="Please enter a new password" />
                   </div>
-                  <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-pw" style={{ height: '200px' }}>
+                  <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-pw">
                     <label htmlFor="confirm">Confirm New Password<em className="asterisk">&#42;</em><span className="ml-4"><i className={this.renderIconConfirm()}></i></span></label>
                     <input
                       type="password"

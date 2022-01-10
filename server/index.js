@@ -185,6 +185,8 @@ app.get('/api/discogs/:id', async (req, res, next) => {
   const { id } = req.params;
   await discogsDB.getArtist(id, (err, data) => {
     if (data) {
+      // eslint-disable-next-line no-console
+      console.log(data);
       res.status(200).send({
         profile: data.profile
       });
@@ -210,6 +212,23 @@ app.get('/api/chat', (req, res, next) => {
       }
     })
     .catch(err => next(err));
+});
+
+app.get('/api/videos/:term', (req, res, next) => {
+  const { term } = req.params;
+  const opts = {
+    maxResults: 10,
+    key: process.env.YOUTUBE_API_KEY,
+    type: 'video'
+  };
+  if (!term) {
+    throw new ClientError('A search query is required.', 400);
+  } else {
+    YTSearch(term, opts, function (err, results) {
+      if (err) return console.error(err);
+      res.status(200).json(results);
+    });
+  }
 });
 
 app.get('/api/reset', (req, res, next) => {
@@ -438,23 +457,6 @@ app.post('/api/email', (req, res, next) => {
         }
       })
       .catch(err => next(err));
-  }
-});
-
-app.get('/api/videos/:term', (req, res, next) => {
-  const { term } = req.params;
-  const params = {
-    maxResults: 10,
-    key: process.env.YOUTUBE_API_KEY,
-    type: 'video'
-  };
-  if (!term) {
-    throw new ClientError('A search query is required.', 400);
-  } else {
-    YTSearch(term, params, function (err, results) {
-      if (err) return console.error(err);
-      res.status(200).json(results);
-    });
   }
 });
 

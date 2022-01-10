@@ -56,7 +56,8 @@ export default class SearchConcerts extends Component {
   }
 
   render() {
-    const resultItems = this.state.concerts.error ? <thead><tr><td>{this.state.concerts.error}</td></tr></thead>
+    const resultItems = this.state.concerts.error
+      ? <thead><tr><td>{this.state.concerts.error}</td></tr></thead>
       : this.state.concerts.map((concert, idx) => {
         const split = concert.date.split('-');
         const month = split[1] < 10 ? split[1].slice(1) : split[1];
@@ -131,12 +132,13 @@ export default class SearchConcerts extends Component {
           </div>
         </main>
         <div className="concertsearch-table table-responsive overflow-auto mx-auto">
-          {this.state.message ? <h3 className="text-center">{this.state.message}</h3>
+          {this.state.message
+            ? <h3 className="text-center">{this.state.message}</h3>
             : <table className="table table-sm table-dark table-striped">
               {resultItems}
             </table>}
           <br />
-          <div id="map" className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 m-auto" style={{ height: '300px' }}></div>
+          <div id="map" className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 m-auto"></div>
         </div>
       </div>
     );
