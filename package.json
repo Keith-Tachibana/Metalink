@@ -108,7 +108,7 @@
     "socket.io": "^4.1.1",
     "socket.io-client": "^4.1.1",
     "uuid": "^8.3.2",
-    "youtube-api-search-reloaded": "^3.0.1"
+    "youtube-search": "^1.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.14.2",
