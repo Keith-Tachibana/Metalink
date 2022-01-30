@@ -13,6 +13,11 @@ input[type="file"] {
   font-size: 0.75rem;
 }
 
+#root {
+  background-color: #000000;
+  min-height: 100vh;
+}
+
 select,
 select option,
 input[type="text"],
@@ -24,15 +29,17 @@ input[type="password"],
 .post-home,
 .band-card,
 .chat-message {
-  background-color: #000;
+  background-color: 000;
   color: #FFF;
 }
 
 footer {
-  overflow: hidden;
+  overflow-y: hidden;
   position: fixed;
   width: 100%;
-  bottom: 5px;
+  bottom: 0;
+  background-color: #000000;
+  /* min-height: 100%; */
 }
 
 footer div span {
@@ -41,7 +48,7 @@ footer div span {
 }
 
 .login-form {
-  width: 400px;
+  width: 40vw;
 }
 
 .image-container {
@@ -90,8 +97,19 @@ footer div span {
 .nav-bg {
   background-image: url('./images/metalink.png');
   background-repeat: no-repeat;
-  height: 100px;
   background-position: 50% 53%;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #000000;
+  height: 100px;
+}
+
+.bg-container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  background-color: #000000;
 }
 
 .form-container > div {
@@ -152,6 +170,10 @@ footer div span {
 
 .fixed-bottom {
   height: 75px;
+}
+
+.card:hover {
+  border: 1px solid #FF0000;
 }
 
 .card-body {
@@ -233,6 +255,11 @@ footer div span {
   font-size: 1rem;
   color: #FFF;
   text-decoration: underline;
+}
+
+.nav-container {
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 1);
 }
 
 .menu-container {

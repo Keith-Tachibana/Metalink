@@ -1,11 +1,122 @@
-
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+// import { withRouter } from 'react-router-dom';
+// import moment from 'moment';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:4009');
+const connectChatServer = () => {
+  const socket = io(process.env.CHAT_SERVER_URL, {
+    transports: ['websocket'],
+    path: '/'
+  });
+  // eslint-disable-next-line no-console
+  socket.onAny((type, message) => console.log(type, message));
 
+  return socket;
+};
+
+export default function ChatRoom() {
+  const [messages, setMessages] = useState([]);
+  const [text, setText] = useState('');
+  const listRef = useRef(null);
+  const socketRef = useRef(null);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!socketRef.current) throw Error("There's no socket!");
+    const socket = socketRef.current;
+    const body = text.trim();
+    if (body === '') {
+      return;
+    }
+    socket.send({
+      body
+    });
+    setText('');
+  }
+
+  useEffect(() => {
+    const socket = connectChatServer();
+    socketRef.current = socket;
+
+    function scrollToLastMessage() {
+      const lastChild = listRef.current.lastElementChild;
+      lastChild.scrollIntoView({
+        block: 'end',
+        inline: 'nearest',
+        behavior: 'smooth'
+      });
+    }
+
+    socket.onAny((type, message) => {
+      if (type === 'chat-message') {
+        flushSync(() => {
+          setMessages(m => [
+            ...m,
+            {
+              body: message.body,
+              user: message.user,
+              time: message.time
+            }
+          ]);
+        });
+        scrollToLastMessage();
+      }
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  return (
+    <React.Fragment>
+      <header className="container-fluid">
+        <div className="row">
+          <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <h1 className="text-center mt-4">Chat</h1>
+          </div>
+        </div>
+      </header>
+      <main className="container-fluid mb-4">
+        <div className="row justify-content-center">
+          <div className="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-6">
+            <div className="card" style={{ backgroundColor: '#000' }}>
+              <div className="card-body" style={{ color: '#FFF' }}>
+                <div className="card-title">Number of people in chat room:</div>
+                <hr style={{ backgroundColor: '#FFF' }} />
+                <div id="messages" className="overflow-auto chat-container">
+                  <ul ref={listRef} style={{ listStyleType: 'none' }}>
+                    {messages.map((message, idx) => (
+                        <li key={idx}>
+                          <small><span style={{ color: 'lightgrey' }}>{message.time}</span></small>
+                          <em><span style={{ color: 'darkred' }}>{message.user}:</span></em>
+                          {message.body}
+                        </li>
+                    ))}
+                  </ul>
+                </div>
+                <form onSubmit={handleSubmit}>
+                  <input
+                    className="form-control chat-message"
+                    value={text}
+                    onChange={e => setText(e.target.value)}
+                  />
+                  <br />
+                  <button className="btn btn-primary form-control bg-blue-200" type="submit">
+                    Send Message
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+  </React.Fragment>
+  );
+}
+
+/*
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
@@ -125,5 +236,6 @@ class ChatRoom extends Component {
     );
   }
 }
+*/
 
-export default withRouter(ChatRoom);
+// export default withRouter(ChatRoom);

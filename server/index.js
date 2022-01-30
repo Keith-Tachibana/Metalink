@@ -17,7 +17,9 @@ const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
 
 const app = express();
-const http = require('http').createServer(app);
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require('socket.io');
 const discogsDB = new Discogs().database();
 
 app.use(cors());
@@ -25,12 +27,14 @@ app.use(staticMiddleware);
 app.use(sessionMiddleware);
 app.use(express.json());
 
-const io = require('socket.io')(http, {
+const io = new Server(server);
+/* (http, {
   cors: {
     origin: [`http://localhost:${process.env.CHAT_PORT}`, 'https://metalink.keith-tachibana.com', `http://localhost:${process.env.PORT}`],
     methods: ['GET', 'POST']
   }
 });
+*/
 
 const storage = multer.diskStorage({
   destination: './server/public/images/profileImages',
@@ -578,7 +582,7 @@ app.listen(process.env.PORT, () => {
   console.log('Express server listening on port', process.env.PORT);
 });
 
-http.listen(process.env.CHAT_PORT, () => {
+server.listen(process.env.CHAT_PORT, () => {
   // eslint-disable-next-line no-console
   console.log('Chat server listening on port', process.env.CHAT_PORT);
 });
@@ -592,20 +596,20 @@ io.on('connection', socket => {
   socket.on('User connected', data => {
     // eslint-disable-next-line no-console
     console.log('Data:', data);
-    users[data.username] = socket.id;
+    users[data.user] = socket.id;
     // eslint-disable-next-line no-console
     console.log('Users:', users);
     socket.emit('Announcement', {
       socketId: socket.id,
-      username: data.username,
+      user: data.user,
       population: count,
-      announcement: `${data.username} has joined the Metalink chat room!`,
+      announcement: `${data.user} has joined the Metalink chat room!`,
       time: moment().format('h:mm:ss A')
     });
   });
   socket.on('Send message', data => {
     socket.emit('Send message', {
-      username: data.username,
+      user: data.user,
       message: data.message,
       time: data.time
     });

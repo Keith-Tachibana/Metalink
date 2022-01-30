@@ -357,7 +357,7 @@ class SignUp extends Component {
         <header className="container-fluid mb-4">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <picture>
+              <picture className="text-center">
                 <source srcSet="/images/metalink.webp" type="image/webp" />
                 <source srcSet="/images/metalink.png" type="image/png" />
                 <img src="/images/metalink.webp" alt="Metalink Logo" className="img-fluid mb-3" />

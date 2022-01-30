@@ -128,7 +128,7 @@ class AboutPage extends Component {
             </div>
           </div>
         </header>
-        <main className="container-fluid" style={{ height: '487px' }}>
+        <main className="container-fluid">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <div className="carousel" style={{ width: '450px', margin: 'auto' }}>

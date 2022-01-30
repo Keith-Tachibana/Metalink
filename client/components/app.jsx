@@ -26,7 +26,8 @@ class App extends Component {
       posts: [],
       editing: null,
       authorizing: true,
-      loading: true
+      loading: true,
+      clicked: false
     };
     this.getProfile = this.getProfile.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
@@ -35,6 +36,7 @@ class App extends Component {
     this.deletePost = this.deletePost.bind(this);
     this.createPost = this.createPost.bind(this);
     this.handleExit = this.handleExit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -169,6 +171,12 @@ class App extends Component {
     }
   }
 
+  handleClick() {
+    this.setState({
+      clicked: !this.state.clicked
+    });
+  }
+
   render() {
     if (this.state.authorizing) return null;
     return (
@@ -181,7 +189,7 @@ class App extends Component {
           } />
           <Route path='/home/:id' exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit} />
+              <Menu handleExit={this.handleExit} handleClick={this.handleClick} clicked={this.state.clicked} />
               {this.state.loading
                 ? <h1 className="text-center mt-4" style={{ height: '95vh' }}>Profile Loading...</h1>
                 : <HomePage profile={this.state.profile} />}
@@ -190,7 +198,7 @@ class App extends Component {
           } />
           <Route path="/profile/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit} />
+              <Menu handleExit={this.handleExit} handleClick={this.handleClick} clicked={this.state.clicked} />
               <EditProfile
                 profile={this.state.profile}
                 updateProfile={this.updateProfile} />
@@ -199,14 +207,14 @@ class App extends Component {
           } />
           <Route path="/concerts/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit} />
+              <Menu handleExit={this.handleExit} handleClick={this.handleClick} clicked={this.state.clicked} />
               <SearchConcerts />
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/posts/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit} />
+              <Menu handleExit={this.handleExit} handleClick={this.handleClick} clicked={this.state.clicked} />
               <EditPosts
                 posts={this.state.posts}
                 editing={this.state.editing}
@@ -219,7 +227,7 @@ class App extends Component {
           } />
           <Route path="/create/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit} />
+              <Menu handleExit={this.handleExit} handleClick={this.handleClick} clicked={this.state.clicked} />
               <CreatePost
                 posts={this.state.posts}
                 createPost={this.createPost} />
@@ -228,28 +236,28 @@ class App extends Component {
           } />
           <Route path="/search/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit} />
+              <Menu handleExit={this.handleExit} handleClick={this.handleClick} clicked={this.state.clicked} />
               <SearchPage />
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/videos/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit} />
+              <Menu handleExit={this.handleExit} handleClick={this.handleClick} clicked={this.state.clicked} />
               <VideosPage />
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/chat/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit} />
+              <Menu handleExit={this.handleExit} handleClick={this.handleClick} clicked={this.state.clicked} />
               <ChatRoom profile={this.state.profile} />
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />
           <Route path="/about/:id" exact render={props =>
             <React.Fragment>
-              <Menu handleExit={this.handleExit} />
+              <Menu handleExit={this.handleExit} handleClick={this.handleClick} clicked={this.state.clicked} />
               <AboutPage />
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
