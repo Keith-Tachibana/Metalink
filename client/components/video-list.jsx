@@ -17,7 +17,7 @@ const VideoList = props => {
   return (
     <ul
       className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 list-group mx-2 mb-4"
-      style={{ height: '200px', overflow: 'auto' }}>
+      style={{ minHeight: '95vh', overflowY: 'auto' }}>
       {videoItems}
     </ul>
   );
