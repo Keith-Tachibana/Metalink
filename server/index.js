@@ -588,30 +588,54 @@ server.listen(process.env.CHAT_PORT, () => {
 });
 
 const users = {};
-io.of('/').socketsJoin('Metalink');
 io.on('connection', socket => {
   // eslint-disable-next-line no-console
   console.log('Socket ID:', socket.id);
-  const count = io.of('/').sockets.size;
+  socket.join('Metalink');
+
   socket.on('User connected', data => {
-    // eslint-disable-next-line no-console
-    console.log('Data:', data);
-    users[data.user] = socket.id;
+    const { username, userId } = data;
+    users[username] = socket.id;
+    socket.data.username = username;
+    socket.data.userId = userId;
     // eslint-disable-next-line no-console
     console.log('Users:', users);
-    socket.emit('Announcement', {
+    const population = io.of('/').sockets.size;
+    io.to('Metalink').emit('Announcement', {
       socketId: socket.id,
-      user: data.user,
-      population: count,
-      announcement: `${data.user} has joined the Metalink chat room!`,
+      username,
+      population,
+      announcement: `${username} has joined the Metalink chat room!`,
       time: moment().format('h:mm:ss A')
     });
   });
+
   socket.on('Send message', data => {
-    socket.emit('Send message', {
-      user: data.user,
-      message: data.message,
-      time: data.time
+    const { username, userId } = socket.data;
+    if (!username || !userId) return;
+    const time = moment().format('h:mm:ss A');
+    io.to('Metalink').emit('chat-message', {
+      user: username,
+      body: data.body,
+      time
     });
+    const sql = `
+      INSERT INTO "chat" ("userId", "username", "message")
+      VALUES ($1, $2, $3);
+    `;
+    db.query(sql, [userId, username, data.body])
+      .catch(err => console.error(err));
+  });
+
+  socket.on('disconnect', () => {
+    if (socket.data.username) {
+      delete users[socket.data.username];
+      const population = io.of('/').sockets.size;
+      io.to('Metalink').emit('Announcement', {
+        population,
+        announcement: `${socket.data.username} has left the Metalink chat room.`,
+        time: moment().format('h:mm:ss A')
+      });
+    }
   });
 });

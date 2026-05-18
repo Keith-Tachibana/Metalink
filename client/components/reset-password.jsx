@@ -55,15 +55,15 @@ class ResetPassword extends Component {
       });
   }
 
-  handlePasswordChange() {
+  handlePasswordChange(event) {
     const { name, value } = event.target;
-    const capitalRegExp = /'.*[A-Z].*'/g;
-    const specialRegExp = /'.*[!@#$%^&*()].*'/g;
-    const digitRegExp = /'.*[\\d].*'/g;
+    const capitalRegExp = /[A-Z]/;
+    const specialRegExp = /[!@#$%^&*()]/;
+    const digitRegExp = /\d/;
     this.setState(prevState => {
       return {
         [name]: value,
-        length: this.state.password.length
+        length: value.length
       };
     }, () => {
       this.setState({

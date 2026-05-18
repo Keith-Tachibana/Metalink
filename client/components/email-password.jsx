@@ -20,11 +20,11 @@ class EmailPassword extends Component {
 
   handleChange(event) {
     const { name, value } = event.target;
-    const emailRegExp = /'^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$'/i;
+    const emailRegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
     this.setState(prevState => {
       return {
         [name]: value,
-        length: this.state.email.length
+        length: value.length
       };
     }, () => {
       this.setState({

@@ -29,7 +29,7 @@ input[type="password"],
 .post-home,
 .band-card,
 .chat-message {
-  background-color: 000;
+  background-color: #000;
   color: #FFF;
 }
 
@@ -177,7 +177,7 @@ footer div span {
 }
 
 .card-body {
-  color: #000;
+  background-color: #000;
 }
 
 .card-body > p > span {
@@ -202,11 +202,12 @@ footer div span {
 }
 
 .posts-container {
+  background-color: #000;
   min-height: 100%;
 }
 
 .post-item:hover {
-  background-color: #D3D3D3;
+  background-color: #251d1d;
   color: #FFF;
 }
 
@@ -275,7 +276,7 @@ footer div span {
 }
 
 .post-home {
-  border: 1px solid #FFF;
+  border: 1px solid #000;
 }
 
 .concertsearch-form {

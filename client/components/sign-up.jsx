@@ -53,13 +53,13 @@ class SignUp extends Component {
 
   handlePasswordChange(event) {
     const { name, value } = event.target;
-    const capitalRegExp = /'.*[A-Z].*'/g;
-    const specialRegExp = /'.*[!@#$%^&*()].*'/g;
-    const digitRegExp = /'.*[\\d].*'/g;
+    const capitalRegExp = /[A-Z]/;
+    const specialRegExp = /[!@#$%^&*()]/;
+    const digitRegExp = /\d/;
     this.setState(prevState => {
       return {
         [name]: value,
-        length: this.state.password.length
+        length: value.length
       };
     }, () => {
       this.setState({
@@ -126,11 +126,11 @@ class SignUp extends Component {
 
   handleChange(event) {
     const { name, value } = event.target;
-    const emailRegExp = /'^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$'/i;
-    const zipcodeRegExp = /'^\\d{5}$'/;
-    const phoneRegExp = /'^[2-9]\\d{2}-\\d{3}-\\d{4}$'/;
-    const lettersRegExp = /'^[A-Za-z]+\\s[A-Za-z]+$'/g;
-    const usernameRegExp = /'^[a-zA-Z0-9]{4,}$'/;
+    const emailRegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+    const zipcodeRegExp = /^\d{5}$/;
+    const phoneRegExp = /^[2-9]\d{2}-\d{3}-\d{4}$/;
+    const lettersRegExp = /^[A-Za-z]+\s[A-Za-z]+$/;
+    const usernameRegExp = /^[a-zA-Z0-9]{4,}$/;
     this.setState(prevState => {
       return {
         [name]: value
@@ -164,27 +164,10 @@ class SignUp extends Component {
           break;
       }
     });
-    const { fullname, duplicate, password, confirm, username, email, zipcode } = this.state;
-    if (duplicate) {
-      this.setState(prevState => {
-        return {
-          duplicate: false
-        };
-      });
-    }
-    if (fullname === '' || password === '' || confirm === '' || username === '' || email === '' || zipcode === '') {
-      this.setState(prevState => {
-        return {
-          emptyFields: true
-        };
-      });
-    } else {
-      this.setState(prevState => {
-        return {
-          emptyFields: false
-        };
-      });
-    }
+    const effective = { ...this.state, [name]: value };
+    const emptyFields = !effective.fullname || !effective.password || !effective.confirm ||
+      !effective.username || !effective.email || !effective.zipcode;
+    this.setState({ emptyFields, duplicate: false });
   }
 
   alertEmptyFields() {
@@ -304,26 +287,28 @@ class SignUp extends Component {
   createAccount(event) {
     event.preventDefault();
     const { history } = this.props;
+    const { fullname, password, username, email, zipcode, phone, genre1, genre2, genre3 } = this.state;
+    if (!fullname || !password || !username || !email || !zipcode) {
+      this.setState({ emptyFields: true });
+      return;
+    }
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    const request = { ...this.state };
     fetch('/api/signup', {
       method: 'POST',
-      body: JSON.stringify(request),
+      body: JSON.stringify({ fullname, password, username, email, zipcode, phone, genre1, genre2, genre3 }),
       headers
     })
       .then(response => {
-        return response.json();
-      })
-      .then(json => {
-        if (json === 'That name, username, or e-mail address already exists.' || json.error === 'an unexpected error occurred') {
-          this.setState(prevState => ({
-            duplicate: true
-          }));
-        } else {
+        if (response.status === 201) {
           history.push('/');
+        } else if (response.status === 400) {
+          this.setState({ duplicate: true });
+        } else {
+          return response.json().then(json => console.error('Signup error:', json));
         }
-      });
+      })
+      .catch(err => console.error(err));
   }
 
   render() {
@@ -355,20 +340,20 @@ class SignUp extends Component {
     return (
       <React.Fragment>
         <header className="container-fluid mb-4">
-          <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <picture className="text-center">
+          <div className="row justify-content-center">
+            <div className="col-12 text-center">
+              <picture>
                 <source srcSet="/images/metalink.webp" type="image/webp" />
                 <source srcSet="/images/metalink.png" type="image/png" />
-                <img src="/images/metalink.webp" alt="Metalink Logo" className="img-fluid mb-3" />
+                <img src="/images/metalink.webp" alt="Metalink Logo" className="img-fluid mb-3 d-block mx-auto" />
               </picture>
               <h1 className="text-center mt-4">Account Sign Up</h1>
             </div>
           </div>
         </header>
         <main className="container-fluid mb-4">
-          <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <div className="row justify-content-center">
+            <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
               <form>
                 <div className="form-row">
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
