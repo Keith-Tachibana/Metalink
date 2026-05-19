@@ -249,20 +249,20 @@ class ResetPassword extends Component {
     return (
       <React.Fragment>
         <header className="container-fluid mb-4">
-          <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <div className="row justify-content-center">
+            <div className="col-12 text-center">
               <picture>
                 <source srcSet="/images/metalink.webp" type="image/webp" />
                 <source srcSet="/images/metalink.png" type="image/png" />
-                <img src="/images/metalink.webp" alt="Metalink Logo" className="img-fluid mb-3" />
+                <img src="/images/metalink.webp" alt="Metalink Logo" className="img-fluid mb-3 d-block mx-auto" />
               </picture>
               <h1 className="text-center mt-4">Reset Password</h1>
             </div>
           </div>
         </header>
         <main className="container-fluid mb-4">
-          <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <div className="row justify-content-center">
+            <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
               <form>
                 <div className="form-row">
                   <div className="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-pw">
