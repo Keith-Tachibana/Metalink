@@ -15,8 +15,9 @@ class SignUp extends Component {
       genre1: '',
       genre2: '',
       genre3: '',
-      emptyFields: false,
+      emptyFields: true,
       duplicate: false,
+      duplicateField: null,
       passwordMatch: false,
       emailError: false,
       zipcodeError: false,
@@ -57,9 +58,14 @@ class SignUp extends Component {
     const specialRegExp = /[!@#$%^&*()]/;
     const digitRegExp = /\d/;
     this.setState(prevState => {
+      const { fullname, username, email, zipcode, confirm } = prevState;
+      const emptyFields = !fullname || !value || !confirm || !username || !email || !zipcode;
       return {
         [name]: value,
-        length: value.length
+        length: value.length,
+        duplicate: false,
+        duplicateField: null,
+        emptyFields
       };
     }, () => {
       this.setState({
@@ -104,8 +110,13 @@ class SignUp extends Component {
   handleConfirmChange(event) {
     const { name, value } = event.target;
     this.setState(prevState => {
+      const { fullname, password, username, email, zipcode } = prevState;
+      const emptyFields = !fullname || !password || !value || !username || !email || !zipcode;
       return {
-        [name]: value
+        [name]: value,
+        duplicate: false,
+        duplicateField: null,
+        emptyFields
       };
     }, () => {
       if (this.state.password !== this.state.confirm) {
@@ -167,7 +178,7 @@ class SignUp extends Component {
     const effective = { ...this.state, [name]: value };
     const emptyFields = !effective.fullname || !effective.password || !effective.confirm ||
       !effective.username || !effective.email || !effective.zipcode;
-    this.setState({ emptyFields, duplicate: false });
+    this.setState({ emptyFields, duplicate: false, duplicateField: null });
   }
 
   alertEmptyFields() {
@@ -177,9 +188,12 @@ class SignUp extends Component {
   }
 
   alertDuplicate() {
-    return (this.state.duplicate === true)
-      ? 'That name, username, or e-mail address has already been taken.'
-      : null;
+    if (!this.state.duplicate) return null;
+    const { duplicateField } = this.state;
+    if (duplicateField === 'name') return 'That name has already been taken.';
+    if (duplicateField === 'username') return 'That username has already been taken.';
+    if (duplicateField === 'email') return 'That e-mail address has already been taken.';
+    return 'That name, username, or e-mail address has already been taken.';
   }
 
   alertName() {
@@ -303,7 +317,9 @@ class SignUp extends Component {
         if (response.status === 201) {
           history.push('/');
         } else if (response.status === 400) {
-          this.setState({ duplicate: true });
+          return response.json().then(data => {
+            this.setState({ duplicate: true, duplicateField: data.field || null });
+          });
         } else {
           return response.json().then(json => console.error('Signup error:', json));
         }

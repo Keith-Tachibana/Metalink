@@ -6,6 +6,7 @@ export default function ChatRoom({ profile }) {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
   const [userCount, setUserCount] = useState(0);
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const listRef = useRef(null);
   const socketRef = useRef(null);
 
@@ -49,6 +50,9 @@ export default function ChatRoom({ profile }) {
 
     socket.on('Announcement', data => {
       setUserCount(data.population);
+      if (Array.isArray(data.users)) {
+        setOnlineUsers(data.users);
+      }
     });
 
     return () => {
@@ -75,8 +79,8 @@ export default function ChatRoom({ profile }) {
         </div>
       </header>
       <main className="container-fluid mb-4">
-        <div className="row justify-content-center">
-          <div className="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-6">
+        <div className="row justify-content-center align-items-start">
+          <div className="col-12 col-sm-12 col-md-8 col-lg-7 col-xl-6">
             <div className="card" style={{ backgroundColor: '#000' }}>
               <div className="card-body" style={{ color: '#FFF' }}>
                 <div className="card-title">Number of people in chat room: {userCount}</div>
@@ -107,6 +111,25 @@ export default function ChatRoom({ profile }) {
               </div>
             </div>
           </div>
+          <aside
+            className="col-12 col-sm-12 col-md-3 col-lg-2 col-xl-2"
+            style={{
+              float: 'right',
+              backgroundColor: '#1a1a1a',
+              color: '#FFF',
+              borderRadius: '6px',
+              padding: '12px'
+            }}>
+            <h6 className="text-center mb-2">Online Users</h6>
+            <hr style={{ backgroundColor: '#555', marginTop: 0 }} />
+            <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+              {onlineUsers.map((user, idx) => (
+                <li key={idx} style={{ padding: '4px 0', wordBreak: 'break-word' }}>
+                  <span style={{ color: 'lightgreen' }}>&#9679;</span> {user}
+                </li>
+              ))}
+            </ul>
+          </aside>
         </div>
       </main>
     </React.Fragment>

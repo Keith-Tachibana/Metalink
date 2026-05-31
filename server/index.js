@@ -331,7 +331,7 @@ app.post('/api/signup', (req, res, next) => {
   const { fullname, password, username, email, zipcode, phone, genre1, genre2, genre3 } = req.body;
   bcrypt.hash(password, 12, (err, hash) => {
     if (err) {
-      console.error(err.message);
+      next(err);
     } else {
       const sql = `
         INSERT INTO "users" ("name", "password", "username", "email", "zipcode", "phone", "genre1", "genre2", "genre3")
@@ -345,7 +345,13 @@ app.post('/api/signup', (req, res, next) => {
         })
         .catch(err => {
           if (err.code === '23505') {
-            res.status(400).json('That name, username, or e-mail address already exists.');
+            const constraintToField = {
+              unique_name: 'name',
+              unique_username: 'username',
+              unique_email: 'email'
+            };
+            const field = constraintToField[err.constraint] || 'unknown';
+            res.status(400).json({ error: 'duplicate', field });
           } else {
             next(err);
           }
@@ -605,6 +611,7 @@ io.on('connection', socket => {
       socketId: socket.id,
       username,
       population,
+      users: Object.keys(users),
       announcement: `${username} has joined the Metalink chat room!`,
       time: moment().format('h:mm:ss A')
     });
@@ -633,6 +640,7 @@ io.on('connection', socket => {
       const population = io.of('/').sockets.size;
       io.to('Metalink').emit('Announcement', {
         population,
+        users: Object.keys(users),
         announcement: `${socket.data.username} has left the Metalink chat room.`,
         time: moment().format('h:mm:ss A')
       });
