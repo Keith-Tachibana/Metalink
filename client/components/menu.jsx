@@ -12,25 +12,25 @@ class Menu extends Component {
             <h1 className="ml-4"><u>Menu</u></h1>
             <a href="#" onClick={this.props.handleClick} className="close-button">Close</a>
             <br />
-            <Link to={`/home/${match.params.id}`} onClick={this.handleClick}>
+            <Link to={`/home/${match.params.id}`} onClick={this.props.handleClick}>
               <h4 className="ml-4 mb-2">Home</h4>
             </Link>
-            <Link to={`/profile/${match.params.id}`} onClick={this.handleClick}>
+            <Link to={`/profile/${match.params.id}`} onClick={this.props.handleClick}>
               <h4 className="ml-4 mb-2">Profile</h4>
             </Link>
-            <Link to={`/concerts/${match.params.id}`} onClick={this.handleClick}>
+            <Link to={`/concerts/${match.params.id}`} onClick={this.props.handleClick}>
               <h4 className="ml-4 mb-2">Concerts</h4>
             </Link>
-            <Link to={`/search/${match.params.id}`} onClick={this.handleClick}>
+            <Link to={`/search/${match.params.id}`} onClick={this.props.handleClick}>
               <h4 className="ml-4 mb-2">Search</h4>
             </Link>
-            <Link to={`/videos/${match.params.id}`} onClick={this.handleClick}>
+            <Link to={`/videos/${match.params.id}`} onClick={this.props.handleClick}>
               <h4 className="ml-4 mb-2">Videos</h4>
             </Link>
-            <Link to={`/chat/${match.params.id}`} onClick={this.handleClick}>
+            <Link to={`/chat/${match.params.id}`} onClick={this.props.handleClick}>
               <h4 className="ml-4 mb-2">Chat</h4>
             </Link>
-            <Link to={`/about/${match.params.id}`} onClick={this.handleClick}>
+            <Link to={`/about/${match.params.id}`} onClick={this.props.handleClick}>
               <h4 className="ml-4 mb-2">About</h4>
             </Link>
             <Link to={'/'} onClick={this.props.handleExit}>

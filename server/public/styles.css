@@ -110,6 +110,7 @@ footer div span {
   width: 100%;
   overflow: hidden;
   background-color: #000000;
+  z-index: 2;
 }
 
 .form-container > div {
@@ -266,7 +267,7 @@ footer div span {
 .menu-container {
   height: 100%;
   position: fixed;
-  z-index: 1;
+  z-index: 3;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.9);
