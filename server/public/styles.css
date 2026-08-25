@@ -314,9 +314,12 @@ footer div span {
 
 .carousel {
   display: flex;
+  align-items: flex-start;
   text-align: center;
   border: 2px solid #000;
-  min-height: 100%;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
 }
 
 .dot {

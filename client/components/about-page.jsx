@@ -129,17 +129,16 @@ class AboutPage extends Component {
           </div>
         </header>
         <main className="container-fluid">
-          <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <div className="carousel" style={{ width: '450px', margin: 'auto' }}>
+          <div className="row justify-content-center">
+            <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+              <div className="carousel">
                 <i className="previous fas fa-chevron-left" onClick={this.handlePrevious}></i>
-                <div className="card bg-dark" style={{ overflow: 'auto' }}>
+                <div className="card bg-dark flex-grow-1">
                   <picture>
                     <source srcSet={images[this.state.imageIndex].src} type="image/webp" />
                     <source srcSet={images[this.state.imageIndex].altsrc} type="image/png" />
                     <img
-                      className="card-img-top"
-                      height="250"
+                      className="card-img-top img-fluid"
                       src={images[this.state.imageIndex].altsrc}
                       alt={images[this.state.imageIndex].alt}
                       key={images[this.state.imageIndex].id} />
@@ -152,9 +151,9 @@ class AboutPage extends Component {
                 </div>
                 <i className="next fas fa-chevron-right" onClick={this.handleNext}></i>
               </div>
-            </div>
-            <div className="dot">
-              <this.renderDot />
+              <div className="dot">
+                <this.renderDot />
+              </div>
             </div>
           </div>
         </main>
