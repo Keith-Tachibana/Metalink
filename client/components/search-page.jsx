@@ -5,91 +5,91 @@ class SearchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      band: [],
-      discogs: [],
+      band: null,
+      discogs: null,
       message: '',
-      search: '',
-      loading: true
+      search: ''
     };
     this.getBandInfo = this.getBandInfo.bind(this);
     this.getDiscogs = this.getDiscogs.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    // A single debounced searcher for the lifetime of the component, so that
+    // rapid typing collapses into one request instead of firing one (actually
+    // two - band + discogs) per keystroke and tripping Discogs' rate limit.
+    this.debouncedSearch = _.debounce(this.getBandInfo, 800);
   }
 
-  async getBandInfo(query = this.state.search) {
-    this.setState({
-      message: 'Loading...'
-    });
-    if (query) {
-      try {
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        const response = await fetch(`/api/bands/${query}`, {
-          method: 'GET',
-          headers
+  componentWillUnmount() {
+    this.debouncedSearch.cancel();
+  }
+
+  async getBandInfo(query) {
+    const term = (query || '').trim();
+    if (term.length < 2) {
+      return this.setState({ band: null, discogs: null, message: 'Please enter at least 2 characters.' });
+    }
+    this.setState({ message: 'Loading...' });
+    try {
+      const response = await fetch(`/api/bands/${encodeURIComponent(term)}`);
+      const band = await response.json();
+      if (!response.ok || !band || band.error) {
+        return this.setState({
+          band: null,
+          discogs: null,
+          message: (band && band.error) || 'Could not find that band. Please try again in a moment.'
         });
-        const json = response.json();
-        json.then(band => {
-          this.setState({
-            band
-          }, query => this.getDiscogs(band.id));
-        })
-          .catch(err => console.error(err))
-          .finally(() => {
-            this.setState({
-              loading: false,
-              message: ''
-            });
-          });
-      } catch (error) {
-        console.error(error.message);
       }
-    } else {
-      return (
-        this.setState({
-          message: 'Please enter a band name to search.'
-        })
-      );
+      this.setState({ band, discogs: null, message: '' });
+      if (band.id) this.getDiscogs(band.id);
+    } catch (error) {
+      console.error(error.message);
+      this.setState({ message: 'Something went wrong while searching. Please try again.' });
     }
   }
 
-  async getDiscogs(query) {
+  async getDiscogs(id) {
     try {
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      const response = await fetch(`/api/discogs/${query}`, {
-        method: 'GET',
-        headers
-      });
-      const json = response.json();
-      json.then(discogs => {
-        this.setState({
-          discogs
-        });
-      }).catch(err => console.error(err));
+      const response = await fetch(`/api/discogs/${encodeURIComponent(id)}`);
+      if (!response.ok) return;
+      const discogs = await response.json();
+      this.setState({ discogs });
     } catch (error) {
       console.error(error.message);
     }
   }
 
   handleChange(event) {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    }, _.debounce(value => { this.getBandInfo(value); }, 1000));
+    const { value } = event.target;
+    this.setState({ search: value });
+    if (value.trim().length >= 2) {
+      this.debouncedSearch(value);
+    } else {
+      this.debouncedSearch.cancel();
+    }
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.debouncedSearch.cancel();
+    this.getBandInfo(this.state.search);
   }
 
   render() {
     const { band, discogs, message } = this.state;
-    const response = band.error
-      ? <div>{band.error}</div>
-      : (<div className="card band-card" style={{ overflow: 'auto' }} >
-        <img src={band.image} alt={band.band} className="card-img-top img-fluid search-img" />
+    const card = band && band.band
+      ? (<div className="card band-card" style={{ overflow: 'auto' }} >
+        <img
+          src={band.image || '/images/placeholder.png'}
+          alt={band.band}
+          className="card-img-top search-img"
+          onError={event => { event.target.onerror = null; event.target.src = '/images/placeholder.png'; }} />
         <div className="card-body">
           <h5 className="card-title text-center" style={{ color: '#FFF' }}><u><em>{band.band}</em></u></h5>
-          <p className="card-text" style={{ color: '#FFF' }}>{discogs.profile}</p>
+          <p className="card-text" style={{ color: '#FFF' }}>{discogs && discogs.profile}</p>
         </div>
-      </div>);
+      </div>)
+      : null;
     return (
       <React.Fragment>
         <header className="container-fluid mt-4">
@@ -102,13 +102,14 @@ class SearchPage extends Component {
         <main className="container-fluid">
           <div className="row justify-content-center">
             <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6 mb-md-3">
-              <form>
+              <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="search">Band Name</label>
                   <input
                     type="search"
                     name="search"
                     id="search"
+                    value={this.state.search}
                     placeholder="Search for bands"
                     onChange={this.handleChange}
                     className="form-control" />
@@ -120,7 +121,7 @@ class SearchPage extends Component {
             <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6">
               {message
                 ? <h3 className="text-center">{message}</h3>
-                : <React.Fragment>{response}</React.Fragment> }
+                : card}
             </div>
           </div>
         </main>

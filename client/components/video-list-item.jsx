@@ -1,7 +1,9 @@
 import React from 'react';
 
 const VideoListItem = ({ video, onVideoSelect }) => {
-  const imageUrl = video.thumbnails.default.url;
+  const imageUrl = video.thumbnails && video.thumbnails.default
+    ? video.thumbnails.default.url
+    : `https://i.ytimg.com/vi/${video.id}/default.jpg`;
   return (
     <li onClick={() => onVideoSelect(video)} className="list-group-item">
       <div className="video-list media">

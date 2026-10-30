@@ -14,6 +14,7 @@ class VideosPage extends Component {
       message: ''
     };
     this.videoSearch = this.videoSearch.bind(this);
+    this.debouncedSearch = _.debounce(term => { this.videoSearch(term); }, 500);
   }
 
   componentDidMount() {
@@ -21,34 +22,43 @@ class VideosPage extends Component {
   }
 
   async videoSearch(term) {
-    if (term) {
-      try {
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        const response = await fetch(`/api/videos/${term}`, {
-          method: 'GET',
-          headers
-        });
-        const json = response.json();
-        json.then(videos => {
-          this.setState({
-            videos,
-            selectedVideo: videos[0],
-            message: ''
-          });
-        }).catch(err => console.error(err.message));
-      } catch (error) {
-        console.error(error.message);
-      }
-    } else {
+    if (!term || !term.trim()) {
       return this.setState({
+        videos: [],
+        selectedVideo: null,
         message: 'Please enter a search query.'
+      });
+    }
+    try {
+      const response = await fetch(`/api/videos/${encodeURIComponent(term.trim())}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const body = await response.json();
+      if (!response.ok || !Array.isArray(body)) {
+        return this.setState({
+          videos: [],
+          selectedVideo: null,
+          message: (body && body.error) || 'No videos found. Please try a different search.'
+        });
+      }
+      this.setState({
+        videos: body,
+        selectedVideo: body[0] || null,
+        message: body.length ? '' : 'No videos found. Please try a different search.'
+      });
+    } catch (error) {
+      console.error(error.message);
+      this.setState({
+        videos: [],
+        selectedVideo: null,
+        message: 'Something went wrong while searching for videos. Please try again.'
       });
     }
   }
 
   render() {
-    const videoSearch = _.debounce(term => { this.videoSearch(term); }, 300);
+    const videoSearch = this.debouncedSearch;
     return (
       <React.Fragment>
         <header className="container-fluid">

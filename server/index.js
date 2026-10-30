@@ -8,7 +8,7 @@ const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const YTSearch = require('youtube-search');
+const youtubeSearch = require('./youtube-search');
 const Discogs = require('disconnect').Client;
 
 const db = require('./database');
@@ -160,40 +160,61 @@ app.get('/api/concerts/:postalCode', (req, res, next) => {
   }
 });
 
+// In-memory caches so repeated searches for the same band don't hit Discogs
+// again - Discogs rate limits aggressively and returns "You are making
+// requests too quickly." once the burst limit is passed.
+const bandCache = new Map();
+const discogsCache = new Map();
+
 app.get('/api/bands/:band', async (req, res, next) => {
   const { band } = req.params;
-  const query = band.split(' ').join('+');
-  const apiKey = process.env.DISCOGS_API_KEY;
-  const apiSecret = process.env.DISCOGS_API_SECRET;
-  const response = await fetch(`http://api.discogs.com/database/search?type=artist&q=${query}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Discogs key=${apiKey}, secret=${apiSecret}`
+  const cacheKey = band.trim().toLowerCase();
+  if (bandCache.has(cacheKey)) {
+    return res.status(200).json(bandCache.get(cacheKey));
+  }
+  try {
+    const query = encodeURIComponent(band.trim());
+    const apiKey = process.env.DISCOGS_API_KEY;
+    const apiSecret = process.env.DISCOGS_API_SECRET;
+    const response = await fetch(`https://api.discogs.com/database/search?type=artist&q=${query}`, {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Metalink/1.0',
+        Authorization: `Discogs key=${apiKey}, secret=${apiSecret}`
+      }
+    });
+    if (response.status === 429) {
+      return res.status(429).json({ error: 'Discogs is rate limiting us. Please wait a few seconds and try again.' });
     }
-  });
-  const result = await response.json();
-  if (!result) {
-    return res.status(400).json({
-      error: 'No results found.'
-    });
-  } else {
-    res.status(200).send({
-      band: result.results[0].title,
-      image: result.results[0].cover_image,
-      id: result.results[0].id
-    });
+    const result = await response.json();
+    if (!result || !Array.isArray(result.results) || result.results.length === 0) {
+      return res.status(404).json({ error: 'No band found with that name.' });
+    }
+    const artist = result.results[0];
+    // Discogs returns a transparent spacer.gif for artists with no photo.
+    const image = artist.cover_image && !artist.cover_image.includes('spacer')
+      ? artist.cover_image
+      : null;
+    const payload = { band: artist.title, image, id: artist.id };
+    bandCache.set(cacheKey, payload);
+    res.status(200).json(payload);
+  } catch (err) {
+    next(err);
   }
 });
 
-app.get('/api/discogs/:id', async (req, res, next) => {
+app.get('/api/discogs/:id', (req, res, next) => {
   const { id } = req.params;
-  await discogsDB.getArtist(id, (err, data) => {
+  if (discogsCache.has(id)) {
+    return res.status(200).json(discogsCache.get(id));
+  }
+  discogsDB.getArtist(id, (err, data) => {
     if (data) {
-      // eslint-disable-next-line no-console
-      console.log(data);
-      res.status(200).send({
-        profile: data.profile
-      });
+      const payload = { profile: data.profile };
+      discogsCache.set(id, payload);
+      res.status(200).json(payload);
+    } else if (err && (err.statusCode === 429 || /too quickly/i.test(err.message || ''))) {
+      res.status(429).json({ error: 'Discogs is rate limiting us. Please wait a few seconds and try again.' });
     } else {
       next(err);
     }
@@ -220,19 +241,15 @@ app.get('/api/chat', (req, res, next) => {
 
 app.get('/api/videos/:term', (req, res, next) => {
   const { term } = req.params;
-  const opts = {
-    maxResults: 10,
-    key: process.env.YOUTUBE_API_KEY,
-    type: 'video'
-  };
-  if (!term) {
+  if (!term || !term.trim()) {
     throw new ClientError('A search query is required.', 400);
-  } else {
-    YTSearch(term, opts, function (err, results) {
-      if (err) return console.error(err);
-      res.status(200).json(results);
-    });
   }
+  youtubeSearch(term, { maxResults: 10 })
+    .then(results => res.status(200).json(results))
+    .catch(err => {
+      console.error(err);
+      res.status(502).json({ error: 'Unable to fetch videos from YouTube right now. Please try again later.' });
+    });
 });
 
 app.get('/api/reset', (req, res, next) => {
@@ -583,14 +600,14 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(process.env.PORT, () => {
+// Express and Socket.IO share a single HTTP server / port. They used to be
+// split across PORT and CHAT_PORT, but the second listener is fragile: any
+// other process on the machine holding CHAT_PORT (e.g. a service bound to
+// 127.0.0.1) silently shadows it for localhost connections and the chat
+// socket goes dead while the rest of the API keeps working.
+server.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
-  console.log('Express server listening on port', process.env.PORT);
-});
-
-server.listen(process.env.CHAT_PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log('Chat server listening on port', process.env.CHAT_PORT);
+  console.log('Express + chat server listening on port', process.env.PORT);
 });
 
 const users = {};

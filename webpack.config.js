@@ -38,7 +38,7 @@ module.exports = {
     proxy: {
       '/api': `http://localhost:${process.env.PORT}`,
       '/socket.io': {
-        target: `http://localhost:${process.env.CHAT_PORT}`,
+        target: `http://localhost:${process.env.PORT}`,
         ws: true
       }
     },

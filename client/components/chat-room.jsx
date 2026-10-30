@@ -1,4 +1,4 @@
-           import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import { io } from 'socket.io-client';
 
@@ -58,7 +58,7 @@ export default function ChatRoom({ profile }) {
     return () => {
       socket.disconnect();
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -118,7 +118,8 @@ export default function ChatRoom({ profile }) {
               backgroundColor: '#1a1a1a',
               color: '#FFF',
               borderRadius: '6px',
-              padding: '12px'
+              padding: '12px',
+              marginTop: '5px'
             }}>
             <h6 className="text-center mb-2">Online Users</h6>
             <hr style={{ backgroundColor: '#555', marginTop: 0 }} />
