@@ -37,24 +37,24 @@ A mobile-first, full-stack, web application for lovers of metal music that aims 
 Try the application live [on my portfolio website](https://metalink.keith-tachibana.com/)
 ## Features
 _*_ Users can register for an account by setting up a password which gets hashed and saved in the database
-- Users can authenticate themselves at the login page using said password
-- _*_ Users can reset their password and be sent an e-mail containing a password reset link that expires in 1 hour using a token
-- _*_ Users can post comments, album reviews, or other information for others to see when they log into the application, sorted by date from most recent to oldest
-- _*_ Users can add a profile to their account, including a profile picture, screen name, e-mail address, real name, location, phone number, and favorite sub-genres of metal
-- _*_ Users can view their individual post history (if any) and edit or delete them
-- _*_ Users can search for concerts via the TicketMaster API and see the results in tabular format
-- _*_ Users can also view the concert search results on Google Maps as clickable, animated markers with the corresponding concert information
-- _*_ Users can join a global chat session with other currently logged-in users and message each other in real-time
-- _*_ Users can log out and rejoin the chat room and still see all previous chat messages
-- _*_ Users can search for band profiles using the Discogs API
-- _*_ Users can search for YouTube videos and play them inside the application
+_*_ Users can authenticate themselves at the login page using said password
+_*_ Users can reset their password and be sent an e-mail containing a password reset link that expires in 1 hour using a token
+_*_ Users can post comments, album reviews, or other information for others to see when they log into the application, sorted by date from most recent to oldest
+_*_ Users can add a profile to their account, including a profile picture, screen name, e-mail address, real name, location, phone number, and favorite sub-genres of metal
+_*_ Users can view their individual post history (if any) and edit or delete them
+_*_ Users can search for concerts via the TicketMaster API and see the results in tabular format
+_*_ Users can also view the concert search results on Google Maps as clickable, animated markers with the corresponding concert information
+_*_ Users can join a global chat session with other currently logged-in users and message each other in real-time
+_*_ Users can log out and rejoin the chat room and still see all previous chat messages
+_*_ Users can search for band profiles using the Discogs API
+_*_ Users can search for YouTube videos and play them inside the application
 ## Preview
 ![Metalink Preview](preview.gif "Metalink Preview")
 ## Development
-- _*_ [DB Designer available here](https://app.dbdesigner.net/designer/schema/312595)
-- _*_ [Figma available here](https://www.figma.com/file/pzkKz7ZmE00RLNJQBJOxA7/MetaLink?node-id=0%3A1)
-- _*_ [MeisterTask available here](https://www.meistertask.com/app/project/i8BR5WmN/metalink)
-- _*_ [Wireframe available here](https://github.com/Keith-Tachibana/Metalink/wiki)
+_*_ [DB Designer available here](https://app.dbdesigner.net/designer/schema/312595)
+_*_ [Figma available here](https://www.figma.com/file/pzkKz7ZmE00RLNJQBJOxA7/MetaLink?node-id=0%3A1)
+_*_ [MeisterTask available here](https://www.meistertask.com/app/project/i8BR5WmN/metalink)
+_*_ [Wireframe available here](https://github.com/Keith-Tachibana/Metalink/wiki)
 #### System Requirements
 |  **Requirement**  |   **Version**    |
 |-------------------|-----------------:|
