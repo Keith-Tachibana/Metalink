@@ -36,7 +36,7 @@ A mobile-first, full-stack, web application for lovers of metal music that aims 
 ## Live Demo
 Try the application live [on my portfolio website](https://metalink.keith-tachibana.com/)
 ## Features
-- _*_ Users can register for an account by setting up a password which gets hashed and saved in the database
+_*_ Users can register for an account by setting up a password which gets hashed and saved in the database
 - _*_ Users can authenticate themselves at the login page using said password
 - _*_ Users can reset their password and be sent an e-mail containing a password reset link that expires in 1 hour using a token
 - _*_ Users can post comments, album reviews, or other information for others to see when they log into the application, sorted by date from most recent to oldest
