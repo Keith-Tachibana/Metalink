@@ -47,14 +47,14 @@ _*_ Users can also view the concert search results on Google Maps as clickable, 
 _*_ Users can join a global chat session with other currently logged-in users and message each other in real-time\
 _*_ Users can log out and rejoin the chat room and still see all previous chat messages\
 _*_ Users can search for band profiles using the Discogs API\
-_*_ Users can search for YouTube videos and play them inside the application\
+_*_ Users can search for YouTube videos and play them inside the application
 ## Preview
 ![Metalink Preview](preview.gif "Metalink Preview")
 ## Development
 _*_ [DB Designer available here](https://app.dbdesigner.net/designer/schema/312595)\
 _*_ [Figma available here](https://www.figma.com/file/pzkKz7ZmE00RLNJQBJOxA7/MetaLink?node-id=0%3A1)\
 _*_ [MeisterTask available here](https://www.meistertask.com/app/project/i8BR5WmN/metalink)\
-_*_ [Wireframe available here](https://github.com/Keith-Tachibana/Metalink/wiki)\
+_*_ [Wireframe available here](https://github.com/Keith-Tachibana/Metalink/wiki)
 #### System Requirements
 |  **Requirement**  |   **Version**    |
 |-------------------|-----------------:|
