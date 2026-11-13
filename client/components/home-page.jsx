@@ -22,12 +22,19 @@ class HomePage extends React.Component {
         greeting = 'Good Evening,';
         break;
     }
+    console.log("PostList length:", this.props.posts.length);
     return (
       <div className="container">
         <h4 className="col-12 d-flex justify-content-center text-white mt-4">{greeting}</h4>
         <h4 className="col-12 d-flex justify-content-center text-white">{this.props.profile.username}!</h4>
-        <h5 className="col-12 d-flex justify-content-center text-white">Here are the latest posts...</h5>
-        <PostsList />
+        {this.props.posts.length === 0
+          ? <h5 className="col-12 d-flex justify-content-center text-white">No posts available.</h5>
+          : (
+            <>
+              <h5 className="col-12 d-flex justify-content-center text-white">Here are the latest posts...</h5>
+              <PostsList />
+            </>
+          )}
       </div>
     );
   }

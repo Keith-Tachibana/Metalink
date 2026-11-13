@@ -4,6 +4,9 @@ import loadGoogleMaps from './load-google-maps';
 
 const DEFAULT_CENTER = { lat: 33.634928, lng: -117.740481 };
 
+const ZIP_PATTERN = /^\d{5}(?:[-\s]\d{4})?$/;
+const CITY_PATTERN = /^[A-Za-z][A-Za-z .'-]*[A-Za-z.](?:\s*,\s*[A-Za-z]{2})?$/;
+
 function formatDate(dateString) {
   if (!dateString) return '';
   const [year, month, day] = dateString.split('-');
@@ -24,6 +27,7 @@ export default class SearchConcerts extends Component {
     this.infoWindow = null;
     this.getConcerts = this.getConcerts.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -47,15 +51,22 @@ export default class SearchConcerts extends Component {
   handleChange(event) {
     const { value } = event.target;
     if (this.timeout) clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => this.getConcerts(value), 1000);
+    this.timeout = setTimeout(() => this.getConcerts(value.trim()), 1000);
   }
 
-  getConcerts(postalCode) {
-    if (!/^\d{5}(?:[-\s]\d{4})?$/.test(postalCode)) {
-      return this.setState({ message: 'Valid US zipcode please' });
+  handleSubmit(event) {
+    event.preventDefault();
+    if (this.timeout) clearTimeout(this.timeout);
+    const { value } = event.target.elements.search;
+    this.getConcerts(value.trim());
+  }
+
+  getConcerts(searchTerm) {
+    if (!ZIP_PATTERN.test(searchTerm) && !CITY_PATTERN.test(searchTerm)) {
+      return this.setState({ message: 'Enter a US zip code or a city name (e.g. Irvine or Irvine, CA)' });
     }
     this.setState({ message: 'Loading...' });
-    fetch(`/api/concerts/${postalCode}`)
+    fetch(`/api/concerts/${encodeURIComponent(searchTerm)}`)
       .then(res => res.json())
       .then(concerts => {
         this.setState({
@@ -117,14 +128,14 @@ export default class SearchConcerts extends Component {
 
       const contentString =
         '<div class="card bg-dark" style="max-width: 240px; border: none;">' +
-          `<img class="card-img-top" src="${concert.image}" alt="${concert.name}" style="object-fit: cover; height: 120px; width: 100%;" />` +
-          '<div class="card-body">' +
-            `<h5 class="card-title text-danger text-center mt-2">${concert.name}</h5>` +
-            `<p class="card-text text-white text-center mb-2">${formatDate(concert.date)}: ${concert.venues} @ ${concert.location}</p>` +
-          '</div>' +
-          '<div class="card-footer text-white bg-dark text-center">' +
-            `<a href="${concert.url}" target="_blank" rel="noopener noreferrer">Order Tickets Here</a>` +
-          '</div>' +
+        `<img class="card-img-top" src="${concert.image}" alt="${concert.name}" style="object-fit: cover; height: 120px; width: 100%;" />` +
+        '<div class="card-body">' +
+        `<h5 class="card-title text-danger text-center mt-2">${concert.name}</h5>` +
+        `<p class="card-text text-white text-center mb-2">${formatDate(concert.date)}: ${concert.venues} @ ${concert.location}</p>` +
+        '</div>' +
+        '<div class="card-footer text-white bg-dark text-center">' +
+        `<a href="${concert.url}" target="_blank" rel="noopener noreferrer">Order Tickets Here</a>` +
+        '</div>' +
         '</div>';
 
       marker.addListener('click', () => {
@@ -145,9 +156,10 @@ export default class SearchConcerts extends Component {
   }
 
   render() {
-    const resultItems = this.state.concerts.error
-      ? <tbody><tr><td>{this.state.concerts.error}</td></tr></tbody>
-      : this.state.concerts.map((concert, idx) => {
+    const { concerts } = this.state;
+    const resultItems = !Array.isArray(concerts)
+      ? <tbody><tr><td>{concerts && concerts.error ? concerts.error : 'No concerts found.'}</td></tr></tbody>
+      : concerts.map((concert, idx) => {
         const newDate = formatDate(concert.date);
         return (
           <tbody key={idx} className="table-hover">
@@ -168,15 +180,22 @@ export default class SearchConcerts extends Component {
       });
     return (
       <div>
-        <h1 className="text-center mt-4 mb-4">Concerts Near You</h1>
+        <header className="container-fluid">
+          <div className="row">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <h1 className="text-center mt-4">Concerts Near You</h1>
+            </div>
+          </div>
+        </header>
         <main className="container-fluid">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <form className="form-group mx-auto mb-2 concertsearch-form">
-                <label htmlFor="search">ZipCode</label>
+              <form className="form-group mx-auto mb-2 concertsearch-form" onSubmit={this.handleSubmit} noValidate>
+                <label htmlFor="search">Zip Code or City</label>
                 <input onChange={this.handleChange}
+                  id="search" name="search"
                   type="text" className="form-control"
-                  placeholder="Enter Zipcode" minLength="5" maxLength="5" />
+                  placeholder="Enter zip code or city (e.g. 92618 or Irvine, CA)" maxLength="60" autoComplete="off" />
               </form>
             </div>
           </div>

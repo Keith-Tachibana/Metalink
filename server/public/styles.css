@@ -16,6 +16,7 @@ input[type="file"] {
 #root {
   background-color: #000000;
   min-height: 100vh;
+  padding-bottom: 80px;
 }
 
 select,
@@ -68,6 +69,7 @@ footer div span {
   background-color: #000;
   color: #FFF;
   font-size: 0.7rem;
+  margin-right: 0.75rem;
 }
 
 .profile-select > option {

@@ -188,35 +188,45 @@ class EditProfile extends Component {
               <h4 className="text-center">Edit Profile</h4>
             </div>
           </div>
-          <div className="row">
-            <div className="col-5">
-              <form onSubmit={this.handleSubmit}>
-                <label htmlFor="genre1">
-                  1<sup>st</sup> Favorite Genre
-                  <select name="genre1" id="genre1" className="profile-select ml-2" value={this.state.genre1} onChange={this.handleChange}>
-                    <option defaultValue=""></option>
-                    {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
-                  </select>
-                </label>
-                <label htmlFor="genre2">
-                  2<sup>nd</sup> Favorite Genre
-                  <select name="genre2" id="genre2" className="profile-select ml-2" value={this.state.genre2} onChange={this.handleChange}>
-                    <option defaultValue=""></option>
-                    {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
-                  </select>
-                </label>
-                <label htmlFor="genre3">
-                  3<sup>rd</sup> Favorite Genre
-                  <select name="genre3" id="genre3" className="profile-select ml-2" value={this.state.genre3} onChange={this.handleChange}>
-                    <option defaultValue=""></option>
-                    {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
-                  </select>
-                </label>
+          <div className="container-fluid">
+              <form onSubmit={this.handleSubmit} className="d-flex">
+                <div className="row">
+                  <div className="col-5">
+                    <label htmlFor="genre1">
+                      1<sup>st</sup> Favorite Genre
+                      <select name="genre1" id="genre1" className="profile-select ml-2 mr-2" value={this.state.genre1} onChange={this.handleChange}>
+                        <option defaultValue=""></option>
+                        {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
+                      </select>
+                    </label>
+                  </div>
+                </div>
+                <div className="row">
+								  <div className="col-5">
+                    <label htmlFor="genre2">
+                      2<sup>nd</sup> Favorite Genre
+                      <select name="genre2" id="genre2" className="profile-select ml-2 mr-2" value={this.state.genre2} onChange={this.handleChange}>
+                        <option defaultValue=""></option>
+                        {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
+                      </select>
+                    </label>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-5">
+                    <label htmlFor="genre3">
+                      3<sup>rd</sup> Favorite Genre
+                      <select name="genre3" id="genre3" className="profile-select ml-2" value={this.state.genre3} onChange={this.handleChange}>
+                        <option defaultValue=""></option>
+                        {metalGenreArr.map((genreOption, idx) => <option key={idx} value={genreOption}>{genreOption}</option>)}
+                      </select>
+                    </label>
+                  </div>
+                </div>
               </form>
               <br />
               <h5>Reset Password</h5>
               <Link to="/email">Click here</Link>
-            </div>
             <div className="col-6">
               <form onSubmit={this.handleSubmit} className="form-container mt-2">
                 <div className="form-group">

@@ -10,12 +10,10 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const youtubeSearch = require('./youtube-search');
 const Discogs = require('disconnect').Client;
-
 const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
-
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -50,11 +48,11 @@ const upload = multer({
 app.get('/api/users', (req, res, next) => {
   const sql = `
     SELECT "userId",
-    "name",
-    "username",
-    "email",
-    "zipcode",
-    "createdAt"
+           "name",
+           "username",
+           "email",
+           "zipcode",
+           "createdAt"
       FROM "users";
   `;
   db.query(sql)
@@ -66,8 +64,8 @@ app.get('/api/auth', (req, res, next) => {
   if (!req.session.userId) return res.json({ user: null });
   const sql = `
     SELECT "userId", "name", "username", "email", "zipcode", "phone", "profileImage", "genre1", "genre2", "genre3"
-    FROM  "users"
-    WHERE "userId" = $1;`;
+      FROM "users"
+     WHERE "userId" = $1;`;
   db.query(sql, [req.session.userId])
     .then(result => {
       const user = result.rows[0];
@@ -80,10 +78,10 @@ app.get('/api/profile/:userId', (req, res, next) => {
   const { userId } = req.params;
   if (typeof userId === 'undefined') { throw new ClientError('The userId is required.', 400); } else {
     const sql = `
-    SELECT "userId", "name", "username", "email", "zipcode", "phone", "profileImage", "genre1", "genre2", "genre3"
-      FROM "users"
-    WHERE "userId" = $1;
-  `;
+      SELECT "userId", "name", "username", "email", "zipcode", "phone", "profileImage", "genre1", "genre2", "genre3"
+        FROM "users"
+       WHERE "userId" = $1;
+    `;
     db.query(sql, [userId])
       .then(result => {
         const profile = result.rows;
@@ -112,52 +110,67 @@ app.get('/api/profile/:userId', (req, res, next) => {
 app.get('/api/posts', (req, res, next) => {
   const sql = `
     SELECT "p"."postId",
-    "p"."userId",
-    "p"."subject",
-    "p"."content",
-    "p"."datePosted",
-    "u"."username"
+           "p"."userId",
+           "p"."subject",
+           "p"."content",
+           "p"."datePosted",
+           "u"."username"
       FROM "posts" AS "p"
       JOIN "users" AS "u" USING ("userId")
-  ORDER BY "postId" DESC;
+     ORDER BY "postId" DESC;
   `;
   db.query(sql)
     .then(result => res.json(result.rows))
     .catch(err => next(err));
 });
 
-app.get('/api/concerts/:postalCode', (req, res, next) => {
-  const { postalCode } = req.params;
+app.get('/api/concerts/:location', (req, res, next) => {
+  const location = req.params.location.trim();
   const ticketMasterApiKey = process.env.ticketMasterAPI_KEY;
   const metalClassificationId = 'KnvZfZ7vAvt';
-  const ticketMasterUrl = `
-  https://app.ticketmaster.com/discovery/v2/events.json?apikey=${ticketMasterApiKey}&postalCode=${postalCode}&classificationId=${metalClassificationId}`;
-  if (!(/^\d{5}(?:[-\s]\d{4})?$/g.test(postalCode))) return res.status(400).json({ error: 'Invalid zip code' });
-  else {
-    fetch(ticketMasterUrl)
-      .then(res => res.json())
-      .then(results => {
-        if (typeof results._embedded === 'undefined') return res.status(400).json({ error: 'No events found' });
-        else {
-          const parsedEvents = results._embedded.events.map(obj => {
-            const venues = obj._embedded.venues[0];
-            return {
-              name: obj.name,
-              date: obj.dates.start.localDate,
-              venues: venues.name,
-              url: obj.url,
-              location: `${venues.city.name}, ${venues.state.stateCode}`,
-              long: venues.location.longitude,
-              lat: venues.location.latitude,
-              image: obj.images[0].url,
-              genre: obj.classifications[0].genre.name
-            };
-          });
-          return res.status(200).json(parsedEvents);
-        }
-      })
-      .catch(err => next(err));
+  const zipPattern = /^\d{5}(?:[-\s]\d{4})?$/;
+  const cityPattern = /^([A-Za-z][A-Za-z .'-]*[A-Za-z.])(?:\s*,\s*([A-Za-z]{2}))?$/;
+  const params = new URLSearchParams({
+    apikey: ticketMasterApiKey,
+    classificationId: metalClassificationId,
+    countryCode: 'US'
+  });
+  if (zipPattern.test(location)) {
+    params.set('postalCode', location.slice(0, 5));
+  } else {
+    const cityMatch = location.match(cityPattern);
+    if (!cityMatch) return res.status(400).json({ error: 'Enter a valid US zip code or city name' });
+    params.set('city', cityMatch[1].trim());
+    if (cityMatch[2]) params.set('stateCode', cityMatch[2].toUpperCase());
   }
+  const ticketMasterUrl = `https://app.ticketmaster.com/discovery/v2/events.json?${params.toString()}`;
+  fetch(ticketMasterUrl)
+    .then(response => response.json())
+    .then(results => {
+      if (!results || typeof results._embedded === 'undefined' || !Array.isArray(results._embedded.events)) {
+        return res.status(404).json({ error: 'No events found' });
+      }
+      const parsedEvents = results._embedded.events.map(obj => {
+        const venues = (obj._embedded && obj._embedded.venues && obj._embedded.venues[0]) || {};
+        const city = venues.city ? venues.city.name : '';
+        const state = venues.state ? venues.state.stateCode : '';
+        return {
+          name: obj.name,
+          date: obj.dates && obj.dates.start ? obj.dates.start.localDate : '',
+          venues: venues.name || '',
+          url: obj.url,
+          location: [city, state].filter(Boolean).join(', '),
+          long: venues.location ? venues.location.longitude : null,
+          lat: venues.location ? venues.location.latitude : null,
+          image: Array.isArray(obj.images) && obj.images.length > 0 ? obj.images[0].url : '',
+          genre: Array.isArray(obj.classifications) && obj.classifications[0] && obj.classifications[0].genre
+            ? obj.classifications[0].genre.name
+            : ''
+        };
+      });
+      return res.status(200).json(parsedEvents);
+    })
+    .catch(err => next(err));
 });
 
 // In-memory caches so repeated searches for the same band don't hit Discogs
@@ -258,8 +271,8 @@ app.get('/api/reset', (req, res, next) => {
   const sql = `
     SELECT "username"
       FROM "users"
-    WHERE "resetPasswordToken" = $1
-    AND TO_TIMESTAMP("resetPasswordExpires", 'YYYY-MM-DD HH24:MI:SS') > NOW();
+     WHERE "resetPasswordToken" = $1
+       AND TO_TIMESTAMP("resetPasswordExpires", 'YYYY-MM-DD HH24:MI:SS') > NOW();
   `;
   db.query(sql, value)
     .then(result => {
@@ -283,8 +296,8 @@ app.delete('/api/posts/:postId', (req, res, next) => {
   const params = [postId];
   const sql = `
     DELETE FROM "posts"
-          WHERE "postId" = $1
-      RETURNING *;
+     WHERE "postId" = $1
+    RETURNING *;
   `;
   db.query(sql, params)
     .then(result => {
@@ -303,9 +316,9 @@ app.delete('/api/posts/:postId', (req, res, next) => {
 app.post('/api/posts', (req, res, next) => {
   const values = [req.body.subject, req.body.content, req.session.userId];
   const sql = `
-  INSERT INTO "posts" ("subject", "content", "userId")
-  VALUES ($1, $2, $3)
-  RETURNING *
+    INSERT INTO "posts" ("subject", "content", "userId")
+    VALUES ($1, $2, $3)
+    RETURNING *
   `;
   db.query(sql, values)
     .then(response => {
@@ -325,9 +338,9 @@ app.post('/api/profileImage', upload.single('profileImage'), (req, res, next) =>
   } else {
     const sql = `
       UPDATE "users"
-      SET "profileImage" = $1
-      WHERE "userId" = $2
-   RETURNING *;
+         SET "profileImage" = $1
+       WHERE "userId" = $2
+      RETURNING *;
     `;
     db.query(sql, ['/images/profileImages/' + req.file.filename, req.session.userId])
       .then(result => {
@@ -353,7 +366,7 @@ app.post('/api/signup', (req, res, next) => {
       const sql = `
         INSERT INTO "users" ("name", "password", "username", "email", "zipcode", "phone", "genre1", "genre2", "genre3")
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-          RETURNING *;
+        RETURNING *;
       `;
       const values = [fullname, hash, username, email, zipcode, phone, genre1, genre2, genre3];
       db.query(sql, values)
@@ -382,12 +395,12 @@ app.post('/api/login', (req, res, next) => {
   const sql = `
     SELECT "password"
       FROM "users"
-    WHERE "username" = $1;
+     WHERE "username" = $1;
   `;
   const idSQL = `
     SELECT "userId"
       FROM "users"
-    WHERE "username" = $1;
+     WHERE "username" = $1;
   `;
   const value = [username];
   db.query(sql, value)
@@ -430,7 +443,7 @@ app.post('/api/email', (req, res, next) => {
     const sql = `
       SELECT "username"
         FROM "users"
-      WHERE "email" = $1;
+       WHERE "email" = $1;
     `;
     const value = [email];
     db.query(sql, value)
@@ -443,8 +456,8 @@ app.post('/api/email', (req, res, next) => {
           const token = crypto.randomBytes(20).toString('hex');
           const updateSQL = `
             UPDATE "users"
-            SET "resetPasswordToken" = $1, "resetPasswordExpires" = NOW() + INTERVAL '1 hour'
-            WHERE "username" = $2;
+               SET "resetPasswordToken" = $1, "resetPasswordExpires" = NOW() + INTERVAL '1 hour'
+             WHERE "username" = $2;
           `;
           const updateValues = [token, result.rows[0].username];
           db.query(updateSQL, updateValues)
@@ -508,10 +521,10 @@ app.put('/api/posts/:postId', (req, res, next) => {
   }
   const values = [subject, content, postId];
   const sql = `
-      UPDATE "posts"
-        SET "subject" = $1, "content" = $2, "dateUpdated" = default
-      WHERE "postId" = $3
-  RETURNING *;
+    UPDATE "posts"
+       SET "subject" = $1, "content" = $2, "dateUpdated" = default
+     WHERE "postId" = $3
+    RETURNING *;
   `;
   db.query(sql, values)
     .then(result => {
@@ -538,10 +551,10 @@ app.put('/api/profile/:userId', (req, res, next) => {
   }
   const values = [name, username, email, zipcode, phone, profileImage, genre1, genre2, genre3, parseInt(userId)];
   const sql = `
-      UPDATE "users"
-        SET "name" = $1, "username" = $2, "email" = $3, "zipcode" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9, "updatedAt" = default
-      WHERE "userId" = $10
-  RETURNING *;
+    UPDATE "users"
+       SET "name" = $1, "username" = $2, "email" = $3, "zipcode" = $4, "phone" = $5, "profileImage" = $6, "genre1" = $7, "genre2" = $8, "genre3" = $9, "updatedAt" = default
+     WHERE "userId" = $10
+    RETURNING *;
   `;
   db.query(sql, values)
     .then(result => {
@@ -562,11 +575,11 @@ app.put('/api/update', (req, res, next) => {
       console.error(err.message);
     } else {
       const sql = `
-    UPDATE "users"
-    SET "password" = $1, "resetPasswordToken" = NULL, "resetPasswordExpires" = NULL
-    WHERE "username" = $2
-    RETURNING *;
-  `;
+        UPDATE "users"
+           SET "password" = $1, "resetPasswordToken" = NULL, "resetPasswordExpires" = NULL
+         WHERE "username" = $2
+        RETURNING *;
+      `;
       const value = [hash, username];
       if (username !== null) {
         db.query(sql, value)
@@ -587,6 +600,13 @@ app.put('/api/update', (req, res, next) => {
 
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
+});
+
+app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  res.sendFile(path.join(__dirname, 'public', 'index.html'), err => {
+    if (err) next(err);
+  });
 });
 
 app.use((err, req, res, next) => {
@@ -611,6 +631,7 @@ server.listen(process.env.PORT, () => {
 });
 
 const users = {};
+
 io.on('connection', socket => {
   // eslint-disable-next-line no-console
   console.log('Socket ID:', socket.id);

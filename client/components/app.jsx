@@ -192,7 +192,7 @@ class App extends Component {
               <Menu handleExit={this.handleExit} handleClick={this.handleClick} clicked={this.state.clicked} />
               {this.state.loading
                 ? <h1 className="text-center mt-4" style={{ height: '95vh' }}>Profile Loading...</h1>
-                : <HomePage profile={this.state.profile} />}
+                : <HomePage profile={this.state.profile} posts={this.state.posts} />}
               <BottomNavbar handleExit={this.handleExit} />
             </React.Fragment>
           } />

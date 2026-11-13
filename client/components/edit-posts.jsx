@@ -75,14 +75,14 @@ class EditPosts extends Component {
         </header>
         <main className="container-fluid mb-4">
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style={{ height: '224px', overflow: 'auto' }}>
+            <div className="col-11 col-md-10 col-lg-8" style={{ height: '224px', overflow: 'auto' }}>
               <div className="list-group">
                 {postCard}
               </div>
             </div>
           </div>
           <div className="row justify-content-center mt-4">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div className="col-11 col-md-10 col-lg-8">
               <form onClick={this.handleSubmit}>
                 <div className="input-group mb-2">
                   <input
