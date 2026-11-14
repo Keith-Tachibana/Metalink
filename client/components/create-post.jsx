@@ -19,7 +19,7 @@ class CreatePost extends Component {
     });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const { createPost, history, match } = this.props;
     const newPost = {
@@ -29,12 +29,16 @@ class CreatePost extends Component {
     if (this.state.subject === '' || this.state.content === '') {
       alert('In order to submit a post, you must enter both a subject and content.');
     } else {
-      createPost(newPost);
-      this.setState({
-        subject: '',
-        content: ''
-      });
-      history.push(`/home/${match.params.id}`);
+      const created = await createPost(newPost);
+      if (created) {
+        this.setState({
+          subject: '',
+          content: ''
+        });
+        history.push(`/home/${match.params.id}`);
+      } else {
+        alert('Your post could not be created. Please try again.');
+      }
     }
   }
 

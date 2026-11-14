@@ -81,12 +81,14 @@ class App extends Component {
         body: JSON.stringify(entry),
         headers
       });
-      const post = await response.json();
-      this.setState({
-        posts: post
-      });
+      if (!response.ok) {
+        throw new Error(`Failed to create post (status ${response.status})`);
+      }
+      await this.getPosts();
+      return true;
     } catch (error) {
       console.error(error.message);
+      return false;
     }
   }
 

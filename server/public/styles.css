@@ -5,10 +5,10 @@
 body {
   font-family: 'Metal Mania', cursive;
   background-color: #000;
-  color: #FFF;
+  color: #fff;
 }
 
-input[type="file"] {
+input[type='file'] {
   color: transparent;
   font-size: 0.75rem;
 }
@@ -21,17 +21,17 @@ input[type="file"] {
 
 select,
 select option,
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="search"],
-input[type="password"],
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+input[type='search'],
+input[type='password'],
 .form-textarea,
 .post-home,
 .band-card,
 .chat-message {
   background-color: #000;
-  color: #FFF;
+  color: #fff;
 }
 
 footer {
@@ -44,7 +44,7 @@ footer {
 }
 
 footer div span {
-  color: #FFF;
+  color: #fff;
   font-size: 1.5rem;
 }
 
@@ -53,7 +53,7 @@ footer div span {
 }
 
 .image-container {
-  border: 1px solid #FFF;
+  border: 1px solid #fff;
   height: 200px;
   width: 200px;
 }
@@ -67,9 +67,8 @@ footer div span {
 .profile-select {
   width: 125px;
   background-color: #000;
-  color: #FFF;
+  color: #fff;
   font-size: 0.7rem;
-  margin-right: 0.75rem;
 }
 
 .profile-select > option {
@@ -93,7 +92,7 @@ footer div span {
 }
 
 .asterisk {
-  color: #FF0000;
+  color: #ff0000;
 }
 
 .nav-bg {
@@ -117,7 +116,7 @@ footer div span {
   width: 100%;
   overflow: hidden;
   background-color: #000000;
-  border-bottom: 1px solid #FF0000;
+  border-bottom: 1px solid #ff0000;
   z-index: 2;
 }
 
@@ -156,11 +155,11 @@ footer div span {
 }
 
 .valid {
-  color: #7CFC00;
+  color: #7cfc00;
 }
 
 .invalid {
-  color: #DC143C;
+  color: #dc143c;
 }
 
 .form-pw > p,
@@ -182,7 +181,7 @@ footer div span {
 }
 
 .card:hover {
-  border: 1px solid #FF0000;
+  border: 1px solid #ff0000;
 }
 
 .card-body {
@@ -190,7 +189,7 @@ footer div span {
 }
 
 .card-body > p > span {
-  color: #FF0000;
+  color: #ff0000;
 }
 
 .card-body > p {
@@ -217,7 +216,7 @@ footer div span {
 
 .post-item:hover {
   background-color: #251d1d;
-  color: #FFF;
+  color: #fff;
 }
 
 .form-buttons {
@@ -231,15 +230,15 @@ footer div span {
 .video-detail .details {
   margin-top: 10px;
   padding: 10px;
-  border: 1px solid #FF0000;
+  border: 1px solid #ff0000;
   border-radius: 4px;
 }
 
 .list-group-item {
   cursor: pointer;
-  color: #FFF;
+  color: #fff;
   background-color: #000;
-  border: 1px solid #FFF;
+  border: 1px solid #fff;
 }
 
 .list-group-item:hover {
@@ -263,7 +262,7 @@ footer div span {
   top: 10px;
   left: 200px;
   font-size: 1rem;
-  color: #FFF;
+  color: #fff;
   text-decoration: underline;
 }
 
@@ -301,7 +300,7 @@ footer div span {
   width: 90%;
   max-width: 800px;
   height: 400px;
-  border: 1px solid #FF0000;
+  border: 1px solid #ff0000;
 }
 
 .search-img {
@@ -319,7 +318,7 @@ footer div span {
 .search-bar input {
   padding-left: 10px;
   background-color: #000;
-  color: #FFF;
+  color: #fff;
 }
 
 .band-card {
@@ -327,7 +326,8 @@ footer div span {
   border: 1px solid;
 }
 
-.videoresult-container, .chat-container {
+.videoresult-container,
+.chat-container {
   min-height: 100%;
 }
 
@@ -364,156 +364,134 @@ footer div span {
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 
 /* Portrait and Landscape */
-@media only screen
-  and (min-device-width: 768px)
-  and (max-device-width: 1024px)
-  and (-webkit-min-device-pixel-ratio: 1) {
-
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
 }
 
 /* Portrait */
-@media only screen
-  and (min-device-width: 375px)
-  and (max-device-width: 667px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .image-container {
-      border: 1px solid #FFF;
-      height: 125px;
-      width: 125px;
-    }
-    .login-heading {
-      width: 340px;
-      height: 200px;
-      object-fit: cover;
-    }
-    .login-form {
-      width: 300px;
-    }
-    .nav-bg {
-      height: 70px;
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: center;
-    }
-    .posts-container {
-      height: 414px;
-    }
-    .profile-container {
-      height: 439px;
-      padding-left: 1.25rem;
-    }
-    .concertsearch-form, .concertsearch-table{
-      width: 345px;
-    }
-    .concertsearch-table {
-      height: 393px;
-    }
-    .concert-map {
-      width: 92%;
-      height: 260px;
-    }
-    .band-card {
-      height: 395px;
-      border: 1px solid;
-    }
-    .search-img {
-      height: 180px;
-    }
-    .videoresult-container {
-      height: 377px;
-    }
-    .chat-container {
-      height: 240px;
-    }
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .image-container {
+    border: 1px solid #fff;
+    height: 125px;
+    width: 125px;
+  }
+  .login-heading {
+    width: 340px;
+    height: 200px;
+    object-fit: cover;
+  }
+  .login-form {
+    width: 300px;
+  }
+  .nav-bg {
+    height: 70px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+  .posts-container {
+    height: 414px;
+  }
+  .profile-container {
+    height: 439px;
+    padding-left: 1.25rem;
+  }
+  .concertsearch-form,
+  .concertsearch-table {
+    width: 345px;
+  }
+  .concertsearch-table {
+    height: 393px;
+  }
+  .concert-map {
+    width: 92%;
+    height: 260px;
+  }
+  .band-card {
+    height: 395px;
+    border: 1px solid;
+  }
+  .search-img {
+    height: 180px;
+  }
+  .videoresult-container {
+    height: 377px;
+  }
+  .chat-container {
+    height: 240px;
+  }
 }
 
 /* Landscape */
-@media only screen
-  and (min-device-width: 375px)
-  and (max-device-width: 667px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: landscape) {
-    .posts-container {
-      height: 165px;
-    }
-    .nav-bg {
-      height: 3.5rem;
-      background-size: contain;
-      background-position: center;
-    }
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+  .posts-container {
+    height: 165px;
+  }
+  .nav-bg {
+    height: 3.5rem;
+    background-size: contain;
+    background-position: center;
+  }
 }
 
 /* ----------- iPad 3, 4 and Pro 9.7" ----------- */
 
 /* Portrait and Landscape */
-@media only screen
-  and (min-device-width: 768px)
-  and (max-device-width: 1024px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* Portrait */
-@media only screen
-  and (min-device-width: 768px)
-  and (max-device-width: 1024px)
-  and (orientation: portrait)
-  and (-webkit-min-device-pixel-ratio: 2) {
-    .image-container {
-      border: 1px solid #FFF;
-      height: 150px;
-      width: 150px;
-    }
-    .login-heading {
-      height: 350px;
-      object-fit: cover;
-    }
-    .login-form, .concertsearch-form {
-      width: 375px;
-    }
-    .posts-container {
-      height: 750px;
-    }
-    .nav-bg {
-      background-size: contain;
-      height: 100px;
-      background-position: center;
-    }
-    .profile-container {
-      height: 750px;
-      padding-left: 5rem;
-      margin-bottom: 4rem;
-    }
-    .concertsearch-table {
-      height: 700px;
-      overflow: auto;
-    }
-    .band-card {
-      width: 500px;
-      height: 700px;
-      border: 1px solid;
-    }
-    .videoresult-container {
-      height: 700px;
-    }
-    .chat-container {
-      height: 600px;
-    }
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+  .image-container {
+    border: 1px solid #fff;
+    height: 150px;
+    width: 150px;
+  }
+  .login-heading {
+    height: 350px;
+    object-fit: cover;
+  }
+  .login-form,
+  .concertsearch-form {
+    width: 375px;
+  }
+  .posts-container {
+    height: 750px;
+  }
+  .nav-bg {
+    background-size: contain;
+    height: 100px;
+    background-position: center;
+  }
+  .profile-container {
+    height: 750px;
+    padding-left: 5rem;
+    margin-bottom: 4rem;
+  }
+  .concertsearch-table {
+    height: 700px;
+    overflow: auto;
+  }
+  .band-card {
+    width: 500px;
+    height: 700px;
+    border: 1px solid;
+  }
+  .videoresult-container {
+    height: 700px;
+  }
+  .chat-container {
+    height: 600px;
+  }
 }
 
 /* Landscape */
-@media only screen
-  and (min-device-width: 768px)
-  and (max-device-width: 1024px)
-  and (orientation: landscape)
-  and (-webkit-min-device-pixel-ratio: 2) {
-    .posts-container {
-      height: 500px
-    }
-    .nav-bg {
-      height: 100px;
-      background-size: contain;
-      background-position: center;
-    }
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+  .posts-container {
+    height: 500px;
+  }
+  .nav-bg {
+    height: 100px;
+    background-size: contain;
+    background-position: center;
+  }
 }
