@@ -620,7 +620,7 @@ app.use((err, req, res, next) => {
   }
 });
 
-// Express and Socket.IO share a single HTTP server / port. They used to be
+// Express and Socket.io share a single HTTP server / port. They used to be
 // split across PORT and CHAT_PORT, but the second listener is fragile: any
 // other process on the machine holding CHAT_PORT (e.g. a service bound to
 // 127.0.0.1) silently shadows it for localhost connections and the chat
@@ -630,7 +630,20 @@ server.listen(process.env.PORT, () => {
   console.log('Express + chat server listening on port', process.env.PORT);
 });
 
-const users = {};
+// username -> Set of socket ids. A user can have several sockets open at once
+// (multiple tabs/devices, or a reconnect that overlaps the old socket), so the
+// population is the number of distinct signed-in users, not raw connections.
+const users = new Map();
+
+function announce(announcement, extra = {}) {
+  io.to('Metalink').emit('Announcement', {
+    ...extra,
+    population: users.size,
+    users: Array.from(users.keys()),
+    announcement,
+    time: moment().format('h:mm:ss A')
+  });
+}
 
 io.on('connection', socket => {
   // eslint-disable-next-line no-console
@@ -638,21 +651,19 @@ io.on('connection', socket => {
   socket.join('Metalink');
 
   socket.on('User connected', data => {
-    const { username, userId } = data;
-    users[username] = socket.id;
+    const { username, userId } = data || {};
+    if (!username) return;
     socket.data.username = username;
     socket.data.userId = userId;
+    const isNewUser = !users.has(username);
+    if (isNewUser) users.set(username, new Set());
+    users.get(username).add(socket.id);
     // eslint-disable-next-line no-console
-    console.log('Users:', users);
-    const population = io.of('/').sockets.size;
-    io.to('Metalink').emit('Announcement', {
-      socketId: socket.id,
-      username,
-      population,
-      users: Object.keys(users),
-      announcement: `${username} has joined the Metalink chat room!`,
-      time: moment().format('h:mm:ss A')
-    });
+    console.log('Users:', Array.from(users.keys()));
+    announce(
+      isNewUser ? `${username} has joined the Metalink chat room!` : null,
+      { socketId: socket.id, username }
+    );
   });
 
   socket.on('Send message', data => {
@@ -673,15 +684,13 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
-    if (socket.data.username) {
-      delete users[socket.data.username];
-      const population = io.of('/').sockets.size;
-      io.to('Metalink').emit('Announcement', {
-        population,
-        users: Object.keys(users),
-        announcement: `${socket.data.username} has left the Metalink chat room.`,
-        time: moment().format('h:mm:ss A')
-      });
+    const { username } = socket.data;
+    if (!username || !users.has(username)) return;
+    const sockets = users.get(username);
+    sockets.delete(socket.id);
+    if (sockets.size === 0) {
+      users.delete(username);
+      announce(`${username} has left the Metalink chat room.`);
     }
   });
 });
