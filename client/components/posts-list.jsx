@@ -44,7 +44,7 @@ class PostsList extends React.Component {
       );
     });
     return (
-      <div className="mb-4 posts-container overflow-auto" >
+      <div className="mb-4 posts-container">
         <div className="row d-flex justify-content-center">
           {posts}
         </div>
