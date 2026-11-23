@@ -20,6 +20,9 @@ export default function ChatRoom({ profile }) {
     }
   }, [messages]);
 
+  const username = profile && profile.username;
+  const userId = profile && profile.userId;
+
   useEffect(() => {
     const socket = io({ transports: ['websocket'] });
     socketRef.current = socket;
@@ -37,11 +40,8 @@ export default function ChatRoom({ profile }) {
       })
       .catch(err => console.error('Chat history error:', err));
 
-    if (profile && profile.username) {
-      socket.emit('User connected', {
-        username: profile.username,
-        userId: profile.userId
-      });
+    if (username) {
+      socket.emit('User connected', { username, userId });
     }
 
     socket.on('chat-message', message => {
@@ -58,7 +58,7 @@ export default function ChatRoom({ profile }) {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [username, userId]);
 
   function handleSubmit(e) {
     e.preventDefault();
