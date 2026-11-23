@@ -212,6 +212,8 @@ footer div span {
 .posts-container {
   background-color: #000;
   min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .post-item:hover {
