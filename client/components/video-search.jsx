@@ -15,7 +15,7 @@ class VideoSearch extends Component {
 
   render() {
     return (
-      <div className="search-bar">
+      <div className="form-group">
         <label htmlFor="search">Video Search</label>
         <input
           value={this.state.term}
