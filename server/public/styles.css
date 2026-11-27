@@ -289,10 +289,6 @@ footer div span {
   border: 1px solid #000;
 }
 
-.concertsearch-form {
-  width: 500px;
-}
-
 .concertsearch-table {
   width: 500px;
   height: 450px;
@@ -314,13 +310,7 @@ footer div span {
 }
 
 .search-bar {
-  margin: 20px;
-}
-
-.search-bar input {
-  padding-left: 10px;
-  background-color: #000;
-  color: #fff;
+  margin: 20px 0;
 }
 
 .band-card {
@@ -397,7 +387,6 @@ footer div span {
     height: 439px;
     padding-left: 1.25rem;
   }
-  .concertsearch-form,
   .concertsearch-table {
     width: 345px;
   }
@@ -452,8 +441,7 @@ footer div span {
     height: 350px;
     object-fit: cover;
   }
-  .login-form,
-  .concertsearch-form {
+  .login-form {
     width: 375px;
   }
   .posts-container {

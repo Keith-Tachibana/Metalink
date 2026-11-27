@@ -188,9 +188,9 @@ export default class SearchConcerts extends Component {
           </div>
         </header>
         <main className="container-fluid">
-          <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <form className="form-group mx-auto mb-2 concertsearch-form" onSubmit={this.handleSubmit} noValidate>
+          <div className="row justify-content-center">
+            <div className="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6">
+              <form className="form-group mb-2" onSubmit={this.handleSubmit} noValidate>
                 <label htmlFor="search">Zip Code or City</label>
                 <input onChange={this.handleChange}
                   id="search" name="search"
